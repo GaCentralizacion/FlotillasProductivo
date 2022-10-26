@@ -1,0 +1,15 @@
+
+  <div class="input-group">
+    <input class="form-control" placeholder="AAAAMMDD" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+    <div class="input-group-append">
+      <span class="">
+          <button class="btn btn-outline-secondary calendar calendario" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+      </span>
+    </div>
+  </div>
+
+  <!-- usar directo en el componente, para poder acceder a las propiedades sin problemas -->
+
+
+  
+

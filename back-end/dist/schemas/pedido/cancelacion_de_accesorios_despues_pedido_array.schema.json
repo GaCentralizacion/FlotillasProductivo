@@ -1,0 +1,7 @@
+{
+  "$id": "cancelacion_de_accesorios_despues_pedido_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "./cancelacion_de_accesorios_despues_pedido.schema.json"
+  }
+}

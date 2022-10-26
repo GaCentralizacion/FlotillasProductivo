@@ -1,0 +1,7 @@
+{
+    "$id": "cancelar_facturacion_unidades_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./cancelar_facturacion_unidades.schema.json"
+    }
+}

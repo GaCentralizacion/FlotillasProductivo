@@ -1,0 +1,7 @@
+{
+    "$id": "aprobacionUtilidadDireccion_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./aprobacionUtilidadDireccion.schema.json"
+    }
+}

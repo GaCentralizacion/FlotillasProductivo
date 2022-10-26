@@ -1,0 +1,19 @@
+<div class="box box-solid direct-chat direct-chat-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">Notificaciones</h3>
+    <button style="float: right; font-size: 10px;" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
+        <i class="fa fa-arrow-down"></i></button>
+  </div>
+
+  <div id="demo" class="box-body collapse">
+    <ul class="list-group">
+      <div *ngFor="let notification of notificationsRows; let index = index">
+        <li *ngIf="notification.not_id && notification.not_descripcion && notification.estatus" [ngClass]="getStatus(notification) === 'Aprobado'
+          ? 'list-group-item bg-green-active color-palette' : getStatus(notification) === 'Cancelado' ? 'list-group-item bg-red color-palette'
+          : 'list-group-item bg-yellow color-palette'">
+          <small>{{ notification.not_descripcion }} | {{ notification.not_id }} | {{ notification.estatus }}</small>
+        </li>
+      </div>
+    </ul>
+  </div>
+</div>

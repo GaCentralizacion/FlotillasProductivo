@@ -1,0 +1,30 @@
+{
+    "$id": "det_unidad_leyenda.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "leyendaFactura"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "number",
+            "uniqueItems": true,
+            "description": "Identificador del grupo unidad"
+        },
+        "idDetalleUnidad": {
+            "type": "number",
+            "description": "Identificador del detalle unidad"
+        },
+        "leyendaFactura": {
+            "type": "string",
+            "description": "Leyenda de factura con la que sera identificada"
+        }
+    }
+}

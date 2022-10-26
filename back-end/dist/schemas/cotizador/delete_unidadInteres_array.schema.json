@@ -1,0 +1,7 @@
+{
+    "$id": "vdelete_unidadInteres_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./vdelete_unidadInteres.schema.json"
+    }
+}

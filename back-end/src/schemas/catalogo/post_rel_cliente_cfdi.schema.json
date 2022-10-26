@@ -1,0 +1,21 @@
+{
+    "$id": "post_rel_cliente_cfdi.schema.json",
+    "type": "object",
+    "required": [
+        "idCliente",
+        "cfdis"
+    ],
+    "properties": {
+        "idCliente": {
+            "type": "integer",
+            "description": "Identificador de Cliente"
+        },
+        "cfdis": {
+            "type": "array",
+            "items": {
+                "$ref": "rel_cliente_cfdi.schema.json"
+            },
+            "description": "Relaciones de cfdis"
+        }
+    }
+}

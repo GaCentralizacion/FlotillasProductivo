@@ -1,0 +1,29 @@
+{
+    "$id": "version_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idUnidadBpro",
+        "nombre",
+        "precioLista",
+        "monedaVenta"
+    ],
+    "properties": {
+        "idUnidadBpro": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Unidad Bpro"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de la versión de la unidad"
+        },
+        "precioLista": {
+            "type": "number",
+            "description": "Precio de lista"
+        },
+        "monedaVenta": {
+            "type": "string",
+            "description": "Moneda de venta"
+        }
+    }
+}

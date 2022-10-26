@@ -1,0 +1,7 @@
+{
+    "$id": "usuario_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./usuario.schema.json"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "$id": "valida_existencia_movimientos_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./valida_existencia_movimientos.schema.json"
+    }
+}

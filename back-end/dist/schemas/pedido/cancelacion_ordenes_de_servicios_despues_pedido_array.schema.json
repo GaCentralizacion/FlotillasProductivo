@@ -1,0 +1,7 @@
+{
+  "$id": "cancelacion_ordenes_de_servicios_despues_pedido_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "./cancelacion_ordenes_de_servicios_despues_pedido.schema.json"
+  }
+}

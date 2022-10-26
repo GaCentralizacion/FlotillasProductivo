@@ -1,0 +1,29 @@
+<div style="padding: 20px">
+
+  <h1 class="general-titles">Unidades Disponibles</h1>
+  <hr>
+  <div class="w-100 d-flex flex-row">
+    <div class="w-100 d-flex flex-column">
+      <label style="text-decoration: solid;">Las siguentes unidades de la cotizacion ya no estan disponibles.</label>
+      <ul>
+        <li  *ngFor = "let unidad of unidadInteres">Grupo unidad: {{ unidad['idGrupoUnidad'] + 
+          ' Unidad: (' + unidad['catalogo'] + ') ' + unidad['descripcion'] +  ' ' + 
+          unidad['anio'] }}</li>
+        </ul>      
+      <div class="d-flex flex-row-reverse">
+      <p>seleccione una opción:</p>
+    </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <button (click)="generaOCContinua()" [disabled]="" class="btn btn-primary d-flex flex-row-reverse"
+      style="margin-top: 30px;margin-right: 30px">
+      Continuar y Generar Orden de Compra
+    </button>
+    <button (click)="selectOthersUnits()" class="btn btn-warning d-flex flex-row-reverse"
+      style="margin-top: 30px;margin-right: 30px">
+      Seleccionar otras Unidades
+    </button>
+  </div>
+
+</div>

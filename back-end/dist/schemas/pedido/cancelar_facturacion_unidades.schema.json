@@ -1,0 +1,30 @@
+{
+    "$id": "cancelar_facturacion_unidades.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "tipoMovimiento"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "number",
+            "uniqueItems": true,
+            "description": "Identificador del grupo unidad"
+        },
+        "idDetalleUnidad": {
+            "type": "number",
+            "description": "Identificador del detalle unidad"
+        },
+        "tipoMovimiento": {
+            "type": "string",
+            "description": "Identificador del movimiento"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+<div>
+  <h1 class="general-titles">Log General</h1>
+  <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mx-2" [headerHeight]="50" [columnMode]="'flex'" [externalPaging]="true"
+    [footerHeight]="50" [rowHeight]="'auto'" [rows]=" eventosLog" [count]="totalRegistros" [offset]="numeroPagina"
+    [limit]="registrosPorPagina" (page)='cambiaPagina($event)'>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Id"
+      prop="idEventoLog"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Id Usuario"
+      prop="idUsuario"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Fecha y hora"
+      prop="fechaHoraText"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Módulo"
+      prop="modulo"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Tabla"
+      prop="tabla"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Evento"
+      prop="evento"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="4" name="Datos"
+      prop="datos"></ngx-datatable-column>
+  </ngx-datatable>
+</div>

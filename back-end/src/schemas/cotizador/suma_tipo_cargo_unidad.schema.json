@@ -1,0 +1,21 @@
+{
+  "$id": "suma_tipo_cargo_unidad.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "tipoCargoUnidad"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de Cotizador",
+          "maxLength": 20
+      },
+      "tipoCargoUnidad": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Suma el cargo a la unidad"
+      }
+  }
+}

@@ -1,0 +1,10 @@
+<div style="padding: 20px">
+    <h4>Cliente a facturar</h4>
+    <hr>
+    <textarea [(ngModel)]="leyenda" name="leyenda" id="leyenda" style="width: 100%;"></textarea>
+</div>
+
+<div class="d-flex flex-row-reverse">
+    <button (click)="cancel()" class="btn btn-warning" style="margin: 10px">Cancelar</button>
+    <button (click)="save()" class="btn btn-primary" style="margin: 10px">Aceptar</button>
+</div>

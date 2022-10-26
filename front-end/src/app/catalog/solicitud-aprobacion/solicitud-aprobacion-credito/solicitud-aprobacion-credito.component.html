@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <form [formGroup]="formAprobacionCredito">
+    <div class="form-row">
+      <div class="box">
+        <div class="row">
+          <div class="col-sm-12 col-md-3">
+            <ng-select placeholder="Seleccione Direccion" formControlName="usuarioFormControlCredito"
+              [items]="direcciones" bindLabel="name" bindValue="id" name="direcciones"
+              (change)=direccionOnChange($event)>
+            </ng-select>
+          </div>
+
+          <div class="col-sm-12 col-md-3">
+            <ng-select placeholder="Seleccione Usuario" formControlName="flotillaFormControlCredito" [items]="usuarios"
+              bindLabel="nombreCompleto" bindValue="idUsuario" name="usuarios" (change)=userOnChange($event)>
+            </ng-select>
+          </div>
+
+          <div class="col-sm-12 col-md-3">
+            <button (click)="agregar()" class="btn btn-primary"
+              [disabled]="!formAprobacionCredito.valid">Agregar</button>
+          </div>
+          <div class="col-md-3">
+            <button (click)="guardar()" class="btn btn-primary float-right">Guardar</button>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="row">
+          <div class="col-md-12 items">
+            <div class="row">
+              <div class="col-md-3" *ngFor="let item of nuevasAprobacionCreditoString; let i = index">
+                <div class="card card-warning">
+                  <div class="card-header">
+                    <h3 class="card-title">Nueva Regla {{item.nombreDireccionFlotillas}}</h3>
+
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-widget="remove" (click)="remove(i)"><i
+                          class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p>Regla para la aprobacion de Creditos</p>
+                    <p>Aprueba:</p>
+                    <ul class="list-unstyled">
+                      <li>
+                        <span>{{item.nombreUsuario}}</span>
+                      </li>
+                    </ul>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="box">
+    <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5" [rows]="aprobacionesCreditos" [columnMode]="'force'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+      <ngx-datatable-column [width]="30" [sortable]="true" [canAutoResize]="false" [draggable]="false"
+        [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Dirección Flotilla" [width]="20" prop="idDireccion"></ngx-datatable-column>
+      <ngx-datatable-column name="Nombre Direccion" prop="direccionNombre"></ngx-datatable-column>
+      <ngx-datatable-column name="Usuario Aprobador" prop="usuarioNombre"></ngx-datatable-column>
+      <ngx-datatable-column name="Accion" [width]="20" prop="usuarioNombre">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a href="" title="eliminar" (click)="eliminarAprobador($event, row)">
+            <i class="fas fa-trash"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

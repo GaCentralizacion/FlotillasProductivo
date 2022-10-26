@@ -1,0 +1,14 @@
+{
+  "$id": "cancelacion_procesada.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de cotizacion"
+      }
+  }
+}

@@ -1,0 +1,169 @@
+{
+    "$id": "cotizacion_grupo_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "catalogo",
+        "anio",
+        "clase",
+        "modelo",
+        "versionUnidad",
+        "idColorInterior",
+        "colorInterior",
+        "idColorExterior",
+        "colorExterior",
+        "cantidad",
+        "precio"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Cotizador"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del grupo de unidades"
+        },
+        "catalogo": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Catálogo de unidades Bpro"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año"
+        },
+        "clase": {
+            "type": "string",
+            "description": "Clase"
+        },
+        "modelo": {
+            "type": "string",
+            "description": "Modelo"
+        },
+        "versionUnidad": {
+            "type": "string",
+            "description": "Versión"
+        },
+        "idColorInterior": {
+            "type": "string",
+            "description": "Identificador del color interior"
+        },
+        "colorInterior": {
+            "type": "string",
+            "description": "Color interior"
+        },
+        "idColorExterior": {
+            "type": "string",
+            "description": "Identificador del color exterior"
+        },
+        "colorExterior": {
+            "type": "string",
+            "description": "Color interior"
+        },
+        "cantidad": {
+            "type": "integer",
+            "description": "Cantidad"
+        },
+        "costo": {
+            "type": "number",
+            "description": "costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "precio"
+        },
+        "imprimeFactura": {
+            "type": "boolean",
+            "description": "Imprime factura"
+        },
+        "tipoCargoUnidad": {
+            "type": "string",
+            "description": "Suma o no suma"
+        },
+        "idCondicion": {
+            "type": "string",
+            "enum": [
+                "C0",
+                "C1"
+            ],
+            "description": "Condiciones de Venta. C0 - Crédito, C1 - Contado"
+        },
+        "idIva": {
+            "type": "string",
+            "description": "Id de IVA"
+        },
+        "tasaIva": {
+            "type": "number",
+            "description": "Tasa de iva"
+        },
+        "idFinanciera": {
+            "type": "integer",
+            "description": "Identificador de Financiera"
+        },
+        "nombreFinanciera": {
+            "type": "string",
+            "description": "Nombre de Financiera"
+        },
+        "colorInteriorFacturacion": {
+            "type": "string",
+            "description": "Color interior de facturación"
+        },
+        "colorExteriorFacturacion": {
+            "type": "string",
+            "description": "Color exterior de facturación"
+        },
+        "idCfdi": {
+            "type": "string",
+            "description": "Id de CFDI para autos"
+        },
+        "idCfdiAdicionales": {
+            "type": "string",
+            "description": "Identificador del Cfdi para adicionales"
+        },
+        "tipoOrden": {
+            "type": "string",
+            "enum": [
+                "FI",
+                "CU"
+            ],
+            "description": "FI - Facturación Independiente, CU - Con Cargo a la Unidad"
+        },
+        "leyendaFactura": {
+            "type": "string",
+            "description": "Leyenda de facturación"
+        },
+        "fechaHoraPromesaEntrega": {
+            "type": "string",
+            "description": "Fecha y hora de promesa de entrega",
+            "format": "date-time"
+        },
+        "costoTotal": {
+            "type": "number",
+            "description": "Costo Total"
+        },
+        "precioTotal": {
+            "type": "number",
+            "description": "Precio Total"
+        },
+        "utilidadBruta": {
+            "type": "number",
+            "description": "Utilidad Bruta"
+        },
+        "ivaTotal": {
+            "type": "number",
+            "description": "IVA Total"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificación",
+            "format": "date-time"
+        }
+    }
+}

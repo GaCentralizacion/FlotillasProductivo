@@ -1,0 +1,16 @@
+.table{
+    min-height: 20vh;
+}
+
+.ng-invalid:not(form)  {
+    border: 2px solid #a94442;
+    border-radius: 7px;
+}
+
+.ng-dropdown-panel.ng-select-top {
+    top: 100% !important;
+}
+
+.ng-dropdown-panel.ng-select-bottom {
+    top: 100% !important;
+}

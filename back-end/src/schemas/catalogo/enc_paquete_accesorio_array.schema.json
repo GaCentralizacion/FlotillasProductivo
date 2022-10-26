@@ -1,0 +1,7 @@
+{
+    "$id": "enc_paquete_accesorio_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "enc_paquete_accesorio.schema.json"
+    }
+}

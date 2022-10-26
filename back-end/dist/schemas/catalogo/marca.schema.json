@@ -1,0 +1,14 @@
+{
+    "$id": "marca.schema.json",
+    "type": "object",
+    "required": [
+        "idMarca"
+    ],
+    "properties": {
+        "idMarca": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la Marca"
+        }
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "$id": "det_paquete_servicio_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idServicioUnidad",
+        "catalogo",
+        "anio",
+        "nombre",
+        "costo",
+        "precio"
+    ],
+    "properties": {
+        "idEncPaqueteServicioUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del paquete de servicio por unidad"
+        },
+        "idServicioUnidad": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de servicio de la unidad"
+        },
+        "catalogo": {
+            "type": "string",
+            "description": "Catálogo de unidades Bpro"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripción"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

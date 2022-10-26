@@ -1,0 +1,65 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Datos para facturar</h4>
+  <button type="button" (click)="activeModal.close()" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class='col-sm-12 col-md-12 col-xl-12 mt-12'>
+    <form [formGroup]="formFacturar" class="row">
+      <div class="col-12 mt-2">
+      </div>
+      <div class="col-sm-12 col-md-6 col-xl-6">
+        <small class="title-span">Condición de pago</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Condición de pago</small>
+        <ng-select #condicionNgSelect formControlName="idCondicion" [items]="condiciones" bindLabel="nombre"
+          bindValue="idCondicion" placeholder="Seleccione condicion" name="condiciones"
+          (change)=condicionesOnChange($event) notFoundText="Sin información">
+        </ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 col-xl-6">
+        <small class="title-span">Financiera</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Financiera</small>
+        <ng-select #financieraNgSelect formControlName="idFinanciera" [items]="financieras" bindLabel="nombre"
+          bindValue="idFinanciera" placeholder="Seleccione financiera" name="financieras"
+          (change)=financierasOnChange($event) notFoundText="Sin información">
+        </ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 col-xl-6">
+        <small class="title-span">CFDI</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">CFDI</small>
+        <ng-select #cfdiNgSelect formControlName="idCfdi" [items]="cfdi" bindLabel="nombre" bindValue="idCfdi"
+          placeholder="Seleccione cfdi" name="cfdi" (change)=cfdiOnChange($event) notFoundText="Sin información">
+        </ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 col-xl-6">
+        <small class="title-span">Tipo de Venta</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Tipo de Venta</small>
+        <ng-select #tipoNgSelect formControlName="idTipoVenta" [items]="tiposVenta" bindLabel="label"
+          bindValue="idTipoVenta" placeholder="Seleccione Tipo de Venta" name="surcursales" notFoundText="Sin información"
+          (change)=ventaOnChange($event)>
+        </ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 col-xl-6">
+        <small class="title-span">Moneda</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Moneda</small>
+        <ng-select #monedaNgSelect formControlName="idMonedaVenta" [items]="monedas" bindLabel="nombre"
+          bindValue="idMonedaVenta" placeholder="Seleccione Moneda" name="financieras" notFoundText="Sin información"
+          (change)=monedaOnChange($event)>
+        </ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 col-xl-6">
+        <small class="title-span">Iva</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Iva</small>
+        <ng-select #ivaNgSelect formControlName="idIva" [items]="ivas" bindLabel="nombre" bindValue="idIva"
+          placeholder="Seleccione Iva" name="iva" notFoundText="Sin información" (change)=ivaOnChange($event)>
+        </ng-select>
+      </div>
+      <div class="col-12">
+        <button type="button" [disabled]="!idSolicitudCotizacion" class="btn btn-primary float-right mr-2"
+          (click)="saveCotizaciones()">Convertir a cotización de Flotillas</button>
+      </div>
+    </form>
+</div>

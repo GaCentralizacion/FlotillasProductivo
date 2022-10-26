@@ -1,0 +1,7 @@
+{
+  "$id": "get_licitacion_bpro_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "./get_licitacion_bpro.schema.json"
+  }
+}

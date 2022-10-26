@@ -1,0 +1,14 @@
+{
+  "$id": "status_instruccion_cancelacion.schema.json",
+  "type": "object",
+  "required": [
+    "idCotizacion"
+  ],
+  "properties": {
+    "idCotizacion": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "Identificador de la cotización"
+    }
+  }
+}

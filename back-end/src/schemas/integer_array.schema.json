@@ -1,0 +1,7 @@
+{
+    "$id": "integer_array.schema.json",
+    "type": "array",
+    "items": {
+        "type": "integer"
+    }
+}

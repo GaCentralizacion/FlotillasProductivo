@@ -1,0 +1,34 @@
+{
+    "$id": "receptor_chat.schema.json",
+    "type": "object",
+    "required": [
+        "idContactoChat",
+        "idMensajeChat"
+    ],
+    "properties": {
+        "idContactoChat": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de contacto que recibe el mensaje"
+        },
+        "idMensajeChat": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de mensaje"
+        },
+        "fechaLeido": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha en la que se leyó el mensaje"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

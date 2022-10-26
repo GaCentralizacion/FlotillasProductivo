@@ -1,0 +1,7 @@
+{
+  "$id": "cancelacion_procesada_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "./cancelacion_procesada.schema.json"
+  }
+}

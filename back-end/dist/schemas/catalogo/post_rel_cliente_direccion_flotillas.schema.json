@@ -1,0 +1,21 @@
+{
+    "$id": "post_rel_cliente_direccion_flotillas.schema.json",
+    "type": "object",
+    "required": [
+        "idCliente",
+        "direccionesFlotillas"
+    ],
+    "properties": {
+        "idCliente": {
+            "type": "integer",
+            "description": "Identificador de Cliente"
+        },
+        "direccionesFlotillas": {
+            "type": "array",
+            "items": {
+                "$ref": "./rel_cliente_direccion_flotillas.schema.json"
+            },
+            "description": "Relaciones de direcciones de flotillas"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "$id": "aprobacionUnidadDireccion.schema.json",
+    "type": "object",
+    "properties": {
+        "idDireccionFlotillas": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Flotillas"
+        },
+        "idUsuario": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Usuario"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

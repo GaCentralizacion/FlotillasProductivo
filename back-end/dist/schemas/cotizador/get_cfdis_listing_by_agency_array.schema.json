@@ -1,0 +1,7 @@
+{
+  "$id": "get_cfdis_listing_by_agency_array.schema.json",
+  "type": "array",
+  "items": {
+    "$ref": "./get_cfdis_listing_by_agency.schema.json"
+  }
+}

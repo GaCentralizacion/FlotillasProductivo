@@ -1,0 +1,7 @@
+{
+    "$id": "unidad_bpro_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./unidad_bpro.schema.json"
+    }
+}

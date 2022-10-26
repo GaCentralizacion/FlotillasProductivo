@@ -1,0 +1,7 @@
+{
+  "$id": "cliente_factura_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "cliente_factura.schema.json"
+  }
+}

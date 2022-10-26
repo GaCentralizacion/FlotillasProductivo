@@ -1,0 +1,135 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Recepción</h4>
+  <button type="button" (click)="activeModal.close()" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *ngIf="solicitudGrupo">
+  <form class="row">
+    <div class="col-md-12">
+      <p><strong>Datos del grupo unidad</strong></p>
+      <hr>
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Catálogo</small>
+      <input type="text" [value]="solicitudGrupo.catalogo" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Año</small>
+      <input type="text" [value]="solicitudGrupo.anio" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Versión</small>
+      <input type="text" [value]="solicitudGrupo.versionUnidad" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Color Interior</small>
+      <input type="text" [value]="solicitudGrupo.colorInterior" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Color Exterior</small>
+      <input type="text" [value]="solicitudGrupo.colorExterior" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Clase</small>
+      <input type="text" [value]="solicitudGrupo.clase" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Modelo</small>
+      <input type="text" [value]="solicitudGrupo.modelo" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Precio Lista</small>
+      <span class="form-control">{{ solicitudGrupo.precioLista | currency }}</span>
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Cantidad</small>
+      <input type="text" [value]="solicitudGrupo.cantidad" disabled class="form-control">
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-md-12 mt-2">
+      <p><strong>Datos de la unidad</strong></p>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col-sm-12 col-md-6 col-xl-3'>
+      <small class="title-span">Entregas programadas</small>
+      <ng-select #empresaNgSelect [items]="entregas" bindLabel="nombreGrupo" bindValue="idSolicitudEntregas"
+        placeholder="Seleccione entrega" name="entregas" 
+        notFoundText="Sin información" [(ngModel)]="entregas.idSolicitudEntregas"
+        (change)="entregasOnChange($event)"
+        >
+      </ng-select>
+    </div>
+  </div> 
+  <br> 
+  <div class="row" *ngIf="idSolicitudEntregas>0">
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Carga masiva</small>
+      <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" class="form-control">
+      <span>Cantidad: </span><strong>{{cantidadVines}}</strong>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <button type="button" class="btn btn-primary modal-btn float-right" (click)="addUnidadMasiva()"
+        [disabled]="!vines.length">Agregar</button>
+    </div>
+  </div>
+  <div class="col-12 mt-2" *ngIf="idSolicitudEntregas>0">
+    <strong>Unidades </strong>
+    <hr>
+    <ngx-datatable #table [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      class="bootstrap" [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable" [rows]="unidades"
+      >
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="VIN" prop="vin">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Estatus">
+       
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+         
+          <div style="position: relative;">           
+            <ng-select placeholder="Seleccionar estatus" [items]="lstEstatusUnidad" bindLabel="estatusUnidad" bindValue="estatusUnidad"
+              [clearable]="true" appendTo="body" [(ngModel)]="row.estatusUnidad" (change)=estatusUnidadOnChange($event,row)>
+            </ng-select>
+          </div>
+
+        </ng-template>
+      
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1"
+        name="Folio Cotización">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div *ngIf="row.idCotizacion">
+            <!-- <b style="color: red;cursor: pointer;" (click)="remove(row)">Quitar</b> -->
+            <span style="color: #0E82FE;cursor: pointer;" (click)="goToFlitllas(row)">{{ row.idCotizacion }}</span>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Ubicación">       
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">         
+          <div style="position: relative;">           
+            <ng-select placeholder="Seleccionar ubicación" [items]="lstUbicacion" bindLabel="ubicacion" bindValue="ubicacion"
+              [clearable]="true" appendTo="body" [(ngModel)]="row.ubicacion" (change)=ubicacionOnChange($event,row)>
+            </ng-select>
+          </div>
+        </ng-template>      
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div>
+            <!-- <b style="color: red;cursor: pointer;" (click)="remove(row)">Quitar</b> -->
+            <img class="img-delete" (click)="deleteVin(row)" src="assets/images/fontawesomeicons/trash-can-solid.svg"
+              alt="">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

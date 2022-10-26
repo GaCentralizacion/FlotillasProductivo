@@ -1,0 +1,114 @@
+<div class="container-fluid">
+    <form [formGroup]="formAprobacionUtilidad">
+        <div class="form-row">
+            <div class="box">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3">
+                        <ng-select placeholder="Seleccione Direccion" formControlName="usuarioFormControl"
+                            [(ngModel)]="selectedDireccion" [items]="direcciones" bindLabel="name" bindValue="id"
+                            name="direcciones" (change)="direccionOnChange($event)" notFoundText="Sin registros">
+                        </ng-select>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-3">
+                        <ng-select placeholder="Seleccione Usuario" formControlName="flotillaFormControl"
+                            [(ngModel)]="selectedUsuario" [items]="usuarios" bindLabel="nombreCompleto"
+                            bindValue="idUsuario" name="usuarios" (change)="userOnChange($event)" notFoundText="Sin registros">
+                        </ng-select>
+                    </div>
+
+                    <div class="col-sm-12 col-md-2">
+                        <input type="number" step="0.01" formControlName="utilidadFormControl" class="form-control"
+                            placeholder="Utilidad" [(ngModel)]="selectedUtilidad" />
+                    </div>
+
+                    <div class="col-sm-12 col-md-2" *ngIf="!edit">
+                        <button (click)="agregar()" class="btn btn-primary" [disabled]="!formAprobacionUtilidad.valid">
+                            Agregar
+                        </button>
+                    </div>
+
+                    <div class="col-md-2" *ngIf="!edit">
+                        <button (click)="guardar()" class="btn btn-primary float-right">
+                            Guardar
+                        </button>
+                    </div>
+
+                    <div class="col-md-2" *ngIf="edit">
+                        <button (click)="modificar()" class="btn btn-primary float-right">
+                            Modificar
+                        </button>
+                    </div>
+
+                    <div class="col-md-2" *ngIf="edit">
+                        <button (click)="nueva()" class="btn btn-primary float-right">
+                            Nueva
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <div class="items-view">
+                    <div class="row">
+                        <div *ngFor="let item of nuevasAprobacionString; let i = index" class="col-md-4">
+                            <div class="small-box bg-aqua-active">
+                                <div class="inner">
+                                    <div class="row">
+                                        <div class="col-md-3 white">
+                                            <h4>Nueva Regla</h4>
+                                            <p class="mb-0 mt-3">
+                                                <button type="button" (click)="remove(i)" class="btn btn-transparent">
+                                                    <i class="far fa-trash-alt c-white"></i>
+                                                </button>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-9 d-flex flex-column">
+                                            <p class="text-right">
+                                                <small>Aprueba: {{ item.nombreUsuario }}</small>
+                                            </p>
+                                            <p class="text-right mt-auto">
+                                                Hasta un Margen de: {{ item.margenUtilidad | number:'2.2-2' }} %
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <div class="small-box-footer">
+                                    <h4>{{ item.nombreDireccionFlotillas }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="box">
+        <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+            class="bootstrap mt-5" [rows]="aprobacionesUtilidad" [loadingIndicator]="loadingIndicator"
+            [columns]="columns" [columnMode]="'force'" [limit]="10" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [reorderable]="reorderable">
+            <ngx-datatable-column [width]="30" [sortable]="true" [canAutoResize]="false" [draggable]="false"
+                [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Dirección Flotilla" [width]="20" prop="idDireccion"></ngx-datatable-column>
+            <ngx-datatable-column name="Nombre Dirección" prop="direccionNombre"></ngx-datatable-column>
+            <ngx-datatable-column name="Usuario Aprobador" prop="usuarioNombre"></ngx-datatable-column>
+            <ngx-datatable-column name="Margen de aprobación" prop="margenUtilidad"></ngx-datatable-column>
+            <ngx-datatable-column name="Accion" [width]="20" prop="usuarioNombre">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                    <a href="" title="Editar" (click)="editAprobador($event, row)">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="" title="eliminar" (click)="eliminarAprobador($event, row)">
+                        <i class="fas fa-trash eliminar"></i>
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

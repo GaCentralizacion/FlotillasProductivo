@@ -1,0 +1,13 @@
+{
+    "$id": "condiciones_entrega.schema.json",
+    "type": "object",
+    "required": [
+        "fileContent"
+    ],
+    "properties": {
+        "fileContent": {
+            "type": "string",
+            "description": "Contenido en codificación base 64"
+        }
+    }
+}

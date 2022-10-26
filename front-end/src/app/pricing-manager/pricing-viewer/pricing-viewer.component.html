@@ -1,0 +1,433 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i  style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<h2 class="general-titles">Detalle de Utilidad</h2>
+<h1 class="general-titles" *ngIf="cotizacion" style="font-size: 20px">{{ cotizacion.idCotizacion }}</h1>
+
+<div class="col-md-12"  *ngIf="grupoUnidades">
+  <div  class="col-md-12 row">
+      <div class="col-md-6">
+        <small class="title-span licitacion-span">Cliente cotizaci&oacute;n</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Cliente</small>
+        <input type="text" class="form-control" disabled name="nombre" [(ngModel)]="original"
+          placeholder="Cliente">
+      </div>
+      <div class="col-md-6" *ngIf="cotizacion">
+        <small class="title-span licitacion-span">Contacto</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Contacto</small>
+        <input  type="text" class="form-control" disabled name="contacto" [(ngModel)]="contacto"
+        placeholder="Contacto">
+    </div>
+  </div>
+  <div  class="col-md-12 row">
+    <div class="col-md-6">
+      <small class="title-span licitacion-span">Cliente a facturar</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Cliente</small>
+      <input type="text" class="form-control" disabled name="nombre" [(ngModel)]="cliente.nombreCompleto"
+        placeholder="Cliente">
+    </div>
+  </div>
+  <div  class="col-md-12 row">
+    <div class="col-md-3">
+      <small class="title-span licitacion-span">RFC</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">RFC</small>
+      <input type="text" class="form-control" disabled name="rfc" [(ngModel)]="cliente.rfc"
+        placeholder="RFC">
+  </div>
+  <div class="col-md-3">
+    <small class="title-span licitacion-span">Correo</small>
+    <small id="" class="form-text text-muted" style="color:#fff !important">Correo</small>
+    <input type="text" class="form-control" disabled name="correo" [(ngModel)]="cliente.correo"
+      placeholder="Correo">
+</div>
+
+      <div class="col-md-3">
+          <small class="title-span licitacion-span">Celular</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Celular</small>
+          <input type="text" class="form-control" disabled name="celular" [(ngModel)]="cliente.celular"
+            placeholder="Celular">
+      </div>
+      <div class="col-md-3">
+          <small class="title-span licitacion-span">Telefono</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Telefono</small>
+          <input type="text" class="form-control" disabled name="telefono" [(ngModel)]="cliente.telefono"
+            placeholder="Telefono">
+      </div>
+  </div>
+  <div  class="col-md-12 row"  *ngIf="grupoUnidades">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-3">
+          <button class="btn-primary mt-2" [disabled]="pricingManagerService.onlyRead"  (click)="openEditor()">Condiciones de Entrega</button>
+          <div class="icons">
+            <i (click)="exportPDF('email')" class="envelope fa fa-envelope"></i>
+            <i (click)="exportPDF('download')" class="pdf fa fa fa-file-pdf"></i>
+            <i (click)="exportPDF('print')" class="file fa fa fa-print"></i>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="d-flex flex-row title">
+    <div class="mr-auto">
+      <h5>Detalle de cotizaci&oacute;n</h5>
+    </div>
+</div>
+
+<hr class="linea1">
+
+<ngx-datatable *ngIf="grupoUnidades"   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" #groupTable class="bootstrap mt-5 expandable" [headerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="grupoUnidades"
+[selected]="selected" [selectionType]="'single'" [scrollbarH]="true" [selectAllRowsOnPage]="false"
+(select)='onSelect($event)'>
+
+<ngx-datatable-row-detail [rowHeight]="rowHeight" (toggle)="muestraUnidadesGrupo($event)"> <!--onDetailToggle-->
+
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+
+            <div class="d-flex flex-column" style="margin-left: 15px">
+                <table class="ml-auto table table-sm table-detail small">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>#</th>
+                      <th scope="col">Catálogo</th>
+                      <th scope="col">Marca</th>
+                      <th  scope="col">Modelo</th>
+                      <th  scope="col">Color Ext.</th>
+                      <th  scope="col">Color Int.</th>
+                      <th  scope="col">Tramites</th>
+                      <th  scope="col">Cargos Accesorios</th>
+                      <th  scope="col">Cargos Servicios</th>
+                      <th  *ngIf="false" scope="col">Iva</th>
+                      <th  scope="col">Precio unitario</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let unidades of unidadesGrupo"> <!--row.detalleUnidades-->
+                      <tr>
+                        <td (click)="expandRow(unidades, row)" style="cursor: pointer">
+                          <i class="caret-right fa fa-2x" [ngClass]="{'fa-caret-right': !unidades.expand, 'fa-caret-down': unidades.expand}">
+
+                          </i>
+                        </td>
+                        <td>{{ row.catalogo }}</td>
+                        <td>{{ (row.marca) ? row.marca : cotizacion.idMarca }}</td>
+                        <td>{{ row.modelo }}</td>
+                        <td>{{ row.colorExterior }}</td>
+                        <td>{{ row.colorInterior }}</td>
+                        <td>{{ unidades.cargoTramite | currency: 'MXN' }}</td>
+                        <td>{{ unidades.cargoAccesorio | currency: 'MXN' }}</td>
+                        <td>{{ unidades.cargoServicio | currency: 'MXN' }}</td>
+                        <!--td>{{ cargoTramites(unidades) | currency: 'MXN' }}</td>
+                        <td>{{ cargoAccesorios(unidades) | currency: 'MXN' }}</td>
+                        <td>{{ cargoServicios(unidades) | currency: 'MXN' }}</td-->
+                        <td *ngIf="false">{{ unidades.ivaTotal   | currency: 'MXN' }}</td>
+                        <td>{{ unidades.precioTotal    | currency: 'MXN' }}</td>
+                      </tr>
+                      <tr style="width: 100%;" *ngIf="unidades.expand">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td colspan="3">
+                              <table class="ml-auto table table-sm table-detail small">
+                                  <thead class="thead-dark">
+                                    <tr>
+                                      <th  scope="col">Adicionales</th>
+                                      <th  scope="col">Nombre</th>
+                                      <th class="precio" scope="col">Precio</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let accesorio of accesoriosUG">
+                                        <th  scope="col">Accesorios</th>
+                                        <th  scope="col">{{ accesorio.nombre }}</th>
+                                        <th class="precio" scope="col">{{ (accesorio.precio * accesorio.cantidad) | currency: 'MXN' }}</th>
+                                    </tr>
+                                    <tr *ngFor="let tramite of tramitesUG">
+                                        <th  scope="col">Tramites</th>
+                                        <th  scope="col">{{ tramite.nombreTramite }}</th>
+                                        <th class="precio" scope="col">{{ (tramite.precio) | currency: 'MXN' }}</th>
+                                    </tr>
+                                    <tr *ngFor="let servicio of serviciosUnidadUG">
+                                        <th  scope="col">Servicios</th>
+                                        <th  scope="col">{{ servicio.nombre }}</th>
+                                        <th class="precio" scope="col">{{ (servicio.precio) | currency: 'MXN' }}</th>
+                                    </tr>
+                                    <tr >
+                                        <th  scope="col"><b>Total</b></th>
+                                        <th  scope="col"></th>
+                                        <th  class="precio" scope="col">{{ getUtilidadTotal(unidades) | currency: 'MXN'}}</th>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </td>
+                      </tr>
+                    </ng-container>
+                    </tbody>
+                  </table>
+              </div>
+
+
+        </ng-template>
+
+      </ngx-datatable-row-detail>
+
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+                        [canAutoResize]="false" name="#">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+         [class.datatable-icon-down]="expanded" title="Mostrar Detalle" (click)="toggleExpandRow(row)"></a>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Cantidad" headerClass="font-weight-bold" cellClass="small" [draggable]="false"
+    [resizeable]="false" [width]="100">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{row.cantidad}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+
+  <ngx-datatable-column *ngIf="verBonificacion" name="Editar Bonificacion" headerClass="font-weight-bold" cellClass="small" [draggable]="false"
+    [resizeable]="false" [width]="150">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+    <button (click)="editBonificacion(row)">
+      <i class="fa fa-edit"></i>
+    </button>
+    </ng-template>
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column *ngIf="verBonificacion" name="Bonificacion" headerClass="font-weight-bold" cellClass="small" [draggable]="false"
+    [resizeable]="false" [width]="100">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{row.bonificacion | currency}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Año" prop="anio">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Color Int"
+    prop="colorInterior"></ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Color Ext"
+    prop="colorExterior"></ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Clase" prop="clase">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Catalogo" prop="catalogo">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="Precio Unitario"
+    prop="precio">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <label class="form-check-label" for="headerCheck">{{row.precio | currency:"MXN"}}</label>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="%Iva"
+  prop="tasaIva">
+  <ng-template let-row="row" ngx-datatable-cell-template>
+    <label class="form-check-label" for="headerCheck">{{ row.tasaIva | currency:" " }}%</label>
+  </ng-template>
+</ngx-datatable-column>
+
+<ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="iva"
+prop="ivaTotal">
+<ng-template let-row="row" ngx-datatable-cell-template>
+  <label class="form-check-label" for="headerCheck">{{row.precioTotalTotal-(row.precioTotalTotal/1.16) | currency:"MXN"}}</label>
+</ng-template>
+</ngx-datatable-column>
+
+
+  <ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="Total" prop="status">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <label class="form-check-label" for="headerCheck">{{ row.precioTotalTotal | currency:"MXN"}}</label>
+    </ng-template>
+  </ngx-datatable-column>
+
+
+  </ngx-datatable>
+
+  <div class="d-flex flex-row-reverse"  *ngIf="grupoUnidades">
+  <div>Total: {{  getTotal() | currency}}</div>
+  </div>
+
+
+  <div #trasladosContainer id="traslados" *ngIf="cotizacion" style="margin-top: 20px;">
+    <div class="d-flex flex-row">
+      <h4 class="">Traslados</h4>
+      <i (click)="showHide()" style="margin-left: auto;cursor: pointer;padding-top: 5px;" class="fa" [ngClass]="{'fa-plus': isHide,'fa-minus': !isHide }"></i>
+    </div>
+    <hr>
+    <div class="trasladosContainer" [ngClass]="{'hide-traslados': isHide}">
+      <table #content id='content' class="ml-auto table table-sm table-detail small" style="background: white">
+      <thead class="thead-dark">
+        <tr class="fs-bg">
+          <th scope="col">#</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Apartados</th>
+          <th scope="col">Año</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Color Int.</th>
+          <th scope="col">Color Ext.</th>
+          <th scope="col">Clase</th>
+          <th scope="col">Catalogo</th>
+        </tr>
+      </thead>
+      <tbody>
+          <ng-container *ngFor="let row of grupoUnidades">
+              <tr class="fs-bg">
+                <td style="cursor: pointer">
+
+                </td>
+                <td>{{row.cantidad}}</td>
+                <!--td>{{row.unidadesInteres.length }}/{{row.cantidad}}</td-->
+                <td>{{apartados(row) }}/{{row.cantidad}}</td>
+                <td>{{row.anio}}</td>
+                <td>{{row.modelo}}</td>
+                <td>{{row.colorInterior}}</td>
+                <td>{{row.colorExterior}}</td>
+                <td>{{row.clase}}</td>
+                <td>{{row.catalogo}}</td>
+              </tr>
+              <tr *ngIf="row.traslados.length > 0">
+                <td></td>
+                <td colspan="8">
+
+                  <table #content id='content' class="ml-auto table table-sm table-detail small" style="background: white">
+                      <thead class="thead-dark">
+                          <tr class="fs-bg">
+                            <th scope="col">#</th>
+                            <th scope="col">Punto de Partida</th>
+                            <th scope="col">Punto de LLegada</th>
+                            <th scope="col">Proveedor</th>
+                            <th scope="col">Unidades</th>
+                            <th scope="col">Fecha de Entrega</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container *ngFor="let traslado of getTraslados(row.traslados)">
+                            <tr  class="fs-md">
+                              <td>{{traslado.idCotizacionTraslado}}</td>
+                              <td>{{ getNombreUbicacion(traslado.idTraslado, 'Origen') }}</td>
+                              <td>{{ getNombreUbicacion(traslado.idTraslado, 'Destino') }}</td>
+                              <td>{{traslado.nombreProveedor}}</td>
+                              <td>{{traslado.cantidad}}</td>
+                              <td>{{traslado.fechaEntrega}}</td>
+                            </tr>
+                            <tr *ngIf="traslado.children.length > 0">
+                                <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: traslado.children }"></ng-container>
+                            </tr>
+                          </ng-container>
+                        </tbody>                                      
+                  </table>
+
+
+                </td>
+              </tr>
+          </ng-container>
+      </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h4 class="">Notificaciones</h4>
+  <table style="margin-top: 20px;"  class="ml-auto table table-sm table-detail small">
+    <thead class="thead-dark">
+    <tr>
+      <th  style="padding-left: 20px;padding-right: 20px;">
+          Tipo
+      </th>
+      <th  style="padding-left: 20px;padding-right: 20px;">
+          Estatus
+      </th>
+      <th  style="padding-left: 20px;padding-right: 20px;">
+          Acci&oacute;n
+      </th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 10px;">Notificaci&oacute;n de cotizaci&oacute;n Flotillas</td>
+        <td style="padding: 10px;">{{ getNameStatsu(statusCotizacion, 1) }}</td>
+        <td > <button *ngIf="statusCotizacion === 4 || statusCotizacion === 5" (click)="sendNot(17)"> <i class="fa fa-paper-plane"></i></button> </td>
+      </tr>
+      <tr *ngIf="isNotUtilidad">
+        <td style="padding: 10px;">Notificaci&oacute;n porcentaje de utilidad</td>
+        <td style="padding: 10px;">{{getNameStatsu(isNotUtilidadLabel, 2)}}</td>
+        <td> <button *ngIf="isNotUtilidadLabel === 4 || isNotUtilidadLabel === 5" (click)="sendNot(2)"> <i class="fa fa-paper-plane"></i></button> </td>
+      </tr>
+      <tr  *ngIf="isNotUnidades">
+        <td style="padding: 10px;">Notificaci&oacute;n de unidades</td>
+        <td style="padding: 10px;">{{getNameStatsu(isNotUnidadesLabel, 3)}}</td>
+        <td> <button *ngIf="isNotUnidadesLabel === 4 || isNotUnidadesLabel === 5" (click)="sendNot(9)"> <i class="fa fa-paper-plane"></i></button> </td>
+      </tr>
+      <tr *ngIf="isNotTraslados">
+        <td style="padding: 10px;">Notificaci&oacute;n de porcentaje de utilidad en traslados</td>
+        <td style="padding: 10px;">{{getNameStatsu(isNotTrasladosLabel, 4)}}</td>
+        <td> <button *ngIf="isNotTrasladosLabel === 4 || isNotTrasladosLabel === 5" (click)="sendNot(12)"> <i class="fa fa-paper-plane"></i></button> </td>
+      </tr>
+      <tr *ngIf="isNotCredito">
+        <td style="padding: 10px;">Notificaci&oacute;n de cr&eacute;dito</td>
+        <td style="padding: 10px;">{{getNameStatsu(isNotCreditoLabel, 5)}}</td>
+        <td> <button *ngIf="isNotCreditoLabel === 4 || isNotCreditoLabel === 5" (click)="sendNot(3)"> <i class="fa fa-paper-plane"></i></button> </td>
+      </tr>
+      <tr *ngIf="isNotCU">
+        <td style="padding: 10px;">Notificaci&oacute;n con cargo al costo de unidad</td>
+        <td style="padding: 10px;">{{getNameStatsu(isNotCULabel, 6)}}</td>
+        <td> <button *ngIf="isNotCULabel === 4 || isNotCULabel === 5" (click)="sendNot(18)"> <i class="fa fa-paper-plane"></i></button> </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="d-flex flex-row-reverse">
+    <button (click)="closeCot()" [disabled]="missingAprob() || pricingManagerService.onlyRead" class="btn btn-primary d-flex flex-row-reverse" style="margin-top: 30px;margin-right: 30px">
+      Cerrar cotizaci&oacute;n
+    </button>
+  </div>
+
+
+  <ng-template #recursiveList let-item>
+    <td></td>  
+    <td colspan="6">
+        <table #content id='content' class="ml-auto table table-sm table-detail small" style="background: white">
+            <thead class="thead-dark">
+                <tr class="fs-bg">
+                  <th scope="col">#</th>
+                  <th scope="col">Punto de Partida</th>
+                  <th scope="col">Punto de LLegada</th>
+                  <th scope="col">Proveedor</th>
+                  <th scope="col">Unidades</th>
+                  <th scope="col">Costo</th>
+                  <th scope="col">Fecha de Entrega</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let traslado of item">
+                  <tr  class="fs-md">
+                    <td>{{traslado.idCotizacionTraslado}}</td>
+                    <td>{{ getNombreUbicacion(traslado.idTraslado, 'Origen') }}</td>
+                    <td>{{ getNombreUbicacion(traslado.idTraslado, 'Destino') }}</td>
+                    <td>{{traslado.nombreProveedor}}</td>
+                    <td>{{traslado.cantidad}}</td>
+                    <td>{{traslado.costoTotal}}</td>
+                    <td>{{traslado.fechaEntrega}}</td>
+                  </tr>
+                  <tr *ngIf="traslado.children.length > 0">
+                      <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: traslado.children }"></ng-container>
+                  </tr>
+                </ng-container>
+              </tbody>
+        </table>
+      </td>
+    </ng-template>

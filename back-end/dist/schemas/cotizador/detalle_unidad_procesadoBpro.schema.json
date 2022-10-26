@@ -1,0 +1,35 @@
+{
+    "$id": "detalle_unidad_procesadoBpro.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "procesadoBpro",
+        "tipoMovimiento"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del grupo unidad"
+        },
+        "idDetalleUnidad": {
+            "type": "integer",
+            "description": "Identificador del detalle unidad"
+        },
+        "procesadoBpro": {
+            "type": "integer",
+            "description": "Status sobre movimientos generados despues de cerrada la cotización"
+        },
+        "tipoMovimiento": {
+            "type": "string",
+            "description": "Status sobre el estado del movimiento A (Alta), B (Baja) y C (Cambio)"
+        }
+    }
+}

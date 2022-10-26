@@ -1,0 +1,7 @@
+{
+    "$id": "unidad_interes_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./unidad_interes.schema.json"
+    }
+}

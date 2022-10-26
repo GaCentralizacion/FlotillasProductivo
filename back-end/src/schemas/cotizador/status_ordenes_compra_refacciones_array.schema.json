@@ -1,0 +1,7 @@
+{
+    "$id": "status_ordenes_compra_refacciones_array.schema.json",
+    "type": "object",
+    "items": {
+        "$ref": "status_ordenes_compra_refacciones.schema.json"
+    }
+}

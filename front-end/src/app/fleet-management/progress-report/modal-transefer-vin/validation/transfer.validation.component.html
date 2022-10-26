@@ -1,0 +1,110 @@
+<div class="col-md-12" style="padding:30px">
+<div class="d-flex flex-row title">
+    <div class="mr-auto">
+      <h5>Movimiento: #{{ idCotizacionTraslado }}</h5>
+    </div>
+  </div>
+  <hr class="linea1">
+
+    <div class="row col-md-12">
+      <div class="tras-item col-md-3">
+        <small class="title-span">Fecha de Entrega</small>
+        <small class="form-text text-muted" style="color:#fff !important">Fecha de Entrega 1111</small>
+        <div class="d-flex flex-row">
+          <input  name="db" id="db"  class="form-control" formControlNameplaceholder="yyyy-mm-dd" [(ngModel)]="model" [minDate]="minDate"
+            ngbDatepicker #d="ngbDatepicker">
+          <i class="fa fa-calendar d-flex align-items-center calendar" (click)="d.toggle()"></i>
+        </div>
+      </div>
+      <div class="form-group tras-item col-md-3">
+        <small class="title-span">Unidades</small>
+        <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+          <input  name="unidades" id="unidades" type="number" class="form-control marca-input" [(ngModel)]="unidades" (input)="changeUnidad()"
+            name="unidades" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <span  *ngIf="customForm.unidades" style="color: red">Campo Requerido</span>
+      </div>
+
+      <div class="tras-item col-md-3">
+        <small for="inputMarca">Punto de Partida</small>
+        <small class="form-text text-muted" style="color:#fff !important">Punto de Partida</small>
+        <div class="d-flex flex-row">
+          <ng-select  name="puntoPartida" id="puntoPartida" (search)="onSearchPuntoP($event)"  (change)="findTraslado($event)"
+            placeholder="Seleccionar Punto de Partida" [items]="ubicaciones" bindLabel="nombre"
+            bindValue="idUbicacionTraslado" [(ngModel)]="idPuntoDePartida">
+          </ng-select>
+          <span  *ngIf="customForm.puntoPartida" style="color: red">Campo Requerido</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-md-12">
+      <div class="tras-item col-md-3">
+        <small class="title-span">Punto de LLegada</small>
+        <small class="form-text text-muted" style="color:#fff !important">Punto de LLegada</small>
+        <div class="d-flex flex-row">
+          <div style="position: relative;">
+            <ng-select  name="puntoLlegada" id="puntoLlegada" (search)="onSearchPuntoL($event)"  (change)="findTraslado($event)"
+              placeholder="Seleccionar Punto de LLegada" [items]="ubicaciones" bindLabel="nombre"
+              bindValue="idUbicacionTraslado" [(ngModel)]="idPuntoDeLLegada">
+            </ng-select>
+            <span  *ngIf="customForm.puntoLlegada" style="color: red">Campo Requerido</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tras-item col-md-3">
+        <small for="inputMarca">Proveedor</small>
+        <small class="form-text text-muted" style="color:#fff !important">Proveedor</small>
+        <ng-select  name="proveedor" id="proveedor" placeholder="Seleccionar Proveedor" [items]="proveedores"
+          bindLabel="nombreCompleto" bindValue="idProveedor" [(ngModel)]="idProveedor"  (change)="findTraslado($event)">
+        </ng-select>
+        <span *ngIf="customForm.proveedor" style="color: red">Campo Requerido</span>
+      </div>
+
+
+      <div class="tras-item col-md-3 d-flex flex-row">
+        <div>
+          <small class="title-span">Costo Unidad</small>
+          <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+          <input type="text" class="form-control marca-input" (input)="changeCostoUnidad($event)"
+            [(ngModel)]="costoUnidad"  name="costoUnidad" id="costoUnidad" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <span *ngIf="customForm.costoUnidad" style="color: red">Campo Requerido</span>
+        </div>
+        <div class="unidad">
+          <small class="title-span">Precio Unidad</small>
+          <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+          <input type="text" class="form-control marca-input" (input)="changePrecioUnidad($event)"
+            [(ngModel)]="precioUnidad"  name="precioUnidad" id="precioUnidad"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 
+            <span *ngIf="customForm.precioUnidad" style="color: red">Campo Requerido</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row col-md-12">
+      <div class="tras-item col-md-3">
+      </div>
+      <div class="tras-item col-md-3">
+      </div>
+      <div class="tras-item col-md-3 d-flex flex-row">
+        <div class="w-100">
+          <small class="title-span">Costo Total</small>
+          <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+          <input type="text" class="form-control marca-input" (input)="changeCostoTotal($event)"
+            [(ngModel)]="costoTotal"  name="costoTotal" id="costoTotal"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <span *ngIf="customForm.costoTotal" style="color: red">Campo Requerido</span>
+        </div>
+        <div class="unidad w-100">
+          <small class="title-span">Precio Total</small>
+          <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+          <input type="text" class="form-control marca-input" (input)="changePrecioTotal($event)"
+            [(ngModel)]="precioTotal"  name="precioTotal" id="precioTotal"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <span *ngIf="customForm.precioTotal" style="color: red">Campo Requerido</span>
+          <button type="submit" class="btn btn-primary add d-flex justify-content-end"
+            (click)="agregarTraslado()" [disabled]="pricingManagerService.perfilSoloLectura">Editar</button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>

@@ -1,0 +1,7 @@
+{
+  "$id": "cancelacion_de_tramites_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "./cancelacion_de_tramites.schema.json"
+  }
+}

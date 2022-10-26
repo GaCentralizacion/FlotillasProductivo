@@ -1,0 +1,99 @@
+[
+  {
+    "name": "default",
+    "type": "mssql",
+    "host": "192.168.20.123",
+    "port": 1433,
+    "username": "sa",
+    "password": "S0p0rt3",
+    "database": "FlotillasBism",
+    "synchronize": false,
+    "connectionTimeout": 120000,
+    "requestTimeout": 120000,
+    "logging": [
+      "query",
+      "error"
+    ],
+    "logger": "file",
+    "entities": [
+      "dist/db/model/**/*.js"
+    ],
+    "migrations": [
+      "dist/db/migration/**/*.js"
+    ],
+    "subscribers": [
+      "dist/db/subscriber/**/*.js"
+    ]   
+  },
+  {
+    "name": "sync",
+    "type": "mssql",
+    "host": "192.168.20.123",
+    "port": 1433,
+    "username": "sa",
+    "password": "S0p0rt3",
+    "database": "FlotillasBism",
+    "synchronize": false,
+    "logging": [
+      "error"
+    ],
+    "logger": "file",
+    "entities": [
+      "dist/db/model/**/*.js"
+    ],
+    "migrations": [
+      "dist/db/migration/**/*.js"
+    ],
+    "subscribers": [
+      "dist/db/subscriber/**/*.js"
+    ]
+  },
+  {
+    "name": "corporativa",
+    "type": "mssql",
+    "host": "192.168.20.123",
+    "port": 1433,
+    "username": "sa",
+    "password": "S0p0rt3",
+    "database": "GA_Corporativa",
+    "synchronize": false,
+    "logging": [
+      "query",
+      "error"
+    ],
+    "logger": "file",
+    "entities": [
+      "dist/db/model/**/*.js"
+    ],
+    "migrations": [
+      "dist/db/migration/**/*.js"
+    ],
+    "subscribers": [
+      "dist/db/subscriber/**/*.js"
+    ]
+  },
+  {
+    "name": "bitacora",
+    "type": "mssql",
+    "host": "192.168.20.123",
+    "port": 1433,
+    "username": "sa",
+    "password": "S0p0rt3",
+    "database": "FlotillasBismLog",
+    "synchronize": false,
+    "logging": [
+      "query",
+      "error"
+    ],
+    "logger": "file",
+    "entities": [
+      "dist/db/model/**/*.js"
+    ],
+    "migrations": [
+      "dist/db/migration/**/*.js"
+    ],
+    "subscribers": [
+      "dist/db/subscriber/**/*.js"
+    ]
+  }
+]

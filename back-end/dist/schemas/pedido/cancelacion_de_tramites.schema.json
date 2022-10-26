@@ -1,0 +1,20 @@
+{
+  "$id": "cancelacion_de_tramites.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "vin"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "vin": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador vin de la unidad"
+      }
+  }
+}

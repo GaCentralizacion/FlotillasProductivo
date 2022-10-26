@@ -1,0 +1,34 @@
+{
+    "$id": "rel_cliente_cfdi.schema.json",
+    "type": "object",
+    "required": [
+        "idCliente",
+        "idCfdiUnidades",
+        "idCfdiAccesorios"
+    ],
+    "properties": {
+        "idCliente": {
+            "type": "integer",
+            "description": "Identificador de Cliente"
+        },
+        "idCfdiUnidades": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador CFDI de Unidades"
+        },
+        "idCfdiAccesorios": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador CFDI de Accesorios"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

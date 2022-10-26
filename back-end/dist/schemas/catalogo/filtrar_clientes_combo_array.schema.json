@@ -1,0 +1,7 @@
+{
+  "$id": "filtrar_clientes_combo_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "./filtrar_clientes_combo.schema.json"
+  }
+}

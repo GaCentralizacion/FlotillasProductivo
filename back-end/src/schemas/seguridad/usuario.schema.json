@@ -1,0 +1,43 @@
+{
+    "$id": "usuario.schema.json",
+    "type": "object",
+    "required": [
+        "idUsuario",
+        "userName",
+        "nombreCompleto",
+        "email"
+    ],
+    "properties": {
+        "idUsuario": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Usuario"
+        },
+        "userName": {
+            "type": "string",
+            "description": "Nombre de Usuario"
+        },
+        "nombreCompleto": {
+            "type": "string",
+            "description": "Nombre Completo"
+        },
+        "email": {
+            "type": "string",
+            "description": "Correo Electrónico"
+        },
+        "celular": {
+            "type": "string",
+            "description": "Celular"
+        },
+        "fechaRegistro": {
+            "type": "string",
+            "description": "Fecha de Registro",
+            "format": "date-time"
+        },
+        "ultimoLogin": {
+            "type": "string",
+            "description": "Fecha de último acceso",
+            "format": "date-time"
+        }
+    }
+}

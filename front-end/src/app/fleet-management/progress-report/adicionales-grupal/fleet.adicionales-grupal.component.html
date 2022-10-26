@@ -1,0 +1,666 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<ng-template #deleteTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar Configuración POSTERIORES GRUPAL</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>¿Realmente desea eliminar la configuración seleccionada?</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" [disabled]="pricingManagerService.perfilSoloLectura"
+      (click)="deleteItem('B')">Sí</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #editTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar Cantidad de Accesorio:<label
+        style="color: blue; font-size: 30px; font-weight:bold"> {{itemEdit.nombre}}</label> </h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <input class="form-control-sm mt-3" type="number" [(ngModel)]="cantidad" placeholder="Cantidad"
+            name="cantidad">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" [disabled]="pricingManagerService.perfilSoloLectura"
+      (click)="editItem('C')">Editar</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #editTramiteTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar Proveedor:
+      <!-- <label style="color: blue; font-size: 30px; font-weight:bold"> {{itemEdit.nombre}}</label>  -->
+    </h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]='formTramites'>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <small>Trámite</small>
+          <input type="text" class="form-control" id="nombreTramite" formControlName='Tramite' value="{{tramiteString}}"
+            disabled>
+        </div>
+        <div class="form-group col-md-4">
+          <small>Subtrámite</small>
+          <ng-select #subtramiteNgSelect placeholder="Seleccionar Subtrámite" [items]="subtramites" bindLabel="nombre"
+            formControlName='Subtramite' bindValue="idSubtramite" (change)="subtramiteOnChange($event)"
+            [(ngModel)]="idSubtramiteSelect">
+          </ng-select>
+        </div>
+      </div>
+    </form>
+    <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      class="bootstrap col-md-12" [limit]="10" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="proveedores" [selected]="proveedoresSelected" [selectionType]="'single'">
+      <ngx-datatable-column [flexGrow]="1" name="id" prop="idProveedor"></ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="3" name="Proveedor" prop="nombreCompleto"></ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Costo" prop="costo">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <input currencyMask class="form-control-sm mt-1" style="width: 170px;" id="costo_rowIndex" type="text"
+            name="Costo_rowIndex" [options]="{ prefix: '$ ', thousands: ',', precision: 2}" [(ngModel)]="costoEditado"
+            placeholder="Costo" (input)="getCantidad($event.target.value, row, rowIndex)">
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Precio" prop="precio">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <input currencyMask class="form-control-sm mt-1" style="width: 170px;" id="precio_rowIndex" type="text"
+            name="Precio_rowIndex" [options]="{ prefix: '$ ', thousands: ',', precision: 2}" [(ngModel)]="precioEditado"
+            placeholder="Precio" (input)="getCantidad($event.target.value, row, rowIndex)">
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary modal-btn" [disabled]="proveedoresSelected.length == 0"
+        (click)="guardarCambioProveedor()">Editar</button>
+      <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+    </div>
+  </div>
+</ng-template>
+
+<div style="padding: 20px">
+  <h4>Modificar Adicionales POSTERIORES POR GRUPO</h4>
+  <br>
+  {{detalleUnidad.idCotizacion}} ( {{versionUnidad}} )
+  <div class="container-fluid">
+    <ngb-tabset [justify]="'start'" #tabs (tabChange)="onTabChange($event)">
+
+      <ngb-tab id="tramites" title="Tramites y Gestion">
+        <ng-template ngbTabContent>
+          <div class="botones">
+            <button type="button" class="btn btn-success"
+              [disabled]="isFacturado || pricingManagerService.perfilSoloLectura" (click)="openModalPaquetes()">Agregar
+              +</button>
+          </div>
+          <div class="paquetes-view" *ngIf="tabSelected === 'tramites'">
+            <div class="row" style="margin-top: 20px;">
+              <div *ngFor="let paqueteTramites of paquetesTramites" class="col-md-3">
+                <div class="small-box bg-aqua-active">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{paqueteTramites.cantidad}}</h3>
+                        <!--p class="mb-0 mt-3">
+                          <button type="button" [ngClass]="{'disabled-button' : isDeleteTramites(paqueteTramites)}"
+                            (click)="openModalDelete(deleteTemplate, paqueteTramites, 'tramites')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i>
+                          </button>
+                        </p-->
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{paqueteTramites.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{paqueteTramites.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" [ngbTooltip]="paqueteTramites.nombresDetalle" placement="bottom"
+                    tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{paqueteTramites.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- LBM -->
+          <div class="sin-paquetes-view">
+            <div class="row">
+              <div *ngFor="let tramiteSinPaquete of tramitesSinPaquete" class="col-md-3">
+                <div class="small-box"
+                  [ngClass]="{'bg-aqua' : !tramiteSinPaquete.cancelado, 'bg-gray': tramiteSinPaquete.cancelado}">
+                  <div class="inner">
+                    <!--div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{tramiteSinPaquete.cantidad}}</h3>
+                      </div>
+                    </div-->
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{tramiteSinPaquete.id}}</h3>
+                        <p class="mb-0 mt-3">
+                          <button *ngIf="tramiteSinPaquete.cambiaProveedor" type="button"
+                            [ngClass]="{'disabled-button' : isDeleteTramitesUni(tramiteSinPaquete)}"
+                            (click)="openModalCambioProveedor(editTramiteTemplate, tramiteSinPaquete, 'tramites')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura">
+                            <i class="far fa-edit c-white"></i>
+                            <!-- <i  class="far fa-trash-alt c-white"></i> -->
+                          </button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{tramiteSinPaquete.nombreSubtramite}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{tramiteSinPaquete.precio | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                    <i class="far fa-file-alt"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{tramiteSinPaquete.nombreTramite}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-top: 15px;">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <h2 class="titulo">Información de Movimientos</h2>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <ul>
+                  <li style="color: red; font-size: 16px;">Los elementos en rojo son los que se eliminarán</li>
+                  <li style="color: green; font-size: 16px;">Los elementos en verde son los que se agregarán</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <button [disabled]="pricingManagerService.perfilSoloLectura" type="button" class="btn btn-secondary"
+                  (click)="openConfiguraAdicionalesTipoOrden('TRAMITES')">Configurar Tipo
+                  Orden</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="paquetes-view" *ngIf="tabSelected === 'tramites'">
+            <div class="row" style="margin-top: 20px;">
+              <div *ngFor="let paqueteTramites of paquetesTramitesMovs" class="col-md-3">
+                <div class="small-box"
+                  [ngClass]="{'bg-green-active': paqueteTramites.tipoMovimiento === 'A', 'bg-red': paqueteTramites.tipoMovimiento === 'B'}">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{paqueteTramites.cantidad}}</h3>
+                        <p class="mb-0 mt-3">
+                          <button type="button" *ngIf="paqueteTramites.tipoMovimiento !== 'B'"
+                            (click)="openModalDelete(deleteTemplate, paqueteTramites, 'tramites')"
+                            [ngClass]="{'disabled-button' : isDeleteTramites(paqueteTramites)}"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i>
+                          </button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{paqueteTramites.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{paqueteTramites.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" [ngbTooltip]="paqueteTramites.nombresDetalle" placement="bottom"
+                    tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{paqueteTramites.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sin-paquetes-view">
+            <div class="row">
+              <div *ngFor="let tramiteSinPaquete of tramitesSinPaqueteMovs" class="col-md-3">
+                <div class="small-box"
+                  [ngClass]="{'bg-green-active': tramiteSinPaquete.tipoMovimiento === 'A', 'bg-red': tramiteSinPaquete.tipoMovimiento === 'B'}">
+                  <div class="inner">
+                    <!--div class="row">
+                      <div class="col-md-3 white">
+                        <h3> {{tramiteSinPaquete.cantidad}}</h3>
+                      </div>
+                    </div-->
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{tramiteSinPaquete.id}}</h3>
+                        <p class="mb-0 mt-3">
+                          <button type="button" *ngIf="tramiteSinPaquete.tipoMovimiento !== 'B'"
+                            [ngClass]="{'disabled-button' : isDeleteTramitesUni(tramiteSinPaquete)}"
+                            (click)="openModalDelete(deleteTemplate, tramiteSinPaquete, 'tramites')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i>
+                          </button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{tramiteSinPaquete.nombreSubtramite}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{tramiteSinPaquete.precio | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                    <i class="far fa-file-alt"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{tramiteSinPaquete.nombreTramite}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab id="accesorios" title="Accesorios">
+        <ng-template ngbTabContent>
+          <div class="botones">
+            <button type="button" [disabled]="isFacturado || pricingManagerService.perfilSoloLectura"
+              class="btn btn-success" (click)="openModalAccesorios()">Agregar +</button>
+          </div>
+          <div class="paquetes-view" *ngIf="tabSelected === 'accesorios'">
+            <div class="row" style="margin-top: 20px;">
+              <div *ngFor="let paqueteAccesorios of paquetesAccesorios" class="col-md-3">
+                <div class="small-box bg-green-active">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{paqueteAccesorios.cantidad}}</h3>
+                        <!--p class="mb-0 mt-3">
+                          <button type="button"
+                            (click)="openModalDelete(deleteTemplate, paqueteAccesorios, 'accesorios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i>
+                          </button>
+                        </p-->
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{paqueteAccesorios.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{paqueteAccesorios.precioTotal | currency:'MXN':'symbol-narrow'}}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" [ngbTooltip]="paqueteAccesorios.nombresDetalle" placement="bottom"
+                    tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{paqueteAccesorios.nombre}}</h4>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="sin-paquetes-view" *ngIf="tabSelected === 'accesorios'">
+            <div class="row">
+              <div *ngFor="let accesorioSinPaquete of accesoriosSinPaquete" class="col-md-3">
+                <div class="small-box bg-green">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{accesorioSinPaquete.cantidad }}</h3>
+                        <h3>{{accesorioSinPaquete.idAccesorioNuevo > 0 ? 'Nuevo': ' '}}</h3>
+                        <p class="mb-0 mt-3">
+                          <button type="button" [ngClass]="{'disabled-button' : isDelete(accesorioSinPaquete)}"
+                            (click)="openModalEdit(editTemplate, accesorioSinPaquete)" class="btn btn-transparent"
+                            [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              style="margin-right: 5px; color: white;" class="fa fa-edit"></i>
+                          </button>
+                          <!--button type="button" [ngClass]="{'disabled-button' : isDelete(accesorioSinPaquete)}"
+                            (click)="openModalDelete(deleteTemplate, accesorioSinPaquete, 'accesorios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i>
+                          </button-->
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{accesorioSinPaquete.nombre}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{accesorioSinPaquete.precio | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-project-diagram"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{accesorioSinPaquete.id}} a</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-top: 15px;">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <h2 class="titulo">Información de Movimientos</h2>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <ul>
+                  <li style="color: red; font-size: 16px;">Los elementos en rojo son los que se eliminarán</li>
+                  <li style="color: green; font-size: 16px;">Los elementos en verde son los que se agregarán</li>
+                  <li style="color: yellow; font-size: 16px;">Los elementos en amarillo son los que se modificarán</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <button [disabled]="pricingManagerService.perfilSoloLectura" type="button" class="btn btn-secondary"
+                  (click)="openConfiguraAdicionalesTipoOrden('ACCESORIOS')">Configurar Tipo
+                  Orden</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="paquetes-view" *ngIf="tabSelected === 'accesorios'">
+            <div class="row" style="margin-top: 20px;">
+              <div *ngFor="let paqueteAccesorios of paquetesAccesoriosMovs" class="col-md-3">
+                <div class="small-box"
+                  [ngClass]="{'bg-green-active': paqueteAccesorios.tipoMovimiento === 'A', 'bg-red': paqueteAccesorios.tipoMovimiento === 'B', 'bg-yellow': paqueteAccesorios.tipoMovimiento === 'C'}">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{paqueteAccesorios.cantidad}}</h3>
+                        <p class="mb-0 mt-3">
+                          <button type="button" *ngIf="paqueteAccesorios.tipoMovimiento !== 'B'"
+                            [ngClass]="{'disabled-button' : isDeletePaq(paqueteAccesorios)}"
+                            (click)="openModalDelete(deleteTemplate, paqueteAccesorios, 'accesorios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i>
+                          </button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{paqueteAccesorios.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{paqueteAccesorios.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" [ngbTooltip]="paqueteAccesorios.nombresDetalle" placement="bottom"
+                    tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{paqueteAccesorios.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sin-paquetes-view" *ngIf="tabSelected === 'accesorios'">
+            <div class="row">
+              <!--div *ngFor="let accesorioSinPaquete of accesoriosSinPaqueteMovs" class="col-md-3"-->
+              <div *ngFor="let accesorioSinPaquete of accesoriosSinPaqueteMovs" class="col-md-3">
+                <div class="small-box bg-green">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{ accesorioSinPaquete.cantidad }}</h3>
+                        <h3>{{accesorioSinPaquete.idAccesorioNuevo > 0 ? 'Nuevo': ' '}}</h3>
+                        <p class="mb-0"><button type="button"
+                            (click)="openModalDelete(deleteTemplate, accesorioSinPaquete, 'accesorios')"
+                            class="btn btn-transparent"
+                            [disabled]="pricingManagerService.onlyRead && pricingManagerService.perfilSoloLectura">
+                            <i class="far fa-trash-alt c-white"></i></button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{accesorioSinPaquete.nombre}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{accesorioSinPaquete.precio | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-project-diagram"></i>
+                  </div>
+                  <div [ngClass]="{'small-box-footer':accesorioSinPaquete.estatusSolicitud === null,
+                    'pendienteEnvioSisco':accesorioSinPaquete.estatusSolicitud === 1,'enviadoSisco':accesorioSinPaquete.estatusSolicitud === 2,
+                    'okSisco':(accesorioSinPaquete.estatusSolicitud === 97 || accesorioSinPaquete.estatusSolicitud === 3),
+                    'canceladoSisco':(accesorioSinPaquete.estatusSolicitud === 98  || accesorioSinPaquete.estatusSolicitud === 4),
+                    'mercadoSisco':accesorioSinPaquete.estatusSolicitud === 5}">
+                    <h4>{{accesorioSinPaquete.nEstatus}}</h4>
+                    <div *ngIf="accesorioSinPaquete.estatusSolicitud >= 1" style="display: inline-block;">
+                      <div style="display: inline-block; margin-right: 10px;">
+                        <span style="font-size: medium; font-weight:bold;">SISCO <div
+                            *ngIf="accesorioSinPaquete.existencia > 0 && accesorioSinPaquete.cantidad > accesorioSinPaquete.existencia">
+                            Solicitados {{ accesorioSinPaquete.cantidad - accesorioSinPaquete.existencia }} / Flotillas
+                            {{accesorioSinPaquete.existencia}} </div></span>
+                      </div>
+                      <div
+                        *ngIf="accesorioSinPaquete.estatusSolicitud === 98 || accesorioSinPaquete.estatusSolicitud === 5 || accesorioSinPaquete.estatusSolicitud === 4"
+                        style="display: inline-block;">
+                        <button type="button"
+                          (click)="openModalObservaciones(observacionesTemplate,accesorioSinPaquete)"
+                          class="btn btn-transparent">
+                          <i class="far fa-comment c-white"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab id="servicios" title="Órdenes de Servicio">
+        <ng-template ngbTabContent>
+          <div class="botones">
+            <button type="button" class="btn btn-success"
+              [disabled]="isFacturado || pricingManagerService.perfilSoloLectura" (click)="openModalServicios()">Agregar
+              +</button>
+          </div>
+          <div class="paquetes-view" *ngIf="tabSelected === 'servicios'">
+            <div class="row" style="margin-top: 20px;">
+              <div *ngFor="let paqueteServicioUnidad of paquetesServicioUnidad" class="col-md-3">
+                <div class="small-box bg-orange-active">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{paqueteServicioUnidad.cantidad}}</h3>
+                        <!--p class="mb-0 mt-3"><button type="button"
+                            [ngClass]="{'disabled-button' : isDeleteServicios(paqueteServicioUnidad)}"
+                            (click)="openModalDelete(deleteTemplate, paqueteServicioUnidad, 'servicios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i></button>
+                        </p-->
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{paqueteServicioUnidad.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{paqueteServicioUnidad.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" [ngbTooltip]="paqueteServicioUnidad.nombresDetalle" placement="bottom"
+                    tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{paqueteServicioUnidad.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sin-paquetes-view">
+            <div class="row">
+              <div *ngFor="let servicioUnidadSinPaquete of serviciosUnidadSinPaquete" class="col-md-3">
+                <div class="small-box bg-orange">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{servicioUnidadSinPaquete.cantidad}}</h3>
+                        <h3>{{servicioUnidadSinPaquete.idServicioUnidad}}</h3>
+                        <p class="mb-0 mt-3">
+                          <!--button type="button"
+                            (click)="openModalDelete(deleteTemplate, servicioUnidadSinPaquete,  'servicios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i></button-->
+                          <small>{{servicioUnidadSinPaquete.descripcion}}</small>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"></p>
+                        <br>
+                        <h4 class="text-right mt-auto">
+                          {{servicioUnidadSinPaquete.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-tools"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{servicioUnidadSinPaquete.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-top: 15px;">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <h2 class="titulo">Información de Movimientos</h2>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <ul>
+                  <li style="color: red; font-size: 16px;">Los elementos en rojo son los que se eliminarán</li>
+                  <li style="color: green; font-size: 16px;">Los elementos en verde son los que se agregarán</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <button [disabled]="pricingManagerService.perfilSoloLectura" type="button" class="btn btn-secondary"
+                  (click)="openConfiguraAdicionalesTipoOrden('SERVICIOS')">Configurar Tipo
+                  Orden</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+
+          <div class="paquetes-view" *ngIf="tabSelected === 'servicios'">
+            <div class="row" style="margin-top: 20px;">
+              <div *ngFor="let paqueteServicioUnidad of paquetesServicioUnidadMovs" class="col-md-3">
+                <div class="small-box"
+                  [ngClass]="{'bg-green': paqueteServicioUnidad.tipoMovimiento === 'A', 'bg-red': paqueteServicioUnidad.tipoMovimiento === 'B'}">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{paqueteServicioUnidad.cantidad}}</h3>
+                        <p class="mb-0 mt-3"><button *ngIf="paqueteServicioUnidad.tipoMovimiento !== 'B'" type="button"
+                            [ngClass]="{'disabled-button' : isDeleteServicios(paqueteServicioUnidad)}"
+                            (click)="openModalDelete(deleteTemplate, paqueteServicioUnidad, 'servicios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i></button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{paqueteServicioUnidad.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{paqueteServicioUnidad.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" [ngbTooltip]="paqueteServicioUnidad.nombresDetalle" placement="bottom"
+                    tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{paqueteServicioUnidad.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sin-paquetes-view">
+            <div class="row">
+              <div *ngFor="let servicioUnidadSinPaquete of serviciosUnidadSinPaqueteMovs" class="col-md-3">
+                <div class="small-box"
+                  [ngClass]="{'bg-green': servicioUnidadSinPaquete.tipoMovimiento === 'A', 'bg-red': servicioUnidadSinPaquete.tipoMovimiento === 'B'}">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-md-3 white">
+                        <h3>{{servicioUnidadSinPaquete.idServicioUnidad}}</h3>
+                        <p class="mb-0 mt-3"><button type="button"
+                            (click)="openModalDelete(deleteTemplate, servicioUnidadSinPaquete,  'servicios')"
+                            class="btn btn-transparent" [disabled]="pricingManagerService.perfilSoloLectura"><i
+                              class="far fa-trash-alt c-white"></i></button>
+                        </p>
+                      </div>
+                      <div class="col-md-9 d-flex flex-column">
+                        <p class="text-right"><small>{{servicioUnidadSinPaquete.descripcion}}</small></p>
+                        <h4 class="text-right mt-auto">
+                          {{servicioUnidadSinPaquete.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="icon" placement="bottom" tooltipClass="tooltip-bg-gray">
+                    <i class="fas fa-tools"></i>
+                  </div>
+                  <div class="small-box-footer">
+                    <h4>{{servicioUnidadSinPaquete.nombre}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+
+    </ngb-tabset>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning modal-btn" (click)="cancel()">Cerrar</button>
+    </div>
+  </div>
+</div>

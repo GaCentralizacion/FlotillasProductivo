@@ -1,0 +1,20 @@
+{
+  "$id": "documentos_vencidos.schema.json",
+  "type": "object",
+  "required": [
+    "idCotizacion",
+    "idCliente"
+  ],
+  "properties": {
+    "idCotizacion": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "Identificador de la cotización"
+    },
+    "idCliente": {
+      "type": "integer",
+      "uniqueItems": true,
+      "description": "Identificador del cliente"
+    }
+  }
+}

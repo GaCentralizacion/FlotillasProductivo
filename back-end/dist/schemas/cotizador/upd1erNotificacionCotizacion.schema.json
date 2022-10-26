@@ -1,0 +1,20 @@
+{
+  "$id": "upd1erNotificacionCotizacion.schema.json",
+  "type": "string",
+  "required": [
+      "idCotizacion",
+      "estatus"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "idCotizacion"
+      },
+      "estatus": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "estatus"
+    }
+  }
+}

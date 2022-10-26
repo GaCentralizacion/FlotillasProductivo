@@ -1,0 +1,20 @@
+{
+  "$id": "delete_unidadInteres.schema.json",
+  "type": "object",
+  "required": [
+    "idCotizacion",
+    "vin"
+  ],
+  "properties": {
+    "idCotizacion": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "id de la Cotizacion"
+    },
+    "vin": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "vin de la unidad"
+    }
+  }
+}

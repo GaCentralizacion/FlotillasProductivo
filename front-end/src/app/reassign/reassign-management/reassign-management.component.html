@@ -1,0 +1,74 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+<div class="title-area">
+    <h1 class="general-titles">Reasignaciones</h1>
+</div>
+  <form class="row" [formGroup]="form">
+    <div class="col-md-12 ">
+      <p><span>Seguimiento a las entregas de los pedidos a planta</span></p>
+      <hr>
+    </div>  
+    <div class='col-sm-12 col-md-6 col-xl-6 mt-2'>
+      <small class="title-span">Flotilla</small>
+      <app-direccion-flotilla-select clearStyles=true [showLabel]=false>
+      </app-direccion-flotilla-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Marca</small>
+      <select formControlName="idMarca" class="browser-default custom-select">
+        <option [value]="item.idMarca" *ngFor="let item of marcas">{{item.idMarca}}</option>
+      </select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Empresa</small>
+      <ng-select #empresaNgSelect formControlName="idEmpresa" [items]="empresas" bindLabel="nombre" bindValue="idEmpresa"
+        placeholder="Seleccione empresa" name="empresas" notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (form.controls.idSucursal.errors?.required) && form.touched}">
+      <small class="title-span">Sucursal</small>
+      <ng-select #sucursalNgSelect formControlName="idSucursal" [items]="sucursales" bindLabel="nombre"
+        bindValue="idSucursal" placeholder="Seleccione sucursal" name="surcursales" notFoundText="Sin información"
+        (select)="onSelect($event)">
+      </ng-select>
+    </div>  
+  </form>
+  <div class="row">
+    <div class="col-12 md-12 mt-2">
+      <button type="button" class="btn btn-primary float-right mr-2"  [disabled]="groupSelected==undefined" (click)="goToNewRequest()">Ver</button>
+    </div>
+    <div class="col-12 mt-2">
+      <ngx-datatable *ngIf="!isLoading" #table
+        [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap"
+        [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'" [limit]="10" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable" [rows]="vehiculos" [scrollbarH]="true" 
+        (select)="onSelect($event)" [selectionType]="SelectionType.single">
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Marca" prop="idMarca" [width]="50">
+        </ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Catálogo" [width]="60"
+          prop="catalogo"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Año" [width]="50"
+          prop="anio"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Versión" [width]="200"
+          prop="version"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Interior" [width]="150"
+          prop="interior"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Exterior" [width]="150"
+          prop="exterior"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Clase" [width]="90"
+          prop="clase"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Modelo" [width]="50"
+          prop="modelo"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Precio" [width]="80"
+          prop="precioLista">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <label class="form-check-label" for="headerCheck">{{row.precioLista | currency:"MXN"}}</label>
+            </ng-template>
+          </ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Cant. Disponible" [width]="120" 
+            prop="cantDisponible"></ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>

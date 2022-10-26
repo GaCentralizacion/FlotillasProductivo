@@ -1,0 +1,24 @@
+{
+    "$id": "iva.schema.json",
+    "type": "object",
+    "required": [
+        "idIva",
+        "tasa",
+        "nombre"
+    ],
+    "properties": {
+        "idIva": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de IVA"
+        },
+        "tasa": {
+            "type": "number",
+            "description": "Tasa de IVA"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de IVA"
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "$id": "contacto_chat.schema.json",
+    "type": "object",
+    "required": [
+        "idUsuario"
+    ],
+    "properties": {
+        "idContactoChat": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de contacto"
+        },
+        "idUsuario": {
+            "type": "integer",
+            "description": "Identificador de usuario"
+        },
+        "nombreCompleto": {
+            "type": "string",
+            "description": "Nombre completo"
+        },
+        "telefono": {
+            "type": "string",
+            "description": "Teléfono"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

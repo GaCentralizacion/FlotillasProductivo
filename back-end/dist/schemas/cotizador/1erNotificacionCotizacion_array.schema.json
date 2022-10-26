@@ -1,0 +1,7 @@
+{
+  "$id": "1erNotificacionCotizacion_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "./1erNotificacionCotizacion.schema.json"
+  }
+}

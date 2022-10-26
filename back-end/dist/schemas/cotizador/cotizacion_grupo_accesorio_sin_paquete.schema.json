@@ -1,0 +1,77 @@
+{
+    "$id": "cotizacion_grupo_accesorio_sin_paquete.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idAccesorioNuevo",
+        "nombre",
+        "idParte",
+        "cantidad",
+        "costo",
+        "precio"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de grupo"
+        },
+        "idAccesorioNuevo": {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "Identificador de accesorio nuevo"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "idTipoProveedor": {
+            "type": "string",
+            "description": "Tipo de proveedor"
+        },
+        "idProveedor": {
+            "type": "integer",
+            "description": "Identificador de proveedor"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre de proveedor"
+        },
+        "idParte": {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "Identificador de parte"
+        },
+        "modeloAnio": {
+            "type": "string",
+            "description": "Añio y Modelo"
+        },
+        "cantidad": {
+            "type": "integer",
+            "description": "Cantidad"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificación",
+            "format": "date-time"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "$id": "grupo_chat_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./grupo_chat.schema.json"
+    }
+}

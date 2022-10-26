@@ -1,0 +1,7 @@
+{
+    "$id": "generar_pedido_movbpro_traslado_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./generar_pedido_movbpro_traslado.schema.json"
+    }
+}

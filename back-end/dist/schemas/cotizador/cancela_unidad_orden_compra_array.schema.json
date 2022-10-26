@@ -1,0 +1,7 @@
+{
+  "$id": "cancela_unidad_orden_compra_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "./cancela_unidad_orden_compra.schema.json"
+  }
+}

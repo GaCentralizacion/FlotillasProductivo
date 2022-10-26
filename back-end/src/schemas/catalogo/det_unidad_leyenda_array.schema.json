@@ -1,0 +1,7 @@
+{
+    "$id": "det_unidad_leyenda_array.schema.json",
+    "type": "object",
+    "items": {
+        "$ref": "det_unidad_leyenda.schema.json"
+    }
+}

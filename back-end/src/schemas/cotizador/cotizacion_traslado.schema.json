@@ -1,0 +1,96 @@
+{
+    "$id": "cotizacion_traslado.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "cantidad",
+        "fechaEntrega",
+        "costoUnitario",
+        "precioUnitario",
+        "costoTotal",
+        "precioTotal",
+        "idMedioTransporte",
+        "impuestoTransporte",
+        "idProveedor",
+        "nombreProveedor",
+        "idCfdi"
+    ],
+    "properties": {
+        "idCotizacionTraslado": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de cotización traslado"
+        },
+        "idCotizacionTrasladoPadre": {
+            "type": "integer",
+            "description": "Identificador de cotización traslado padre"
+        },
+        "idCotizacion": {
+            "type": "string",
+            "description": "Identificador de cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "description": "Identificador del grupo de unidades"
+        },
+        "idTraslado": {
+            "type": "integer",
+            "description": "Identificador de traslado"
+        },
+        "cantidad": {
+            "type": "integer",
+            "description": "Cantidad"
+        },
+        "fechaEntrega": {
+            "type": "string",
+            "format": "date",
+            "description": "Cantidad"
+        },
+        "costoUnitario": {
+            "type": "number",
+            "description": "Costo unitario"
+        },
+        "precioUnitario": {
+            "type": "number",
+            "description": "Precio unitario"
+        },
+        "costoTotal": {
+            "type": "number",
+            "description": "Costo total"
+        },
+        "precioTotal": {
+            "type": "number",
+            "description": "Precio total"
+        },
+        "idMedioTransporte": {
+            "type": "boolean",
+            "description": "False: manejo, True: madrina"
+        },
+        "impuestoTransporte": {
+            "type": "number",
+            "description": "Impuesto por transporte"
+        },
+        "idProveedor": {
+            "type": "number",
+            "description": "Identificador de Proveedor"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre de Proveedor"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificación",
+            "format": "date-time"
+        },
+        "idCfdi": {
+            "type": "string",
+            "description": "tipo de uso de Cfdi"
+        }
+    }
+}

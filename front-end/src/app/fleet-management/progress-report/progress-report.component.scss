@@ -1,0 +1,38 @@
+.buttons-row {
+    button {
+        margin: 5px;
+    }
+}
+
+.progress {
+    height: 2rem;
+    font-size: 1rem;
+}
+
+.gif-loading {
+    position: fixed;
+    height:100%;
+    width: 100%;
+    margin: auto;
+    top: 0;left: 0;right: 0;bottom: 0;
+    z-index: 1006;
+    background-color: rgba(0,0,0,0.7);
+    perspective: 1500px;
+}  
+
+.dcursor {
+    cursor: no-drop !important;
+}
+
+.throg {
+    text-decoration: line-through !important;
+}
+
+.modal-header{
+    background-color:rgb(164, 197, 235);
+}
+
+.trasladosModalClass .modal-lg {
+    max-width: 90%;
+    max-height: 90%;
+  }

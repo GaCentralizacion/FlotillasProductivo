@@ -1,0 +1,25 @@
+{
+    "$id": "obtener_vines_asignados_bpro_oc.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la cotización"
+        },
+        "idEmpresa": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de la empresa"
+        },
+        "idSucursal": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de la sucursal"
+        }
+    }
+}

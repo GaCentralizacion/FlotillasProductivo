@@ -1,0 +1,80 @@
+<div>
+  <h1 class="general-titles">Gestión de Flotillas</h1>
+</div>
+<app-direccion-flotilla-select #flotillaSelect></app-direccion-flotilla-select>
+
+<div class="col-md-12" style="position: relative;margin-top: 70px;">
+  <div class="w-100 d-flex flex-row-reverse" style="position: absolute;z-index:3;top: -30px;padding-right: 25px;">
+    <button (click)="exportExcel()" class="btn btn-primary">
+      <i class="fa fa-file-excel"></i>
+    </button>
+  </div>
+  <div class="inner-addon left-addon">
+    <i class="fa fa-search"></i>
+    <input type="text" (keyup)='filterDatatable($event)' placeholder="Búsqueda" />
+  </div>
+  <ngx-datatable #table [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+    class="bootstrap mt-5" [columns]="columns" [columnMode]="'force'" [limit]="10" [headerHeight]="50"
+    [footerHeight]="50" [rowHeight]="'auto'" [rows]="cotizaciones">
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Gestionar"
+      prop="idCotizacion">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <a href="" title="Gestionar" (click)="detalleCotizacion($event, row, irCotizacion)">
+          <i class="fas fa-clipboard-list"></i>
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Folio"
+      prop="idCotizacion"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="2" name="Licitación"
+      prop="idLicitacion"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Cliente"
+      prop="nombreCliente"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Marca"
+      prop="idMarca"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Fecha"
+      prop="fechaModificacionEH">
+      </ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Empresa"
+      prop="nombreEmpresa"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="5" name="Sucursal"
+      prop="nombreSucursal"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Cantidad"
+      prop="unidades"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="6" name="Estatus"
+      prop="status">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <div [ngClass]="{'BLUE': row.status === 'PEDIDO GENERADO', 'ORANGE': row.status === 'ORDENES DE COMPRA PENDIENTES'
+        , 'GREEN': row.status === 'APROBADA', 'PURPLE': row.status === 'ORDENES DE COMPRA COMPLETADAS'
+        , 'ORANGERED': row.status === 'FACTURADO', 'YELLOWGREEN': row.status.indexOf('(') >= 0
+        , 'BLACK': row.status === 'CANCELADA'}">
+          <b>
+            {{row.status}}
+          </b>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>
+<ng-template #irCotizacion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Cotización Cancelada</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>Las cotizaciones canceladas solo podrar ser consultadas en modo lectura desde las cotizaciones.</label>
+          <br>
+          Consultar cotización: <a href="" title="Consultar" (click)="cotizacionesDetalle(irCotizacion)">
+            {{consultarCotizacion.idCotizacion}}
+          </a>
+        </div>
+      </div>      
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning modal-btn"
+      (click)="modal.close(false)">Cerrar</button>    
+  </div>
+</ng-template>

@@ -1,0 +1,7 @@
+{
+    "$id": "cotizador_grupo_accesorio_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "cotizacion_grupo_accesorio.schema.json"
+    }
+}

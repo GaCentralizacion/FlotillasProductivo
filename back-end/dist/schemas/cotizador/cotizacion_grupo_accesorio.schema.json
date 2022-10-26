@@ -1,0 +1,79 @@
+{
+	"$id": "cotizacion_grupo_accesorio.schema.json",
+	"type": "object",
+	"required": [
+		"idEncPaqueteAccesorio",
+		"idDetPaqueteAccesorio",
+		"idAccesorioNuevo",
+		"nombre",
+		"idTipoProveedor",
+		"idProveedor",
+		"nombreProveedor",
+		"idParte",
+        "modeloAnio",
+        "cantidad",
+		"costo",
+		"precio",
+		"idUsuarioModificacion",
+		"fechaModificacion"
+	],
+	"properties": {
+        "idEncPaqueteAccesorio": {
+            "type": "integer",
+            "description": "Identificador del paquete de accesorio"
+        },
+        "idDetPaqueteAccesorio": {
+            "type": "integer",
+            "description": "Identificador de accesorio del paquete"
+        },
+        "idAccesorioNuevo": {
+            "type": "integer",
+            "description": "Identificador de accesorio nuevo"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "idTipoProveedor": {
+            "type": "string",
+            "description": "Identificador del tipo de proveedor"
+        },
+        "idProveedor": {
+            "type": "integer",
+            "description": "Identificador de proveedor"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre del proveedor"
+        },
+        "idParte": {
+            "type": "string",
+            "description": "Identificador de parte"
+        },
+        "modeloAnio": {
+            "type": "string",
+            "description": "Modelo y año"
+        },
+        "cantidad": {
+            "type": "integer",
+            "description": "Cantidad de accesorios"
+        },
+        "costo": {
+            "type": "integer",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "integer",
+            "description": "Precio"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador del usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificacion del registro",
+            "format": "date-time"
+        }
+    }
+}

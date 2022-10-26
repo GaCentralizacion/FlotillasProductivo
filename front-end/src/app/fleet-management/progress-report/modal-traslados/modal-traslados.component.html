@@ -1,0 +1,375 @@
+<div style="height: 90%;">
+  <div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+    <i style="color: white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+  </div>
+  <div style="float: right;">
+    <button (click)="cancel()" class="btn btn-warning" style="margin: 10px">
+      Cerrar
+    </button>
+  </div>
+  <div style="width: 100%;padding: 5px">
+    <ngb-tabset [justify]="'start'" [activeId]="tabActiva" #ctdTabset="ngbTabset">
+      <!--"Traslados de Cotización" -->
+      <ngb-tab title="Traslados de Cotización" id="1">
+        <ng-template ngbTabContent>
+          <app-transfer [bProStatus]="bProStatus"></app-transfer>
+        </ng-template>
+      </ngb-tab>
+      <!--"Asignación de Traslados" -->
+      <ngb-tab title="Asignación de Traslados" id="3">
+        <ng-template ngbTabContent>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <div>
+                  <!--Accordion wrapper-->
+                  <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card -->
+                    <div class="card">
+                      <!-- Card header -->
+                      <div class="card-header" role="tab" id="headingOne1">
+                        <!--a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false"
+                          aria-controls="collapseOne1"-->
+                        <div style="display: inline-block;">
+                          <div style="display: inline-block;">
+                            <h5 class="mb-0">
+                              Asignar traslados <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                          </div>
+                          <div class="col-md-3">
+                            <small>Traslados</small>
+                            <ng-select placeholder="Seleccionar catálogo" [items]="catalogos" bindLabel="linea" bindValue="idUnidadBpro"
+                              (change)=catalogoOnChange($event)>
+                              <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                <span>{{ item.linea + ' - ' + item.idUnidadBpro }}</span>
+                              </ng-template>
+                              <ng-template ng-label-tmp let-item="item">
+                                <span>{{ item.linea + ' ' + item.idUnidadBpro }}</span>
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                        </div>
+                        <!--/a-->
+                      </div>
+                      <ngx-datatable [messages]="{ emptyMessage: 'Sin resultados.', selectedMessage: 'Seleccionados' }"
+                        class='bootstrap material' style="height: 50%; overflow-y:visible" [headerHeight]="15"
+                        [rows]="unidades" [selectAllRowsOnPage]="false" [columnMode]="'force'" [selected]="selected"
+                        [selectionType]="SelectionTypeUnidad.single" (activate)="onActivateUnidad($event)"
+                        (select)="onSelectUnidad($event)" [rowHeight]="40" [scrollbarV]="true" #groupTable>
+                        <ngx-datatable-column [width]="2">
+                          <ng-template ngx-datatable-header-template let-value="value" let-selectFn="selectFn">
+                            <input type="checkbox" [checked]="allRowsSelectedX" (change)="selectFnx()" />
+                          </ng-template>
+                          <ng-template ngx-datatable-cell-template let-value="value" let-row="row"
+                            let-isSelected="isSelected">
+                            <input type="checkbox" [checked]="row.isSelected"
+                              (change)="onCheckboxChangeX($event, row)" />
+                          </ng-template>
+                          <!-- [disabled]="!row.vin || row.idCotizacionTraslado || row.idCotizacionTrasladoPost" -->
+                        </ngx-datatable-column>
+                        <ngx-datatable-column headerClass="font-weight-bold" name="Grupo Unidad" [resizeable]="false"
+                          [flexGrow]="2" [width]="5" cellClass="small" prop="idGrupoUnidad">
+                          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <div
+                              [ngClass]="{'unidadSelected': row.idCotizacionTrasladoPost === idTrasladoTrasladoSelected}">
+                              <b>{{row.idGrupoUnidad}}</b>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column headerClass="font-weight-bold" name="Modelo" [resizeable]="false"
+                          [flexGrow]="2" [width]="5" cellClass="small" prop="modelo">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column headerClass="font-weight-bold" name="Año" [resizeable]="false"
+                          [flexGrow]="2" [width]="5" cellClass="small" prop="anio">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column headerClass="font-weight-bold" name="VIN" [resizeable]="false"
+                          [flexGrow]="2" [width]="15" cellClass="small" prop="vin">
+                          <ng-template ngx-datatable-header-template>
+                            <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchVin" placeholder="VIN"
+                              name="searchVin" (input)="filterHeader()">
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column headerClass="font-weight-bold" name="Traslado" [resizeable]="false"
+                          [flexGrow]="2" [width]="15" cellClass="small" prop="idCotizacionTraslado">
+                          <ng-template ngx-datatable-cell-template let-row="row">
+                            <div *ngIf="row.idCotizacionTrasladoPost">
+                              <button [disabled]="onlyRead"
+                                style="font-size: 2em;background-color:dodgerblue; border-width: 0px;"
+                                (click)="openModalEditComponent(0,row)">
+                                <i class="fas fa-search"></i>
+                              </button>
+                            </div>
+                            <div *ngIf="row.idCotizacionTraslado">
+                              <button [disabled]="true"
+                                style="font-size: 2em;background-color:goldenrod; border-width: 0px;"
+                                (click)="openModalEditComponent(0,row)">
+                                <i class="fas fa-car"></i>
+                              </button>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column headerClass="font-weight-bold" name="Unidades" [resizeable]="false"
+                          [flexGrow]="2" [width]="5" cellClass="small" prop="Unidades">
+                        </ngx-datatable-column>
+                      </ngx-datatable>
+                    </div>
+                    <!-- Accordion card -->
+                  </div>
+                  <!--Accordion wrapper-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <!--"Traslados Posteriores" -->
+      <ngb-tab title="Traslados Posteriores" [disabled]="!bProStatus.ucu_idpedidobpro" id="2">
+        <!--[disabled]="!bProStatus.ucu_idpedidobpro" id="2"-->
+        <ng-template ngbTabContent>
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <div>
+                  <!--Accordion wrapper-->
+                  <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card -->
+                    <div class="card">
+                      <!-- Card header -->
+                      <div class="card-header" role="tab" id="headingOne1">
+                        <!--a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false"
+                          aria-controls="collapseOne1"-->
+                        <div style="display: inline-block;">
+                          <div style="display: inline-block;">
+                            <h5 class="mb-0">
+                              Unidades / VIN's <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                          </div>
+                          <div style="display: inline-block;">
+                            <button (click)="openModalEditComponent(0,undefined)" class="btn btn-primary"
+                              style="margin: 10px">
+                              <i class="fas fa-plus"></i>Traslado
+                            </button>
+                            <button [disabled]="!activo" (click)="save()" class="btn btn-info" style="margin: 10px">
+                              <i class="fas fa-times"></i> Seleccionados
+                            </button>
+                          </div>
+                        </div>
+                        <!--/a-->
+                      </div>
+                      <!-- Card body -->
+                      <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+                        data-parent="#accordionEx">
+                        <div class="card-body">
+                          <div>
+                            <div class="btn-group dropright">
+                              <button type="button" class="btn btn-secondary">
+                                Filtros
+                              </button>
+                              <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Filtros</span>
+                              </button>
+                              <div class="dropdown-menu">
+                                <!-- Dropdown menu links -->
+                                <div *ngFor="let grupo of gruposUnidad">
+                                  <input type="checkbox" [checked]="filtroSeleccionado(grupo)"
+                                    (change)="fitraGrupo(grupo,$event)">Grupo {{grupo}}
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="filtroRadios" id="rdFiltroTodos"
+                                    value="1" (change)="cambioFiltroRadio($event)" [checked]="radioFiltro == value">
+                                  <label class="form-check-label" for="rdFiltroTodos">
+                                    Todos
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="filtroRadios" id="rdFiltroSelected"
+                                    value="2" (change)="cambioFiltroRadio($event)" [checked]="radioFiltro == value">
+                                  <label class="form-check-label" for="rdFiltroSelected">
+                                    Seleccionados
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="filtroRadios"
+                                    id="rdFiltroNoSelected" value="3" (change)="cambioFiltroRadio($event)"
+                                    [checked]="radioFiltro == value">
+                                  <label class="form-check-label" for="rdFiltroNoSelected">
+                                    No Seleccionados
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <button (click)="limpiaFiltros()" class="btn btn-info" style="margin: 10px">
+                                    Quitar Filtros
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <ngx-datatable [messages]="{
+                            emptyMessage: 'Sin resultados.',
+                            selectedMessage: 'Seleccionados'
+                          }" class='bootstrap material' style="height: 50%; overflow-y:visible" [headerHeight]="15"
+                            [rows]="unidades" [selectAllRowsOnPage]="false" [columnMode]="'force'" [selected]="selected"
+                            [selectionType]="SelectionTypeUnidad.single" (activate)="onActivateUnidad($event)"
+                            (select)="onSelectUnidad($event)" [rowHeight]="40" [scrollbarV]="true" #groupTable>
+                            <ngx-datatable-column [width]="2">
+                              <ng-template ngx-datatable-header-template let-value="value" let-selectFn="selectFn">
+                                <input type="checkbox" [checked]="allRowsSelectedX" (change)="selectFnx()" />
+                              </ng-template>
+                              <ng-template ngx-datatable-cell-template let-value="value" let-row="row"
+                                let-isSelected="isSelected">
+                                <input type="checkbox" [checked]="row.isSelected"
+                                  (change)="onCheckboxChangeX($event, row)" />
+                              </ng-template>
+                              <!-- [disabled]="!row.vin || row.idCotizacionTraslado || row.idCotizacionTrasladoPost" -->
+                            </ngx-datatable-column>
+                            <ngx-datatable-column headerClass="font-weight-bold" name="Grupo Unidad"
+                              [resizeable]="false" [flexGrow]="2" [width]="5" cellClass="small" prop="idGrupoUnidad">
+                              <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                                <div
+                                  [ngClass]="{'unidadSelected': row.idCotizacionTrasladoPost === idTrasladoTrasladoSelected}">
+                                  <b>{{row.idGrupoUnidad}}</b>
+                                </div>
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column headerClass="font-weight-bold" name="Modelo" [resizeable]="false"
+                              [flexGrow]="2" [width]="5" cellClass="small" prop="modelo">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column headerClass="font-weight-bold" name="Año" [resizeable]="false"
+                              [flexGrow]="2" [width]="5" cellClass="small" prop="anio">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column headerClass="font-weight-bold" name="VIN" [resizeable]="false"
+                              [flexGrow]="2" [width]="15" cellClass="small" prop="vin">
+                              <ng-template ngx-datatable-header-template>
+                                <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchVin"
+                                  placeholder="VIN" name="searchVin" (input)="filterHeader()">
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column headerClass="font-weight-bold" name="Traslado" [resizeable]="false"
+                              [flexGrow]="2" [width]="15" cellClass="small" prop="idCotizacionTraslado">
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                <div *ngIf="row.idCotizacionTrasladoPost">
+                                  <button [disabled]="onlyRead"
+                                    style="font-size: 2em;background-color:dodgerblue; border-width: 0px;"
+                                    (click)="openModalEditComponent(0,row)">
+                                    <i class="fas fa-search"></i>
+                                  </button>
+                                </div>
+                                <div *ngIf="row.idCotizacionTraslado">
+                                  <button [disabled]="true"
+                                    style="font-size: 2em;background-color:goldenrod; border-width: 0px;"
+                                    (click)="openModalEditComponent(0,row)">
+                                    <i class="fas fa-car"></i>
+                                  </button>
+                                </div>
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column headerClass="font-weight-bold" name="Unidades" [resizeable]="false"
+                              [flexGrow]="2" [width]="5" cellClass="small" prop="Unidades">
+                            </ngx-datatable-column>
+                          </ngx-datatable>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Accordion card -->
+                  </div>
+                  <!-- Accordion wrapper -->
+                </div>
+              </div>
+              <div class="col">
+                <div style="display: inline-block;">
+                  <h5>Traslados Configurados</h5>
+                </div>
+                <div>
+                  <ngx-datatable [messages]="{emptyMessage: 'Sin resultados.',selectedMessage: 'Seleccionados'}"
+                    class="bootstrap mt-1 expandable" [headerHeight]="30" [limit]="10" [selectAllRowsOnPage]="false"
+                    [rows]="traslados" [columnMode]="'force'" [rowHeight]="'auto'" [selected]="selected"
+                    [selectionType]="SelectionTypeTraslado.single" (activate)="onActivateTraslado($event)"
+                    (select)="onSelectTraslado($event)" #groupTable>
+                    <ngx-datatable-column headerClass="font-weight-bold" name="Unidades" [resizeable]="false"
+                      [flexGrow]="2" [width]="5" cellClass="small" prop="cantidad">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column headerClass="font-weight-bold" name="Origen" [resizeable]="false"
+                      [flexGrow]="2" [width]="15" cellClass="small" prop="nombreOrigen">
+                      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                        <div [ngClass]="{'unidadSelected': row.idCotizacionTraslado === idTrasladoUnidadSelected}">
+                          <b>{{row.nombreOrigen}}</b>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column headerClass="font-weight-bold" name="Destino" [resizeable]="false"
+                      [flexGrow]="2" [width]="15" cellClass="small" prop="nombreDestino">
+                      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                        <div [ngClass]="{'unidadSelected': row.idCotizacionTraslado === idTrasladoUnidadSelected}">
+                          <b>{{row.nombreDestino}}</b>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column headerClass="font-weight-bold" name="Sub Traslados" [resizeable]="false"
+                      [flexGrow]="2" [width]="5" cellClass="small" prop="Hijos">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column headerClass="font-weight-bold" name="Estatus" [resizeable]="false"
+                      [flexGrow]="2" [width]="5" cellClass="small" prop="estatus">
+                      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                        <div [ngClass]="{'BLUE': row.idEstatus === 1, 'GREEN': row.idEstatus === 2}">
+                          <b>{{row.estatus}}</b>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column headerClass="font-weight-bold" name="Acciones" [resizeable]="false"
+                      [width]="30" cellClass="small" prop="condiciones">
+                      <ng-template ngx-datatable-cell-template let-row="row" prop="idCotizacionTraslado">
+                        <button [disabled]="onlyRead" *ngIf="row.idEstatus === 1"
+                          style="font-size: 2em;background-color:darkolivegreen; border-width: 0px;"
+                          (click)="openModalEditComponent(1,row)">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button [disabled]="onlyRead"
+                          style="font-size: 2em;background-color:darkslategray; border-width: 0px;"
+                          (click)="openModalDelete(row,eliminarTrasladoModal)">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <!--button [disabled]="onlyRead" *ngIf="row.idEstatus === 1"
+                          style="font-size: 2em;background-color:dimgrey; border-width: 0px;"
+                          (click)="openModalEditComponent(row)">
+                          <i class="fas fa-share"></i>
+                        </button-->
+                        <button [disabled]="onlyRead" *ngIf="row.idEstatus === 2"
+                          style="font-size: 2em;background-color:dodgerblue; border-width: 0px;"
+                          (click)="openModalEditComponent(0,row)">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+                <div style="display: inline-block;">
+                  <button class="btn btn-info" style="margin: 10px" (click)="enviaTrasladosBPRO()">
+                    Mandar Traslados a BPRO
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+
+    </ngb-tabset>
+  </div>
+</div>
+<ng-template #eliminarTrasladoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar Traslado</h4>
+  </div>
+  <div class="modal-body">
+    <div>
+      Desea eliminar el traslado seleccionado?
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="eliminarTraslado()">Eliminar</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.dismiss('Cross click')">Cerrar</button>
+  </div>
+</ng-template>

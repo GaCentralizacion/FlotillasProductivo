@@ -1,0 +1,14 @@
+{
+    "$id": "cambia_status_ordenes_compra_pendientes.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotizacion"
+        }
+    }
+}

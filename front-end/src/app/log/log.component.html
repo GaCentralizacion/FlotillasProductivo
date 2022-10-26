@@ -1,0 +1,29 @@
+<div>
+  <h1 class="general-titles">Logs y Auditoría</h1>
+</div>
+
+<div class="container-fluid">
+  <!-- Inicio container-fluid -->
+  <nav>
+    <!-- Inicio nav -->
+    <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" id="nav-log-tab" data-toggle="tab" href="#nav-log" role="tab"
+        aria-controls="nav-log" aria-selected="true">Log General</a>
+      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+        aria-controls="nav-profile" aria-selected="false">Auditar</a>
+    </div>
+  </nav><!-- Fin nav -->
+
+  <div class="tab-content" id="nav-tabContent">
+    <!-- Inicio Contenedor de pestañas -->
+    <div class="tab-pane fade show active" id="nav-log" role="tabpanel" aria-labelledby="nav-log-tab">
+      <!-- Inicio Contenedor de pestañas Log General  -->
+      <app-general-log></app-general-log>
+    </div><!-- Fin Contenedor de pestañas Log General  -->
+
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <app-audit></app-audit>
+    </div><!-- Final Contenedor de pestañas Auditar  -->
+
+  </div><!-- Fin Contenedor de pestañas -->
+</div><!-- Fin container-fluid -->

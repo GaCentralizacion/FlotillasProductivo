@@ -1,0 +1,25 @@
+{
+    "$id": "facturacion_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "vin",
+        "unidadFacturada"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la Cotización"
+        },
+        "vin": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "VIN"
+        },
+        "unidadFacturada": {
+            "type": "boolean",
+            "description": "Estatus de unidad facturada"
+        }
+    }
+}

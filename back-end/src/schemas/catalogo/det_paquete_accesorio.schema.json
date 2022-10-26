@@ -1,0 +1,66 @@
+{
+    "$id": "det_paquete_accesorio.schema.json",
+    "type": "object",
+    "required": [
+        "nombre",
+        "costo",
+        "precio"
+    ],
+    "properties": {
+        "idEncPaqueteAccesorio": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del paquete de accesorios"
+        },
+        "idDetPaqueteAccesorio": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del item del paquete"
+        },
+        "idAccesorioNuevo": {
+            "type": "integer",
+            "description": "Identificador de accesorio nuevo"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "idTipoProveedor": {
+            "type": "string",
+            "description": "Identificador de tipo de proveedor"
+        },
+        "idProveedor": {
+            "type": "integer",
+            "description": "Identificador de proveedor"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre de proveedor"
+        },
+        "idParte": {
+            "type": "string",
+            "description": "Identificador de parte"
+        },
+        "modeloAnio": {
+            "type": "string",
+            "description": "Modelo y año"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

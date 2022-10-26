@@ -1,0 +1,19 @@
+{
+    "$id": "empresa.schema.json",
+    "type": "object",
+    "required": [
+        "idEmpresa",
+        "nombre"
+    ],
+    "properties": {
+        "idEmpresa": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Empresa"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de la Empresa"
+        }
+    }
+}

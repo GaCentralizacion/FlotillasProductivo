@@ -1,0 +1,204 @@
+<div style="width: 100%;padding: 20px">
+
+    <h4>Unidades disponibles</h4>
+    <hr>
+    <ngx-datatable
+    [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+    *ngIf="unidadesNuevas"
+    class="bootstrap mt-5 expandable"
+    [headerHeight]="50"
+    [columnMode]="'flex'"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [limit]="10"
+    [selectAllRowsOnPage]="false"
+    [rows]="unidadesNuevas"
+    [columnMode]="'force'"
+    [selectionType]="'checkbox'"
+    [scrollbarH]="true"
+    [selected]="selectedRows"
+    #groupTable>
+
+
+        <ngx-datatable-column 
+        [width]="30"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false">
+
+        <ng-template
+            ngx-datatable-cell-template
+            let-row="row"
+            let-isSelected="isSelected"
+            let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+        <input type="checkbox" [checked]="row.isSelected" [disabled]="(!isMissingVin() || getAvailable()) && !row.isSelected"  (change)="onCheckboxChange($event, row)"
+        name="dinamico" />    
+        <!--input type="checkbox" [checked]="isSelected" (change)="onCheckboxChange($event, row)" /-->
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="SelectAll" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="SelectAll">
+            <ng-template
+                ngx-datatable-header-template
+                let-value="value"
+                let-row="row"
+                let-allRowsSelected="allRowsSelected"
+            >
+                <div>Todos</div>
+                <input type="checkbox" (change)="selectFn()">
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="IdCotizacion" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+        prop="idCotizacion">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <div>Id Cotización</div>
+            <input type="text" (input)="filterHeader($event)" name="idCotizacion" [(ngModel)]="filterMarca">
+        </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Marca" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="marca">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Marca</div>
+                <input type="text" (input)="filterHeader($event)" name="marca" [(ngModel)]="filterMarca">
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Catálogo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="catalogo">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Cat&aacute;logo</div>
+                <input type="text" (input)="filterHeader($event)" name="catalogo" [(ngModel)]="filterCatalogo">
+            </ng-template>
+
+
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Año" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="anio">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Año</div>
+                <input type="text" (input)="filterHeader($event)" name="ano" [(ngModel)]="filterAno">
+            </ng-template>
+
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Antiguedad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="antiguedad">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Antiguedad</div>
+                <input type="text" (input)="filterHeader($event)" name="antiguedad" [(ngModel)]="filterAntiguedad">
+            </ng-template>
+
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Segmento" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="segmento">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Segmento</div>
+                <input type="text" (input)="filterHeader($event)" name="segmento" [(ngModel)]="filterSegmento">
+            </ng-template>
+
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Clase" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="clase">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Clase</div>
+                <input type="text" (input)="filterHeader($event)" name="clase" [(ngModel)]="filterClase">
+            </ng-template>
+
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column name="Descripcion" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="descripcion">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Descripci&oacute;n</div>
+                <input type="text" (input)="filterHeader($event)" name="desc" [(ngModel)]="filterDesc">
+            </ng-template>
+
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Agencia" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="agencia">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Agencia</div>
+                <input type="text" (input)="filterHeader($event)" name="agencia" [(ngModel)]="filterAgencia">
+            </ng-template>
+
+
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tipo Compra" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="clasificacionTipoCompra">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Tipo Compra</div>
+                <input type="text" (input)="filterHeader($event)" name="compra" [(ngModel)]="filterCompra">
+            </ng-template>
+
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Vin" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="vin">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Vin</div>
+                <input type="text" (input)="filterHeader($event)" name="vin" [(ngModel)]="filterVin">
+            </ng-template>
+
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column name="Modelo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="modelo">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div>Modelo</div>
+                <input type="text" (input)="filterHeader($event)" name="modelo" [(ngModel)]="filterModelo">
+            </ng-template>
+
+
+
+
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Color Int." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="colorInterior">
+
+            <ng-template let-column="Color Int." ngx-datatable-header-template>
+                <div>Color Int</div>
+                <input type="text" (input)="filterHeader($event)" name="int" [(ngModel)]="filterInt">
+            </ng-template>
+
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Color Ext." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="colorExterior">
+
+            <ng-template let-column="Color Ext." ngx-datatable-header-template>
+                <div>Color Ext</div>
+                <input type="text" (input)="filterHeader($event)" name="ext" [(ngModel)]="filterExt">
+            </ng-template>
+
+
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+
+
+</div>
+
+<div class="d-flex flex-row-reverse">
+    <button (click)="cancel()" class="btn btn-warning" style="margin: 10px">Cancelar</button>
+    <button [disabled]="!activo" (click)="save()" class="btn btn-primary" style="margin: 10px">Aceptar</button>
+</div>

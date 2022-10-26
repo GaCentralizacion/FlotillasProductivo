@@ -1,0 +1,7 @@
+{
+    "$id": "envia_notificaciones_array.schema.json",
+    "type": "object",
+    "items": {
+        "$ref": "envia_notificaciones.schema.json"
+    }
+  }

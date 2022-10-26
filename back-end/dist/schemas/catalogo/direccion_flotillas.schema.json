@@ -1,0 +1,19 @@
+{
+    "$id": "direccion_flotillas.schema.json",
+    "type": "object",
+    "required": [
+        "idDireccionFlotillas",
+        "nombre"
+    ],
+    "properties": {
+        "idDireccionFlotillas": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Dirección de Flotilas"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        }
+    }
+}

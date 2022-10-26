@@ -1,0 +1,7 @@
+{
+  "$id": "actualizar_bonificacion_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "./actualizar_bonificacion.schema.json"
+  }
+}

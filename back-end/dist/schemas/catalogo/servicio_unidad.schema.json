@@ -1,0 +1,31 @@
+{
+    "$id": "servicio_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idServicioUnidad",
+        "nombre"
+    ],
+    "properties": {
+        "idServicioUnidad": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Servicio de la unidad"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripción del servicio de la unidad"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        }
+    }
+}

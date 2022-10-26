@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <h4 class="modal-title">Unidades de Reservadas</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" style="width: 100%" class="material" [rows]="unidadesInteresGrupoUnidadFiltered" [columnMode]="'force'"
+    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true">
+    <ngx-datatable-column name="Id" prop="idInventario"></ngx-datatable-column>
+    <ngx-datatable-column name="Año" prop="anio">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Año</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input [(ngModel)]="searchAnio" class="width-input" type="text" placeholder="Año" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Modelo" prop="modelo">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Modelo</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input [(ngModel)]="searchModelo" class="width-input" type="text" placeholder="Modelo" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Color Interior" prop="colorInterior">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Color Interior</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input [(ngModel)]="searchColorInterior" class="width-input" type="text" placeholder="Color Interior" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Color Exterior" prop="colorExterior">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Color Exterior</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input [(ngModel)]="searchColorExterior" class="width-input" type="text" placeholder="Color Exterior" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Clase" prop="clase">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Clase</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input [(ngModel)]="searchClase" class="width-input" type="text" placeholder="Clase" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Catálogo" prop="catalogo">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Catálogo</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input [(ngModel)]="searchCatalogo" class="width-input" type="text" placeholder="Catálogo" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Precio" prop="precio"></ngx-datatable-column>
+    <ngx-datatable-column name="Costo" prop="costo"></ngx-datatable-column>
+    <ngx-datatable-column name="Marca" prop="marca"></ngx-datatable-column>
+    <ngx-datatable-column name="Antiguedad" prop="antiguedad"></ngx-datatable-column>
+    <ngx-datatable-column name="Segmento" prop="segmento"></ngx-datatable-column>
+    <ngx-datatable-column name="Versión" prop="descripcion"></ngx-datatable-column>
+    <ngx-datatable-column name="Agencia" prop="agencia"></ngx-datatable-column>
+    <ngx-datatable-column name="Clasificación de tipo de compra" prop="clasificacionTipoCompra"></ngx-datatable-column>
+    <ngx-datatable-column name="Vin" prop="vin"></ngx-datatable-column>
+    <ngx-datatable-column name="bd" prop="bd"></ngx-datatable-column>
+    <ngx-datatable-column name="Tipo de Base" prop="tipoBase"></ngx-datatable-column>
+    <ngx-datatable-column name="Tipo de Unidad" prop="tipoUnidad"></ngx-datatable-column>
+  </ngx-datatable>
+
+</div>
+<div class="modal-footer ">
+
+  <div class="form-row mt-2">
+    <div class="form-group col-md-12 text-align-right">
+      <button type="button" class="btn btn-primary text-white mr-2"
+        (click)="activeModal.close('Close click')">Aceptar</button>
+    </div>
+
+  </div>
+
+</div>

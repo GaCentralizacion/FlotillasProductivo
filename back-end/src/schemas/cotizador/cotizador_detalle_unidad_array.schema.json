@@ -1,0 +1,7 @@
+{
+    "$id": "cotizacion_detalle_unidad_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "cotizacion_detalle_unidad.schema.json"
+    }
+}

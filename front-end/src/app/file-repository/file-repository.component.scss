@@ -1,0 +1,98 @@
+@import "../styles/titles.scss";
+@import "../styles/texts.scss";
+
+.big-btn > i {
+  font-size: 1em;
+}
+
+.big-btn {
+  padding: 3px 6px;
+}
+
+.brand-name {
+  font-family: "Helvetica Neue";
+  font-weight: bold;
+}
+
+.brand-folder {
+  font-size: 2.6em;
+  text-align: center !important;
+}
+
+.selected-folder {
+  color: #000;
+}
+
+.not-selected-folder {
+  color: #bbb;
+}
+
+.folder {
+  cursor: pointer;
+}
+
+.year-title {
+  font-family: "Helvetica Neue";
+  color: #777;
+  font-size: 1.3em;
+}
+
+.years-container {
+  max-height: 10em;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.file {
+  color: #000;
+  font-size: 2.6em;
+  text-align: center !important;
+}
+
+.file-title {
+  font-family: "Helvetica Neue";
+  color: #777;
+  font-size: 1.3em;
+}
+
+.far.fa-file-excel {
+  color: #008000;
+}
+
+.far.fa-file-word {
+  color: #0087be;
+}
+
+.far.fa-file-excel ~ .file-name {
+  color: #008000;
+}
+
+.far.fa-file-word ~ .file-name {
+  color: #0087be;
+}
+
+.far.fa-file-pdf {
+  color: #ff0000;
+}
+
+.far.fa-file-pdf ~ .file-name {
+  color: #ff0000;
+}
+
+.file-name {
+  font-family: "Helvetica Neue";
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.file-item {
+  cursor: pointer;
+}
+
+.modal-btn {
+  width: 8em;
+}
+
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: "Archivo";
+}

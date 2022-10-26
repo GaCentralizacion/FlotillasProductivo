@@ -1,0 +1,7 @@
+{
+    "$id": "empresa_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "empresa.schema.json"
+    }
+}

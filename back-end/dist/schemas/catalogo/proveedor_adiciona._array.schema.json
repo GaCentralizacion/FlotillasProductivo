@@ -1,0 +1,7 @@
+{
+    "$id": "proveedor_adicional_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./proveedor_adicional.schema.json"
+    }
+}

@@ -1,0 +1,231 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<div class="title-area">
+  <p class="general-titles">Solicitud <span *ngIf="idSolicitudCotizacion">Folio {{ idSolicitudCotizacion }}</span></p>
+</div>
+<div class="container-fluid">
+  <div class="mt-4">
+    <span>Información de la solicitud del cliente</span>
+  </div>
+  <form class="row" [formGroup]="form">
+    <div class="col-md-12 mt-4">
+      <p><strong>Datos de la solicitud</strong></p>
+      <hr>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6 mt-2'>
+      <small class="title-span">Filtro</small>
+      <ng-select #filtroNgSelect [items]="filtros" bindLabel="text" formControlName="filtro" bindValue="value"
+        placeholder="Seleccione" name="filtros" (change)="clearForm()" notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6 mt-2'>
+      <small class="title-span">Flotilla</small>
+      <app-direccion-flotilla-select [disabled]="solicitudCotizacion" clearStyles=true [showLabel]=false>
+      </app-direccion-flotilla-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Marca</small>
+      <select disabled *ngIf="solicitudCotizacion" formControlName="idMarca" class="browser-default custom-select">
+        <option [value]="item.idMarca" *ngFor="let item of marcas">{{item.idMarca}}</option>
+      </select>
+      <select *ngIf="!solicitudCotizacion" formControlName="idMarca" class="browser-default custom-select">
+        <option [value]="item.idMarca" *ngFor="let item of marcas">{{item.idMarca}}</option>
+      </select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Empresa</small>
+      <ng-select #empresaNgSelect formControlName="empresa" [items]="empresas" bindLabel="nombre" bindValue="idEmpresa"
+        placeholder="Seleccione empresa" name="empresas" notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (form.controls.sucursal.errors?.required) && form.touched}">
+      <small class="title-span">Sucursal</small>
+      <ng-select #sucursalNgSelect formControlName="sucursal" [items]="sucursales" bindLabel="nombre"
+        bindValue="idSucursal" placeholder="Seleccione sucursal" name="surcursales" notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Cliente final</small>
+      <input *ngIf="solicitudCotizacion" disabled class="form-control" formControlName="idClienteFinal">
+      <div *ngIf="!solicitudCotizacion" class="d-flex">
+        <ng-select #clienteFinalSelected formControlName="idClienteFinal" placeholder="Seleccione cliente"
+          [items]="clientesFinales" bindLabel="nombreCompleto" bindValue="idCliente" name="cliente"
+          (search)="clientesOnSearch($event)" [ngClass]="{ 'is-invalid': submitted && f.form.errors }"
+          [notFoundText]="'Sin información'" class="select-search">
+          <ng-template ng-option-tmp let-item="item">
+            <div title="{{item.nombreCompleto}}">{{item.nombreCompleto}}</div>
+          </ng-template>
+        </ng-select>
+        <div class="icon-search" (click)="getClientes(2)">
+          <i class="fa"
+            [ngClass]="{'fa-circle-notch fa-spin': isLoadingClienteFinal, 'fa-search': !isLoadingClienteFinal}"
+            style="color: gray"></i>
+        </div>
+      </div>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Cliente a facturar</small>
+      <input *ngIf="solicitudCotizacion" disabled class="form-control" formControlName="idClienteFactura">
+      <div *ngIf="!solicitudCotizacion" class="d-flex">
+        <ng-select #clienteFacturarSelected formControlName="idClienteFactura" placeholder="Seleccione cliente"
+          [items]="clientesFacturar" bindLabel="nombreCompleto" bindValue="idCliente" name="cliente"
+          (search)="clientesOnSearch($event)" [ngClass]="{ 'is-invalid': submitted && f.form.errors }"
+          [notFoundText]="'Sin información'" class="select-search">
+          <ng-template ng-option-tmp let-item="item">
+            <div title="{{item.nombreCompleto}}">{{item.nombreCompleto}}</div>
+          </ng-template>
+        </ng-select>
+        <div class="icon-search" (click)="getClientes(3)">
+          <i class="fa"
+            [ngClass]="{'fa-circle-notch fa-spin': isLoadingClienteFinal, 'fa-search': !isLoadingClienteFinal}"
+            style="color: gray"></i>
+        </div>
+      </div>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6' style="padding-top: 25px;padding-left: 41px;">
+      <input type="checkbox" formControlName="adjudicado" class="custom-control-input" id="adjudicado" name="checkbox">
+      <label class="custom-control-label" for="adjudicado">Adjudicado</label>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Estatus</small><br>
+      <select formControlName="estatusCotizacion" class="browser-default custom-select">
+        <option [value]="item.estatus" *ngFor="let item of estatusSolicitud">{{item.estatus}}</option>
+      </select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Orden de compra del cliente</small>
+      <input class="form-control" name="ordenCompra" formControlName="ordenCompra">
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Financiera</small>
+      <ng-select formControlName="idFinanciera" [items]="financieras" bindLabel="nombre"
+        bindValue="idFinanciera" placeholder="Seleccione financiera" name="financieras" notFoundText="Sin información">
+      </ng-select>
+      <!-- <small class="title-span">Financiera</small><br>
+      <select formControlName="idFinanciera" class="browser-default custom-select">
+        <option [value]="item.idFinanciera" *ngFor="let item of financieras">{{item.nombre}}</option>
+      </select> -->
+    </div>
+    <div class='col-sm-12 col-md-12 col-xl-12'>
+      <button type="button" *ngIf="!idSolicitudCotizacion" [disabled]="!form.valid" (click)="addSolicitud()"
+        class="btn btn-primary float-right">Guardar solicitud</button>
+      <button type="button" *ngIf="idSolicitudCotizacion" [disabled]="!form.valid" (click)="updateSolicitud()"
+        class="btn btn-warning float-right">Editar solicitud</button>
+      <button type="button" [disabled]="!idSolicitudCotizacion" (click)="addVehiculo()"
+        class="btn btn-primary float-right mr-2">Agregar unidad</button>
+      <button type="button" [disabled]="!idSolicitudCotizacion || !selected" (click)="configurarPedido()"
+        class="btn btn-success float-right mr-2">Configurar pedido</button>
+      <button type="button" [disabled]="!idSolicitudCotizacion || !selected" (click)="assign()"
+        class="btn btn-primary float-right mr-2">Recepción</button>
+      <!-- <button type="button" [disabled]="!idSolicitudCotizacion" class="btn btn-warning float-right mr-2"
+        (click)="facturar()">Facturar</button> -->
+    </div>
+  </form>
+  <p><strong>Grupo de unidades</strong></p>
+  <hr>
+  <ngx-datatable *ngIf="!isLoading" #table
+    [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap"
+    [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'" [limit]="10" [headerHeight]="50"
+    [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable" [rows]="vehiculos" (select)="onSelect($event)"
+    [selectionType]="SelectionType.single">
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="2" name="Catálogo"
+      prop="idCatalogo"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Año" prop="anio">
+    </ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Versión"
+      prop="version"></ngx-datatable-column>
+    <!-- <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Color Int."
+      prop="nombreColorInt"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Color Ext."
+      prop="nombreColorExt"></ngx-datatable-column> -->
+    <!-- <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Clase"
+      prop="clase"></ngx-datatable-column> -->
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Modelo"
+      prop="modeloNombre"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Precio">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <div>
+          <span>{{ row.precioLista | currency }}</span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Cantidad"
+      prop="cantidad"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="EntregaEstimada"
+      prop="entregaEstimada"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Entregadas"
+      prop="entregadas"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Fac. Planta"
+      prop="facturadasPlanta"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Fac. Cliente"
+      prop="facturadasCliente"></ngx-datatable-column>
+    <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <div>
+          <!-- <b style="color: red;cursor: pointer;" (click)="remove(row)">Quitar</b> -->
+          <img class="img-delete" (click)="deleteSolicitud(row)"
+            src="assets/images/fontawesomeicons/trash-can-solid.svg" alt="">
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+  <form [formGroup]="formFacturar" class="row" *ngIf="showFormFacturar">
+    <div class="col-12 mt-2">
+      <p><strong>Datos para facturar</strong></p>
+      <hr>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <small class="title-span">Condición de pago</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Condición de pago</small>
+      <ng-select #condicionNgSelect formControlName="idCondicion" [items]="condiciones" bindLabel="nombre"
+        bindValue="idCondicion" placeholder="Seleccione condicion" name="condiciones"
+        (change)=condicionesOnChange($event) notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <small class="title-span">Financiera</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Financiera</small>
+      <ng-select #financieraNgSelect formControlName="idFinanciera" [items]="financieras" bindLabel="nombre"
+        bindValue="idFinanciera" placeholder="Seleccione financiera" name="financieras"
+        (change)=financierasOnChange($event) notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <small class="title-span">CFDI</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">CFDI</small>
+      <ng-select #cfdiNgSelect formControlName="idCfdi" [items]="cfdi" bindLabel="nombre" bindValue="idCfdi"
+        placeholder="Seleccione cfdi" name="cfdi" (change)=cfdiOnChange($event) notFoundText="Sin información">
+      </ng-select>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <small class="title-span">Tipo de Venta</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Tipo de Venta</small>
+      <ng-select #tipoNgSelect formControlName="idTipoVenta" [items]="tiposVenta" bindLabel="label"
+        bindValue="idTipoVenta" placeholder="Seleccione Tipo de Venta" name="surcursales" notFoundText="Sin información"
+        (change)=ventaOnChange($event)>
+      </ng-select>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <small class="title-span">Moneda</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Moneda</small>
+      <ng-select #monedaNgSelect formControlName="idMonedaVenta" [items]="monedas" bindLabel="nombre"
+        bindValue="idMonedaVenta" placeholder="Seleccione Moneda" name="financieras" notFoundText="Sin información"
+        (change)=monedaOnChange($event)>
+      </ng-select>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6">
+      <small class="title-span">Iva</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Iva</small>
+      <ng-select #ivaNgSelect formControlName="idIva" [items]="ivas" bindLabel="nombre" bindValue="idIva"
+        placeholder="Seleccione Iva" name="iva" notFoundText="Sin información" (change)=ivaOnChange($event)>
+      </ng-select>
+    </div>
+    <div class="col-12">
+      <button type="button" [disabled]="!idSolicitudCotizacion" class="btn btn-primary float-right mr-2"
+        (click)="saveCotizaciones()">Convertir a cotización de Flotillas</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,24 @@
+{
+    "$id": "cierre_cotizacion.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Cotizador",
+            "maxLength": 20
+        },
+        "numeroOrden": {
+            "type": "string",
+            "description": "Número de orden del cliente",
+            "maxLength": 50
+        },
+        "orden": {
+            "type": "string",
+            "description": "Archivo pdf de orden del cliente en codificación base64"
+        }
+    }
+}

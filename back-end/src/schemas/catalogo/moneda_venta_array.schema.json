@@ -1,0 +1,7 @@
+{
+    "$id": "moneda_venta_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "moneda_venta.schema.json"
+    }
+}

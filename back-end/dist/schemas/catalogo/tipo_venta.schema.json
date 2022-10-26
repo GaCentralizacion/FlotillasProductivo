@@ -1,0 +1,23 @@
+{
+    "$id": "tipo_venta.schema.json",
+    "type": "object",
+    "required": [
+        "idTipoVenta",
+        "nombre"
+    ],
+    "properties": {
+        "idTipoVenta": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Tipo de venta"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de tipo de venta"
+        },
+        "tipo": {
+            "type": "string",
+            "description": "Tipo"
+        }
+    }
+}

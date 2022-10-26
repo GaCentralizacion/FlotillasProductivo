@@ -1,0 +1,36 @@
+{
+    "$id": "ubicacion_traslado.schema.json",
+    "type": "object",
+    "required": [
+        "nombre",
+        "descripcion"
+    ],
+    "properties": {
+        "idUbicacionTraslado": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Almacen o Lugar donde se almacenan las unidades"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "descripcion corta"
+        },
+        "direccion": {
+            "type": "string",
+            "description": "direccion exacta de donde se encuentra delegacion|colonia|calle|numero"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

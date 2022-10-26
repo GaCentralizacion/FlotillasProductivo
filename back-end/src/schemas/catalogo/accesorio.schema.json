@@ -1,0 +1,35 @@
+{
+    "$id": "accesorio.schema.json",
+    "type": "object",
+    "required": [
+        "idParte",
+        "nombre"
+    ],
+    "properties": {
+        "idParte": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Accesorio"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "modeloAnio": {
+            "type": "string",
+            "description": "Año y modelo al que aplica el accesorio"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "existencia": {
+            "type": "integer",
+            "description": "Existencia"
+        }
+    }
+}

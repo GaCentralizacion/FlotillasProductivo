@@ -1,0 +1,7 @@
+{
+    "$id": "cotizador_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./aprobacionCredito.schema.json"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "$id": "grupo_chat.schema.json",
+    "type": "object",
+    "required": [
+        "idGrupoChat"
+    ],
+    "properties": {
+        "idGrupoChat": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de grupo de chat (número de cotización)"
+        },
+        "nombreGrupo": {
+            "type": "string",
+            "description": "Nombre del grupo"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        },
+        "contactos": {
+            "type": "array",
+            "description": "Contactos en el chat",
+            "items": {
+                "$ref": "contacto_chat.schema.json"
+            }
+        }
+    }
+}

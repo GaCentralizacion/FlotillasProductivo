@@ -1,0 +1,19 @@
+{
+    "$id": "moneda_venta.schema.json",
+    "type": "object",
+    "required": [
+        "idMonedaVenta",
+        "nombre"
+    ],
+    "properties": {
+        "idMonedaVenta": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Moneda de venta"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de moneda de venta"
+        }
+    }
+}

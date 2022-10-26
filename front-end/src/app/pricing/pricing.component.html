@@ -1,0 +1,63 @@
+<div>
+  <h1 class="general-titles">Cotizaciones</h1>
+
+  <app-direccion-flotilla-select #flotillaSelect></app-direccion-flotilla-select>
+</div>
+
+<div class="mid-header">
+  <button type="button" class="btn btn-primary" [disabled]="pricingManagerService.perfilSoloLectura" (click)="agregarNuevaCotizacion()">Agregar</button>
+</div>
+
+<div>
+  <div class="row">
+    <div class="col-md-12" style="position: relative;">
+      <div class="w-100 d-flex flex-row-reverse" style="position: absolute;top: 20px;padding-right: 25px;">
+        <button (click)="exportExcel()" class="btn btn-primary">
+          <i class="fa fa-file-excel"></i>
+        </button>
+      </div>
+      <div class="inner-addon left-addon">
+        <i class="fa fa-search"></i>
+        <input type="text" (keyup)='filterDatatable($event)' placeholder="Búsqueda" />
+      </div>
+      <ngx-datatable #table [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+        class="bootstrap mt-5" [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'"
+        [limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable"
+        [rows]="cotizaciones">
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Gestionar"
+          prop="idCotizacion">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a href="" title="Gestionar" (click)="abrirCotizacion($event, row)">
+              <i class="fas fa-clipboard-list"></i>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Folio"
+          prop="idCotizacion"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="2" name="Licitación"
+          prop="idLicitacion"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Cliente"
+          prop="nombreCliente"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Marca"
+          prop="idMarca"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Empresa"
+          prop="nombreEmpresa"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="5" name="Sucursal"
+          prop="nombreSucursal"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Cantidad"
+          prop="unidades"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="6" name="Estatus"
+          prop="status">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <div [ngClass]="{'BLUE': row.status === 'PEDIDO GENERADO', 'GREEN': row.status === 'APROBADA'
+            ,'PURPLE': row.status === 'ORDENES DE COMPRA COMPLETADAS', 'BROWN': row.status === 'EN PROCESO'
+            , 'ORANGERED': row.status === 'FACTURADO', 'YELLOWGREEN': row.status.indexOf('(') >= 0
+            , 'BLACK': row.status === 'CANCELADA'}">
+              <b>{{row.status}}</b>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>

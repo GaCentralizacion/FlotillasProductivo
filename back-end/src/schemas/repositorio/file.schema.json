@@ -1,0 +1,19 @@
+{
+    "$id": "file.schema.json",
+    "type": "object",
+    "required": [
+        "path",
+        "fileContent"
+    ],
+    "properties": {
+        "path": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Ruta del archivo o directorio"
+        },
+        "fileContent": {
+            "type": "string",
+            "description": "Contenido en codificación base 64"
+        }
+    }
+}

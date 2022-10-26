@@ -1,0 +1,19 @@
+{
+    "$id": "color_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idColor",
+        "nombre"
+    ],
+    "properties": {
+        "idColor": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Color"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre del color"
+        }
+    }
+}

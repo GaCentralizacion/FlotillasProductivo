@@ -1,0 +1,141 @@
+<div style="padding: 20px;">
+  <h4>Informaci&oacute;n</h4>
+</div>
+
+<div style="width: 100%;padding: 20px">
+    <ngb-tabset [justify]="'start'">
+        <ngb-tab title="Unidades">
+          <ng-template ngbTabContent>
+
+                <ngx-datatable   
+                [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" 
+                class="bootstrap mt-5 expandable" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+                [rowHeight]="'auto'" [limit]="10" [selectAllRowsOnPage]="false" [rows]="unidades" [columnMode]="'force'"
+                [selectionType]="'single'" [scrollbarH]="true" #groupTable>
+                
+              
+                <ngx-datatable-column name="Estatus" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                  prop="estatus">
+              
+                </ngx-datatable-column>
+              
+                <ngx-datatable-column name="Año" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="anio">
+              
+                </ngx-datatable-column>
+              
+                <ngx-datatable-column name="Modelo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="modelo">
+              
+                </ngx-datatable-column>
+              
+                <ngx-datatable-column name="Color Int." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                  prop="colorInterior">
+              
+                </ngx-datatable-column>
+              
+                <ngx-datatable-column name="Color Ext." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                  prop="colorExterior">
+              
+                </ngx-datatable-column>
+              
+                <ngx-datatable-column name="Clase" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="clase">
+              
+                </ngx-datatable-column>
+              
+                <ngx-datatable-column name="Catálogo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                  prop="catalogo">
+              
+                </ngx-datatable-column>                           
+
+                <ngx-datatable-column name="Cantidad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                prop="cantidad">
+            
+              </ngx-datatable-column>                           
+
+
+              </ngx-datatable>
+              
+
+
+          </ng-template>
+        </ngb-tab>
+      
+        <ngb-tab title="Accesorios">
+            <ng-template ngbTabContent>
+
+
+                    <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5 expandable" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+                    [rowHeight]="'auto'" [limit]="10" [selectAllRowsOnPage]="false" [rows]="accesorios" [columnMode]="'force'"
+                    [selectionType]="'single'" [scrollbarH]="true" #groupTable>
+
+                  <ngx-datatable-column name="Estatus" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                  prop="estatus">
+              
+                </ngx-datatable-column>
+              
+
+                  
+                    <ngx-datatable-column name="Cantidad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                      prop="cantidad">
+                      
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Nombre" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+                    prop="nombre">
+                    
+                  </ngx-datatable-column>
+
+                    
+                  </ngx-datatable>
+    
+
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Estatus cancelaciones" *ngIf="cancelaciones.length > 0">
+          <ng-template ngbTabContent>
+
+            <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5 expandable" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+            [rowHeight]="'auto'" [limit]="10" [selectAllRowsOnPage]="false" [rows]="cancelaciones" [columnMode]="'force'"
+            [selectionType]="'single'" [scrollbarH]="true" #groupTable>
+
+
+          <ngx-datatable-column name="Estatus" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+          prop="ifl_estatus">
+        </ngx-datatable-column>
+      
+          <ngx-datatable-column name="Descripción" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+          prop="descripcion">
+
+        </ngx-datatable-column>
+      
+            <ngx-datatable-column name="vin" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+              prop="ifl_vin">
+              
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Fecha solicitud" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="ifl_fechasolicitud">
+          </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Fecha proceso" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+            prop="ifl_fechaproceso">
+
+          </ngx-datatable-column>
+
+            
+          </ngx-datatable>
+
+  
+
+        </ng-template>
+      </ngb-tab>
+
+
+
+      </ngb-tabset>      
+</div>
+
+<div class="d-flex flex-row-reverse">
+    <button (click)="cancel()" class="btn btn-primary" style="margin: 10px">Aceptar</button>
+</div>

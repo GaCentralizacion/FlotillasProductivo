@@ -1,0 +1,38 @@
+{
+    "$id": "cliente_filter.schema.json",
+    "type": "object",
+    "required": [
+        "pagina",
+        "numeroRegistros"
+    ],
+    "properties": {
+        "pagina": {
+            "type": "integer",
+            "description": "Número de página"
+        },
+        "numeroRegistros": {
+            "type": "integer",
+            "description": "Número de registros"
+        },
+        "rfc": {
+            "type": "string",
+            "description": "RFC"
+        },
+        "nombreCompleto": {
+            "type": "string",
+            "description": "Nombre completo del cliente"
+        },
+        "idDireccionFlotillas": {
+            "type": "string",
+            "description": "Identificador de dirección de flotillas"
+        },
+        "idCfdiUnidades": {
+            "type": "string",
+            "description": "Identificador de CFDI de unidades"
+        },
+        "idCfdiAccesorios": {
+            "type": "string",
+            "description": "Identificador de CFDI de accesorios"
+        }
+    }
+}

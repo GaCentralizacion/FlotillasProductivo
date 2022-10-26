@@ -1,0 +1,26 @@
+{
+  "$id": "cancela_unidad_orden_compra.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idGrupoUnidad",
+      "idDetalleUnidad"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "IdCotizacion"
+      },
+      "idGrupoUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "idGrupoUnidad"
+    },
+    "idDetalleUnidad": {
+      "type": "number",
+      "uniqueItems": true,
+      "description": "idDetalleUnidad"
+  }
+  }
+}

@@ -1,0 +1,165 @@
+<div class="modal-header">
+  <h4 class="modal-title general-titles">Órdenes de Servicio / Paquetes</h4>
+</div>
+<div class="modal-body container-fluid">
+  <ngb-tabset [justify]="'start'" (tabChange)="tabChanged($event)">
+    <ngb-tab title="Órdenes de Servicio" id='serviciosUnidad'>
+      <ng-template ngbTabContent>
+        <div *ngIf="idGrupoUnidad != undefined">
+          <h3>Asignados</h3>
+          <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+            [rowHeight]="'auto'" [rows]="serviciosUnidadSinPaqueteGrupoFiltrados" limit="10">
+            <ngx-datatable-column cellClass="small" width="80" name="id" prop="idServicioUnidad" [flexGrow]="1"></ngx-datatable-column>
+            <ngx-datatable-column cellClass="small" name="Catálogo" prop="catalogo" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchCatalogo"
+                  placeholder="Búsqueda por Catálogo">
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column cellClass="small" name="Año" prop="anio" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchAnio"
+                  placeholder="Búsqueda por Año">
+              </ng-template>
+
+            </ngx-datatable-column>
+            <ngx-datatable-column cellClass="small" name="Nombre" prop="nombre" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchNombre"
+                  placeholder="Búsqueda por Nombre">
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column cellClass="small" name="Descripción" prop="descripcion" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchDescripcion"
+                  placeholder="Búsqueda por Descripción">
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column cellClass="small" [flexGrow]="1" name="Costo" prop="costo">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchCosto"
+                  placeholder="Búsqueda por Costo">
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <label class="form-check-label" for="headerCheck">{{value | currency:"MXN"}}</label>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column cellClass="small" [flexGrow]="1" name="Precio" prop="precio">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchPrecio"
+                  placeholder="Búsqueda por Precio">
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <label class="form-check-label" for="headerCheck">{{value | currency:"MXN"}}</label>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+          <hr>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <small>Catálogo</small>
+            <ng-select placeholder="Seleccionar catálogo" [items]="catalogos" bindLabel="linea" bindValue="idUnidadBpro"
+              (change)=catalogoOnChange($event)>
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                <span>{{ item.linea + ' - ' + item.idUnidadBpro }}</span>
+              </ng-template>
+              <ng-template ng-label-tmp let-item="item">
+                <span>{{ item.linea + ' ' + item.idUnidadBpro }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputSucursal">Año</small>
+            <input type="text" class="form-control" id="anio" [placeholder]="anio" [(ngModel)]="anioSelected"
+              [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="col-md-3 d-flex flex-column">
+            <span class="mt-auto">
+              <button [disabled]="!catalogoSelected || !anioSelected"
+                (click)="buscarServiciosUnidad()" class="btn btn-outline-dark">Buscar</button>
+            </span>
+          </div>
+        </div>
+        <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap col-md-12" [limit]="10" [headerHeight]="50" [columnMode]="'flex'"
+          [footerHeight]="50" [rowHeight]="'auto'" [rows]="allServiciosUnidad" [selectionType]="'checkbox'"
+          [selected]="serviciosUnidadSelected" (select)='onSelectServiciosUnidad($event)'>
+          <ngx-datatable-column cellClass="small" [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
+              let-onCheckboxChangeFn="onCheckboxChangeFn">
+              <input type="checkbox" [checked]="row.isSelected" (change)="onCheckboxChangeFn($event)" />
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column cellClass="small" width="80" name="id" prop="idServicioUnidad" [flexGrow]="1"></ngx-datatable-column>
+          <ngx-datatable-column cellClass="small" name="Nombre" prop="nombre" [flexGrow]="1">
+          </ngx-datatable-column>
+          <ngx-datatable-column cellClass="small" name="Descripción" prop="descripcion" [flexGrow]="1">
+          </ngx-datatable-column>
+          <ngx-datatable-column cellClass="small" [flexGrow]="1" name="Costo" prop="costo">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <label class="form-check-label" for="headerCheck">{{value | currency:"MXN"}}</label>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column cellClass="small" [flexGrow]="1" name="Precio" prop="precio">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <label class="form-check-label" for="headerCheck">{{value | currency:"MXN"}}</label>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Paquetes" id='paquetes'>
+      <ng-template ngbTabContent>
+        <div class="row">
+          <div *ngFor="let paqueteServicioUnidad of paquetesServicioUnidad; let i=index" class="col-md-3">
+            <div class="small-box bg-orange-active">
+              <div class="inner">
+                <div class="row">
+                  <div class="col-md-3 white">
+                    <h3>{{paqueteServicioUnidad.serviciosUnidad.length}}</h3>
+                  </div>
+                  <div class="col-md-9 d-flex flex-column">
+                    <p class="text-right">
+                      <span>
+                        <div class="form-check">
+                          <label class="form-check-label mr-4"
+                            for="check{{i}}">{{paqueteServicioUnidad.descripcion}}</label>
+                          <input [checked]="paqueteServicioUnidad.isSelected"
+                            (change)="onSelectPaquete(paqueteServicioUnidad)" type="checkbox" class="form-check-input"
+                            id="check{{i}}">
+                        </div>
+                      </span>
+                    </p>
+                    <h4 class="text-right mt-auto">
+                      {{paqueteServicioUnidad.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="icon" [ngbTooltip]="paqueteServicioUnidad.nombresDetalle" placement="bottom"
+                tooltipClass="tooltip-bg-gray">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="small-box-footer">
+                <h4>{{paqueteServicioUnidad.nombre}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-md-12 d-flex flex-column">
+      <span class="mt-auto mx-auto">
+        <button type="button" (click)="cancelar()" class="btn btn-warning mx-1">Cancelar</button>
+        <button *ngIf="activeId == 'serviciosUnidad'" type="button" (click)="guardarServiciosUnidad('A')"
+          class="btn btn-primary mx-1">Guardar</button>
+        <button *ngIf="activeId == 'paquetes'" type="button" (click)="guardarPaquetes('A')"
+          class="btn btn-primary mx-1">Guardar</button>
+      </span>
+    </div>
+  </div>
+</div>

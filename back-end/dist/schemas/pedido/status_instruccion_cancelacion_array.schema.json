@@ -1,0 +1,7 @@
+{
+  "$id": "status_instruccion_cancelacion_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "./status_instruccion_cancelacion.schema.json"
+  }
+}

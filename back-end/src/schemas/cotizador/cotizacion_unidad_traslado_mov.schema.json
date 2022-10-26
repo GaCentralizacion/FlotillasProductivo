@@ -1,0 +1,36 @@
+{
+    "$id": "cotizacion_unidad_traslado_mov.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idCotizacionTraslado"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "description": "Identificador de cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "description": "Identificador de grupo de unidad"
+        },
+        "idTraslado": {
+            "type": "integer",
+            "description": "Identificador del traslado"
+        },
+        "idCotizacionTraslado": {
+            "type": "string",
+            "description": "Identificador del cotizacion traslado"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador del usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificacion del registro",
+            "format": "date-time"
+        }
+    }
+}

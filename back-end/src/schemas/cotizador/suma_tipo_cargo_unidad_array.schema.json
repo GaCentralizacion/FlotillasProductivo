@@ -1,0 +1,7 @@
+{
+  "$id": "suma_tipo_cargo_unidad_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "suma_tipo_cargo_unidad.schema.json"
+  }
+}

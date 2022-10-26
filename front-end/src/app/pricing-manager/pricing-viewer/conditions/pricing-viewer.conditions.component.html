@@ -1,0 +1,13 @@
+<div style="padding: 20px">
+  <h1 class="general-titles">Condiciones de Entrega</h1>
+  <hr>
+  <angular-editor [placeholder]="'Condiciones de entrega...'" [config]="config" [(ngModel)]="htmlContent"></angular-editor>
+  <div class="col-md-12 mt-3 mb-3 container-b">
+    <button class="btn btn-primary p-2" (click)="save()">
+        Guardar
+    </button>
+    <button class="btn btn-warning p-2" (click)="cancel()">
+        Cancelar
+    </button>
+  </div>
+</div>

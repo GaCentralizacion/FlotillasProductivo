@@ -1,0 +1,62 @@
+<div class="modal-header">
+   <h4 class="general-titles" id="modal-basic-title">AGREGAR NUEVO ACCESORIO A CATALOGO SISCO      
+   </h4>
+</div>
+<div class="modal-body">
+   <div class="form-row">
+      <div class="col-md-2">
+         <small for="descripcion">Cantidad</small>
+         <input id="cantidad" size="2" type="number" name="Cantidad" min="1" step="1" [value]="1" placeholder="Cantidad"
+            [(ngModel)]="cantidadNueva">
+      </div>
+      <div class="col-md-4">
+         <small for="descripcion">Descripción</small>
+            <input name="descripcion" [(ngModel)]="descripcionNueva" type="text"
+               class="form-control" id="descripcion">
+      </div>
+      <div class="col-md-2">
+         <small for="descripcion">Agregar</small>
+         <button type="button" (click)="addPartida()" class="btn btn-transparent">
+            <i class="fa fa-plus-square fa-3x"></i>
+         </button>
+      </div>
+   </div>
+   <div>
+      <div>
+         Accesorios a agregar:
+      </div>
+   </div>
+   <div>
+      <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+               [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="accesoriosNuevos" [columnMode]="'flex'"
+               [limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+               [rowClass]="rowClassChange" [columnMode]="'force'" [scrollbarH]="true">
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Cantidad" prop="cantidad" [width]="60"
+                  cellClass="small">                  
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <input class="form-control-sm mt-1" id="cantidad_rowIndex" type="number" name="Cantidad_rowIndex"
+                        min="1" value="cantidad" [(ngModel)]="row.cantidad" placeholder="Cantidad">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Descripcion" prop="descripcion" [width]="40"
+                  cellClass="small">                  
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <input class="form-control-sm mt-3" id="descripcion_rowIndex" type="text" name="Descripcion_rowIndex"
+                         [(ngModel)]="row.descripcion" placeholder="Descripción">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Eliminar" prop="cantidad" [width]="40"
+                  cellClass="small">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <button type="button" (click)="eliminaPartida(rowIndex)" class="btn btn-transparent">
+                        <i class="fa fa-times fa-2x"></i>
+                     </button>
+                  </ng-template>
+               </ngx-datatable-column>
+      </ngx-datatable>
+   </div>
+</div>
+<div class="modal-footer">
+   <button type="button" class="btn btn-primary modal-btn" (click)="agregar()">Guardar Accesorios</button>
+   <button type="button" class="btn btn-warning modal-btn" (click)="closeModal()">Cancelar</button>
+</div>

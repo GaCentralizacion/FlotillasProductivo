@@ -1,0 +1,7 @@
+{
+  "$id": "credito_limite_cliente_array.schema.json",
+  "type": "array",
+  "items": {
+    "$ref": "./credito_limite_cliente.schema.json"
+  }
+}

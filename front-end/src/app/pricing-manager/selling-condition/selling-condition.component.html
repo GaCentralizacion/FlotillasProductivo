@@ -1,0 +1,150 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i  style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<div class="d-flex flex-row title">
+  <div class="mr-auto">
+    <h2 class="general-titles">Condiciones de Venta</h2>
+    <h1 class="general-titles" *ngIf="cotizacion" style="font-size: 20px">{{ cotizacion.idCotizacion }}</h1>
+  </div>
+  <div>
+    <h6 class="p-2">Financiera: {{cotizacion?.nombreFinanciera ? cotizacion?.nombreFinanciera : 'NO APLICA' }}</h6>
+  </div>
+  <div>
+    <h6 class="p-2">Número de Licitación: {{idLicitacion ? idLicitacion : 'NO APLICA'}}</h6>
+  </div>
+</div>
+<hr class="linea1">
+<div class="d-flex flex-row-reverse">
+  <button class="btn btn-primary" (click)="continuar(adicionalesSisco)" [disabled]="pricingManagerService.onlyRead">Continuar</button>
+</div>
+
+<ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" *ngIf="cotizacion" class="bootstrap mt-5 expandable" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+  [rowHeight]="'auto'" [limit]="10" [selectAllRowsOnPage]="false" [rows]="cotizacion.gruposUnidades" [columnMode]="'force'"
+  [selectionType]="'single'" [scrollbarH]="true" #groupTable>
+  <ngx-datatable-row-detail [rowHeight]="'auto'" (toggle)="onDetailToggle($event)">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+      <div class="d-flex flex-column" style="margin-left: 15px">
+        <table class="ml-auto table table-sm table-detail small">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">FORMA. PAGO</th>
+              <th scope="col">COLOR FACT. EXT.</th>
+              <th scope="col">COLOR FACT. INT.</th>
+              <th scope="col">CFDI UNID.</th>
+              <th scope="col">TIPO ORDEN</th>
+              <th scope="col">CFDI ADIC.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalleUnidad of row.detalleUnidades; let indice = index">
+              <td>{{ indice + 1 }}</td>
+              <td>{{ getCondicion(detalleUnidad.idCondicion) }}</td>
+              <td>{{ detalleUnidad.colorExteriorFacturacion }}</td>
+              <td>{{ detalleUnidad.colorInteriorFacturacion }}</td>
+              <td>{{ getCfdfiName(detalleUnidad.idCfdi) }}</td>
+              <td>{{ detalleUnidad.tipoOrden }}</td>
+              <td>{{ getCfdfiName(detalleUnidad.idCfdiAdicionales) }}</td>
+              <td>
+                <button type="button" class="condition" (click)="openModalEditar(detalleUnidad)">
+                  <span style="font-size: 2em; color: #FF5733;">
+                    <i class="fas fa-file-signature"></i>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </ngx-datatable-row-detail>
+
+  <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false"
+    name="#">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+        title="Mostrar Detalle" (click)="toggleExpandRow(row)"></a>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cantidad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="cantidad">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Año" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="anio">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Modelo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="modelo">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Color Int." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="colorInterior">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Color Ext." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="colorExterior">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Clase" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="clase">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Catálogo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="catalogo">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Precio Unidad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="precio">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value | currency:'MXN':'symbol-narrow' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+   <ngx-datatable-column name="%IVA" [resizeable]="false" [flexGrow]="2" [width]="40"
+  cellClass="small" prop="tasaIva">
+  <ng-template let-value="value" ngx-datatable-cell-template>
+    {{ value | currency:"%"}}
+  </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Total" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="precioTotal">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value | currency:'MXN' }}
+      <!-- {{ (value + (value * (iva[1].value / 100))) | currency:'MXN':'symbol-narrow' }} -->
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Condiciones" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <button type="button" class="condition" (click)="openModalEditar(row)">
+        <span style="font-size: 2em;">
+          <i class="fas fa-file-signature"></i>
+        </span>
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>
+
+<ng-template #adicionalesSisco let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Accesorios Pendientes de Cotización SISCO</h4>    
+  </div>
+  <div class="modal-body">
+    <div>
+          {{mensajeValidacion}}
+    </div>
+  </div>
+  <div class="modal-footer">    
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.dismiss('Cross click')">Cerrar</button>
+ </div>
+</ng-template>
+

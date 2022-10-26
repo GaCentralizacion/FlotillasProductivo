@@ -1,0 +1,7 @@
+{
+    "$id": "ubicacion_traslado_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./ubicacion_traslado.schema.json"
+    }
+}

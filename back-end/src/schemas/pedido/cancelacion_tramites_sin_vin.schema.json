@@ -1,0 +1,32 @@
+{
+  "$id": "cancelacion_tramites_sin_vin.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idGrupoUnidad", 
+      "idDetalleUnidad", 
+      "idTramite"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "idGrupoUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del grupo unidad"
+      },
+      "idDetalleUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del detalle de la unidad"
+      },
+      "idTramite": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador del tramite de la unidad"
+      }
+  }
+}

@@ -1,0 +1,19 @@
+{
+    "$id": "unidad_bpro.schema.json",
+    "type": "object",
+    "required": [
+        "idUnidadBpro",
+        "linea"
+    ],
+    "properties": {
+        "idUnidadBpro": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Unidad Bpro"
+        },
+        "linea": {
+            "type": "string",
+            "description": "Línea"
+        }
+    }
+}

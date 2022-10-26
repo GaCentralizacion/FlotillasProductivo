@@ -1,0 +1,7 @@
+{
+    "$id": "traslado_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "traslado.schema.json"
+    }
+}

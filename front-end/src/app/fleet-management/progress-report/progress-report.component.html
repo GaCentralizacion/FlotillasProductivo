@@ -1,0 +1,475 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+
+<div class="d-flex flex-row">
+  <div class="d-flex flex-column mr-auto" *ngIf="cotizacion">
+    <h5>Folio: {{ cotizacion.idCotizacion }} {{ !isDelete ? '(Facturado)' : '' }} <i (click)="showInfo(null)"
+        class="fa fa-info-circle" style="color: blue;cursor: pointer;"> </i></h5>
+    <p *ngIf="bProStatus && bProStatus.ucu_idpedidobpro">Pedido Bpro: {{ bProStatus.ucu_idpedidobpro }}</p>
+    <h5><span>Cliente: {{ cotizacion.nombreCliente }}</span></h5>
+  </div>
+  <div>
+    <button class="btn btn-primary" (click)="actualiza()">Recargar</button>
+  </div>
+  <!--
+  <div class="d-flex flex-column">
+    <span>Cantidad: 4/36</span>
+    <span>Entregadas: 0/36</span>
+  </div>-->
+</div>
+
+<div class="d-flex flex-row-reverse buttons-row">
+  <!--  <button class="btn btn-info" (click)="modal()">OpenModal</button>-->
+  <button *ngIf="!isGenPedido" class="btn btn-info" [ngClass]="{'dcursor': isMissing || !ordenesCompletadas}"
+    [disabled]="(isMissing || !ordenesCompletadas) || pricingManagerService.perfilSoloLectura"
+    (click)="genPedido(pedidoTemplate)">Generar pedido</button>
+  <button *ngIf="isGenPedido" class="btn btn-info" (click)="updatePedido()"
+    [disabled]="!updatePedidoToken || pricingManagerService.perfilSoloLectura"
+    [ngClass]="{'dcursor': !updatePedidoToken}">Actualizar pedido</button>
+  <button class="btn btn-danger" (click)="openModalDelete(deleteTemplate, '', 'accesorios')"
+    [disabled]="(seleccionados < 1) || pricingManagerService.perfilSoloLectura">Quitar unidades</button>
+  <!--button *ngIf="!bProStatus || !bProStatus.ucu_idpedidobpro" class="btn btn-success" [ngClass]="{'dcursor': isMissing || !isGenOrder}"   [disabled]="isMissing || !isGenOrder" (click)="genOrder()">Procesar adicionales pendientes</button-->
+  <!--button *ngIf="!bProStatus || !bProStatus.ucu_idpedidobpro" class="btn btn-success"
+    [ngClass]="{'dcursor': !isGenOrder}" [disabled]="(!isGenOrder || pricingManagerService.perfilSoloLectura) && (!(cotizacion.status == 'PEDIDO GENERADO') || !(cotizacion.status != 'ORDENES DE COMPRA COMPLETADAS'))" (click)="genOrder()">Procesar posteriores
+    pendientes</button-->
+  <button *ngIf="(bProStatus && bProStatus.ucu_idpedidobpro) && estatusCotizacion != 1" class="btn btn-success"
+    [ngClass]="{'dcursor': !isGenOrder || isPost}"
+    [disabled]="!isGenOrder || isPost || pricingManagerService.perfilSoloLectura || existeSisco || !ordenesSisco"
+    (click)="genOrder()">Procesar
+    posteriores
+    pendientes</button>
+  <!--button *ngIf="bProStatus && bProStatus.ucu_idpedidobpro" class="btn btn-warning"
+    [ngClass]="{'dcursor': !isGenOrder || isPost}"
+    [disabled]="!isGenOrder || isPost || pricingManagerService.perfilSoloLectura" (click)="getOrderPost()">Procesar
+    Adicionales</button || cotizacion.status != 'FACTURADO'-->
+  <button *ngIf="estatusCotizacion === 1" class="btn btn-warning" [ngClass]="{'dcursor': !isGenOrder || isPost}"
+    [disabled]="!isGenOrder || isPost || pricingManagerService.perfilSoloLectura || existeSisco || !ordenesSisco"
+    (click)="getOrderPost()">Procesar
+    Adicionales</button>
+  <!--button *ngIf="bProStatus && bProStatus.ucu_idpedidobpro" class="btn btn-dark" (click)="addUnidades()"
+    [disabled]="pricingManagerService.perfilSoloLectura">Agregar
+    unidades</button-->
+  <!--OCT 20210118 se oculta para analisarse despues-->
+  <button class="btn btn-dark" (click)="addTraslado('sss')"
+    [disabled]="pricingManagerService.perfilSoloLectura">Traslados</button>
+  <!--OCT99 20210118Se oculto para probar despues-->
+  <button class="btn btn-primary" [ngClass]="{'dcursor': !existeSisco}"
+  [disabled]="!existeSisco || enviandoSisco"
+    (click)="agregarCotizacionSisco()">
+    Enviar a SISCO
+  </button>
+  <button class="btn btn-dark" (click)="muestraUtilidad()" *ngIf=" banderaBotonUtilidad == 1"
+    [disabled]="pricingManagerService.perfilSoloLectura">Ver utilidad
+  </button>
+</div>
+
+
+<ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" *ngIf="cotizacion"
+  class="bootstrap mt-5 expandable" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50" [rowHeight]="'auto'"
+  [limit]="10" [selectAllRowsOnPage]="false" [rows]="gruposUnidades" [columnMode]="'force'" [selectionType]="'single'"
+  [scrollbarH]="true" #groupTable [selected]="currentSelected">
+  <ngx-datatable-row-detail [rowHeight]="'auto'" (toggle)="onDetailToggle($event)">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+      <div class="d-flex flex-column" style="margin-left: 15px">
+        <table class="ml-auto table table-sm table-detail small">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Cat&aacute;logo</th>
+              <th scope="col">Año</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Vin</th>
+              <th scope="col">Color Ext.</th>
+              <th scope="col">Color Int.</th>
+              <th scope="col">Forma Pago</th>
+              <th scope="col">Precio Unitario</th>
+              <th scope="col">Estatus</th>
+              <th scope="col">Adicionales</th>
+              <th scope="col">Leyenda Factura</th>
+              <th scope="col">Cond. de Venta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalleUnidad of row.detalleUnidades; let indice = index">
+              <td><input type="checkbox"
+                  [disabled]="(detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))"
+                  class="check-select" (change)="checkValue(row, detalleUnidad, $event)"
+                  [(ngModel)]="detalleUnidad.isCheck" name="check"></td>
+              <td>
+                <div *ngIf="bProStatus && bProStatus.ucu_idpedidobpro">
+                  <button
+                    (click)="openModalEdit(row,detalleUnidad, (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3))"><i
+                      class="fa fa-edit"></i></button>
+                </div>
+              </td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ cotizacion.idMarca }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ row.catalogo }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ row.anio }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ row.versionUnidad }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ detalleUnidad.vin }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ detalleUnidad.colorExteriorFacturacion }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ detalleUnidad.colorInteriorFacturacion }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ (detalleUnidad.idCondicion === 'CO') ? 'CONTADO' : 'CREDITO' }}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ row.precio | currency: 'MXN'}}</td>
+              <td [style.color]="isRed(detalleUnidad.vin) ? 'red' : null"
+                [ngClass]="{'throg': (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3 && isNotCan(detalleUnidad.vin))}">
+                {{ detalleUnidad.estatus }}</td>
+              <td align="center" style="font-size: 11px;"><i
+                  (click)="showInfoDetail(detalleUnidad, row.idGrupoUnidad, detalleUnidad.idDetalleUnidad, (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3))"
+                  class="fa fa-edit" style="cursor: pointer;"></i></td>
+              <td align="center" style="font-size: 11px;"><i
+                  (click)="openLeyendaFactura(detalleUnidad, detalleUnidad.idDetalleUnidad, (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3))"
+                  class="fa fa-edit" style="cursor: pointer;"></i></td>
+              <td align="center" style="font-size: 11px;"><i
+                  (click)="openModalEditar(detalleUnidad, (detalleUnidad.tipoMovimiento === 'C' && detalleUnidad.procesadoBpro === 3))"
+                  class="fa fa-edit" style="cursor: pointer;"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </ngx-datatable-row-detail>
+
+  <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false"
+    name="#">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+        title="Mostrar Detalle" (click)="toggleExpandRow(row)"></a>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cantidad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="cantidad">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Año" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="anio">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Modelo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="modelo">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Color Int." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="colorInterior">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Color Ext." [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="colorExterior">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Clase" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="clase">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Catálogo" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="catalogo">
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Precio Unidad" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="precio">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value | currency:'MXN':'symbol-narrow' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="IVA%" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small" prop="tasaIva">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value | currency: ' ' }} %
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Total" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="precioTotal">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value | currency:'MXN':'symbol-narrow' }}
+      <!-- {{ (value + (value * (iva[1].value / 100))) | currency:'MXN':'symbol-narrow' }} -->
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Asignar vines" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <button (click)="openModalNuevas(row)" style="font-size: 2em;" class="btn btn-transparent col-md-12 text-center"
+        [disabled]="pricingManagerService.perfilSoloLectura">
+        <i class="fa fa-search" style="cursor: pointer;"></i>
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Tipo Orden" [resizeable]="false" [flexGrow]="2" [width]="10" cellClass="small"
+    prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <span (click)="openModalTipoOrden(row)" style="font-size: 2em;" class="col-md-12 text-center">
+        <i class="fa fa-edit" style="cursor: pointer;"></i>
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Adicionales" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <div *ngIf="(bProStatus && bProStatus.ucu_idpedidobpro) && activaAccesorios">
+        <span (click)="openModalEditGrupo(row)" style="font-size: 2em;" class="col-md-12 text-center">
+          <i class="fa fa-plus-circle" style="cursor: pointer;"></i>
+        </span>
+      </div>
+      <div *ngIf="!bProStatus.ucu_idpedidobpro || !activaAccesorios">
+        <li>
+          <i class="fa fa-exclamation-triangle fa-2x" style="cursor: pointer;" data-toggle="tooltip"
+            data-placement="top">
+          </i>
+        </li>
+      </div>
+      <!--button (click)="openModalEditGrupo(row)" style="font-size: 2em;" class="btn btn-transparent col-md-12 text-center" [disabled]="(pricingManagerService.perfilSoloLectura) || (!bProStatus && !bProStatus.ucu_idpedidobpro)">
+        <i class="fa fa-plus-circle" style="cursor: pointer;"></i>
+      </button-->
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cancelar" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <button (click)="openModalCancelarGrupo(row,cancelaGrupoUnidad)" style="font-size: 2em;"
+        class="btn btn-transparent col-md-12 text-center" [disabled]="pricingManagerService.perfilSoloLectura">
+        <i class="fa fa-trash" style="cursor: pointer;"></i>
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Info" [resizeable]="false" [flexGrow]="2" [width]="40" cellClass="small"
+    prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <span (click)="showInfo(row.idGrupoUnidad)" style="font-size: 2em;">
+        <i class="fa fa-info-circle" style="color: blue;cursor: pointer;"></i>
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
+
+<div class="d-flex flex-row-reverse buttons-row">
+  <button class="btn btn-danger" [disabled]="pricingManagerService.perfilSoloLectura"
+    (click)="cancelarCotizacionModal(cancelaCotizacion)">Cancelar Cotización</button>
+  <button class="btn btn-info" [ngClass]="{'dcursor': !isRegresaCotizacion}"
+    [disabled]="(!isRegresaCotizacion) || pricingManagerService.perfilSoloLectura"
+    (click)="regresarCotizacionModal(regresarACotizacion)">Regresar a cotización</button>
+</div>
+
+<!-- Ehuerta COAL Notificaciones -->
+  <h4 class="">Notificaciones</h4>
+
+  <table style="margin-top: 20px;"  class="ml-auto table table-sm table-detail small">
+      <thead class="thead-dark">
+      <tr>
+        <th  style="padding-left: 20px;padding-right: 20px;">
+            Tipo
+        </th>
+        <th  style="padding-left: 20px;padding-right: 20px;">
+            Estatus
+        </th>
+        <th  style="padding-left: 20px;padding-right: 20px;">
+            Acci&oacute;n
+        </th>
+      </tr>
+    </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 10px;">Notificaci&oacute;n porcentaje de utilidad</td>
+          <td style="padding: 10px;">{{ aprobacion }}</td>
+          <td > </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px;">Notificaci&oacute;n porcentaje de utilidad</td>
+          <td style="padding: 10px;">{{ aprobacion2 }}</td>
+          <td > </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px;">Notificaci&oacute;n porcentaje de utilidad</td>
+          <td style="padding: 10px;">{{ aprobacion3 }}</td>
+          <td > </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px;">Notificaci&oacute;n porcentaje de utilidad</td>
+          <td style="padding: 10px;">{{ aprobacion4 }}</td>
+          <td > </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px;">Notificaci&oacute;n porcentaje de utilidad</td>
+          <td style="padding: 10px;">{{ aprobacion5 }}</td>
+          <td > </td>
+        </tr>
+      </tbody>
+  </table>
+
+  <ng-template #progressBarModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Creando orden</h4>
+      </div>
+      <div class="modal-body">
+        ¿Realmente desea generar ordenes de compra?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning modal-btn" (click)="modal.close(false)">Cerrar</button>
+        <button type="button" class="btn btn-info modal-btn" (click)="modal.close(true)">Aceptar</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #deleteTemplate let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Eliminar Unidades</h4>
+    </div>
+    <div class="modal-body">
+      <form class="form">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label>¿Realmente desea eliminar las unidades seleccionadas?</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning modal-btn" (click)="modal.close(false)">Regresar</button>
+      <button type="button" class="btn btn-success modal-btn" (click)="modal.close('all')">Eliminar unidades y
+        adionales</button>
+      <button *ngIf="bProStatus && bProStatus.ucu_idpedidobpro" type="button" class="btn btn-info modal-btn"
+        (click)="modal.close(true)">Eliminar unidades</button>
+    </div>
+  </ng-template>
+
+  <ng-template #pedidoTemplate let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Generar Pedido</h4>
+    </div>
+    <div class="modal-body">
+      <form class="form">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label>¿Realmente desea generar el pedido?</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label style="font-size: 13px;color: orange;">La acci&oacute;n que está apunto de realizar es permanente e
+              irreversible por favor tome en cuenta esto.</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning modal-btn" (click)="modal.close(false)">Cerrar</button>
+      <button type="button" class="btn btn-info modal-btn" (click)="modal.close(true)">Aceptar</button>
+    </div>
+  </ng-template>
+
+  <ng-template #regresarACotizacion let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Regresar a cotización</h4>
+    </div>
+    <div class="modal-body">
+      <form class="form">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label>¿Realmente desea regresar a cotización?</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label style="font-size: 13px;color: orange;">La acci&oacute;n que está apunto de realizar es permanente e
+              irreversible por favor tome en cuenta esto.</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" [disabled]="isRegresandoCotizacion" class="btn btn-warning modal-btn"
+        (click)="modal.close(false)">Cerrar</button>
+      <button type="button" [disabled]="isRegresandoCotizacion" class="btn btn-info modal-btn"
+        (click)="modal.close(true)">Aceptar</button>
+    </div>
+  </ng-template>
+
+  <ng-template #cancelaGrupoUnidad let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Cancelar Grupo de Unidades</h4>
+    </div>
+    <div class="modal-body">
+      <form class="form">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label>¿Realmente desea cancelar todo el grupo de unidades?</label>
+            <br>
+            <span> Unidades a cancelar: {{resumenGrupal}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label style="font-size: 13px;color: orange;">La acci&oacute;n que está apunto de realizar es permanente e
+              irreversible por favor tome en cuenta esto.</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" [disabled]="isRegresandoCotizacion" class="btn btn-warning modal-btn"
+        (click)="modal.close(false)">Cerrar</button>
+      <button type="button" [disabled]="isRegresandoCotizacion" class="btn btn-info modal-btn"
+        (click)="modal.close(true)">Aceptar</button>
+    </div>
+  </ng-template>
+
+  <ng-template #cancelaCotizacion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Cancelar Cotización</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>¿Realmente desea cancelar la cotización: {{idCotizacion}} ?</label>
+          <br>
+          <span> Unidades en la cotización: {{resumenCotizacion}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label style="font-size: 13px;color: orange;">La acci&oacute;n que está apunto de realizar es permanente e
+            irreversible por favor tome en cuenta esto.</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" [disabled]="isRegresandoCotizacion" class="btn btn-warning modal-btn"
+      (click)="modal.close(false)">Cerrar</button>
+    <button type="button" [disabled]="isRegresandoCotizacion" class="btn btn-info modal-btn"
+      (click)="modal.close(true)">Aceptar</button>
+  </div>
+</ng-template>

@@ -1,0 +1,42 @@
+{
+    "$id": "unidad_interes_filter.schema.json",
+    "type": "object",
+    "required": [
+        "idEmpresa",
+        "idSucursal"
+    ],
+    "properties": {
+        "idEmpresa": {
+            "type": "integer",
+            "description": "Identificador de empresa"
+        },
+        "idSucursal": {
+            "type": "integer",
+            "description": "Identificador de sucursal"
+        },
+        "catalogo": {
+            "type": "string",
+            "description": "Catálogo"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año"
+        },
+        "idColorInterior": {
+            "type": "string",
+            "description": "Identificador de color interior"
+        },
+        "idColorExterior": {
+            "type": "string",
+            "description": "Identificador de color exterior"
+        },
+        "clase": {
+            "type": "string",
+            "description": "Clase"
+        },
+        "modelo": {
+            "type": "string",
+            "description": "Modelo"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "$id": "actualiza_pedido_posterior_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "actualiza_pedido_posterior.schema.json"
+  }
+}

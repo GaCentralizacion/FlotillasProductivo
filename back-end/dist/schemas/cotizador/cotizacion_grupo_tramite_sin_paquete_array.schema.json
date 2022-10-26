@@ -1,0 +1,7 @@
+{
+    "$id": "cotizacion_grupo_tramite_sin_paquete_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./cotizacion_grupo_tramite_sin_paquete.schema.json"
+    }
+}

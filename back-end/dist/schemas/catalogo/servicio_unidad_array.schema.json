@@ -1,0 +1,7 @@
+{
+    "$id": "servicio_unidad_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./servicio_unidad.schema.json"
+    }
+}

@@ -1,0 +1,41 @@
+@import '../../styles/titles.scss';
+@import "../../styles/mixin.scss";
+@import "../../styles/color.scss";
+
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+
+  .text-white {
+      color: white;
+  }
+
+  .text-align-right {
+    text-align: right;
+  }
+
+  .notice {
+    color: red;
+    font-size: 0.8rem;
+  }
+
+  /deep/.datatable-body-cell {
+    font-size: 11px !important;
+    text-align: center !important;
+}
+
+/deep/ .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+    text-align: center !important;
+}
+
+.width-input {
+  width: 107%;
+  text-align: center;
+}

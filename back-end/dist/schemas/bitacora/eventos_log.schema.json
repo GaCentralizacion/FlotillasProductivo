@@ -1,0 +1,42 @@
+{
+    "$id": "eventos_log.schema.json",
+    "type": "object",
+    "properties": {
+        "idEventoLog":{
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Eventos"
+        },
+        "idUsuario":{
+            "type": "integer",
+            "uniqueItems": false,
+            "description": "Identificador de Usuario"
+        },
+        "fechaHora":{
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Fecha y hora en que se registró el evento",
+            "format": "date-time"
+        },
+        "modulo":{
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Módulo relaciodo al evento evento"
+        },
+        "tabla":{
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Tabla afectada por evento"
+        },
+        "evento":{
+            "type": "string",
+            "uniqueItems": false,
+            "description": "select, insert, update, delete"
+        },
+        "datos":{
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Datos ejecutados"
+        }
+    }
+}

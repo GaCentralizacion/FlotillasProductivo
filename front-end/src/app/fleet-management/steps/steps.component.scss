@@ -1,0 +1,43 @@
+
+ul.horizontal-list {
+    list-style: none;
+    padding-top: 20px;
+    }
+    ul.horizontal-list li {
+        display: inline;
+        float: left;
+        margin-right: 45px
+    }
+    a{
+        font-size: 2.6em;
+
+    }
+    i{
+        color: white;
+    }
+    .stepper-item {
+        width: 80px;
+        }
+        .stepper-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 100px;
+            background: blue;
+            border: solid 3px #BACCD8;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .item-title{
+            text-transform: capitalize;
+            margin-left: -11px;
+        }
+
+.active{
+    background: #FFC107;
+    color: #fff !important;
+}
+
+.completed{
+    background: blue;
+    color: #fff !important;
+}

@@ -1,0 +1,73 @@
+{
+    "$id": "enc_paquete_servicio_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "nombre",
+        "idMarca",
+        "idEmpresa",
+        "idSucursal",
+        "nombreEmpresa",
+        "nombreSucursal",
+        "catalogo",
+        "anio",
+        "serviciosUnidad"
+    ],
+    "properties": {
+        "idEncPaqueteServicioUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del paquete de servicio por unidad"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripcion"
+        },
+        "idMarca": {
+            "type": "string",
+            "description": "Identificador de marca"
+        },
+        "idEmpresa": {
+            "type": "integer",
+            "description": "Identificador de empresa"
+        },
+        "idSucursal": {
+            "type": "integer",
+            "description": "Identificador de sucursal"
+        },
+        "nombreEmpresa": {
+            "type": "string",
+            "description": "Nombre de empresa"
+        },
+        "nombreSucursal": {
+            "type": "string",
+            "description": "Nombre de sucursal"
+        },
+        "catalogo": {
+            "type": "string",
+            "description": "Catálogo de unidades Bpro"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        },
+        "serviciosUnidad": {
+            "type": "array",
+            "items": {
+                "$ref": "./det_paquete_servicio_unidad.schema.json"
+            }
+        }
+    }
+}

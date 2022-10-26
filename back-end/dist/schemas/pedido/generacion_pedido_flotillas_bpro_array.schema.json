@@ -1,0 +1,7 @@
+{
+    "$id": "generacion_pedido_flotillas_bpro_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./generacion_pedido_flotillas_bpro.schema.json"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "$id": "bonificacion_catalogo_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./bonificacion_catalogo.schema.json"
+    }
+  }

@@ -1,0 +1,19 @@
+{
+    "$id": "sucursal.schema.json",
+    "type": "object",
+    "required": [
+        "idSucursal",
+        "nombre"
+    ],
+    "properties": {
+        "idSucursal": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Sucursal"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de la Sucursal"
+        }
+    }
+}

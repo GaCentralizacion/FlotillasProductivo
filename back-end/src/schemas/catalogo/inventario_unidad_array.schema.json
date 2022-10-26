@@ -1,0 +1,7 @@
+{
+    "$id": "inventario_unidad_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "inventario_unidad.schema.json"
+    }
+}

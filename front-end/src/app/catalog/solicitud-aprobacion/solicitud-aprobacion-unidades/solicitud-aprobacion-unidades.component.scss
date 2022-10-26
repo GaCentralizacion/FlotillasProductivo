@@ -1,0 +1,85 @@
+.box {
+    margin-top: 40px;
+    padding: 20px 20px;
+    box-shadow: 1px 1px 4px #3333332e, 1px 0px 6px #f3f3f3;
+}
+
+.items{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-header {
+    position: relative;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.callout, .card, .info-box, .mb-3, .my-3, .small-box {
+    margin-bottom: 1rem!important;
+}
+
+.card-warning:not(.card-outline) .card-header, .card-warning:not(.card-outline) .card-header a {
+    color: #1f2d3d;
+}
+
+.card-warning:not(.card-outline) .card-header {
+    background-color: #007bff;
+    border-bottom: 0;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0;
+    color: #fff;
+}
+
+.card-header>.card-tools {
+    position: absolute;
+    right: 1rem;
+    top: .5rem;
+}
+
+.card-body::after, .card-footer::after, .card-header::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+    font-size: 1em;
+}
+li > span {
+    font-weight: 400;
+    color:#15171a;
+}
+
+i{
+    color:#fff;
+}
+
+a > i {
+    font-size: 2em;
+    color: rgb(175, 33, 52);
+}

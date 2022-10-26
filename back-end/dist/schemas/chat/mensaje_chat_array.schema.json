@@ -1,0 +1,7 @@
+{
+    "$id": "mensaje_chat_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./mensaje_chat.schema.json"
+    }
+}

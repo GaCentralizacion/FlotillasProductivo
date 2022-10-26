@@ -1,0 +1,153 @@
+{
+    "$id": "unidad_interes_create.schema.json",
+    "type": "object",
+    "required": [
+        "idInventario",
+        "idCotizacion",
+        "tipoUnidad",
+        "anio",
+        "modelo",
+        "colorInterior",
+        "colorExterior",
+        "clase",
+        "catalogo",
+        "precio",
+        "costo",
+        "marca",
+        "antiguedad",
+        "segmento",
+        "descripcion",
+        "agencia",
+        "clasificacionTipoCompra",
+        "vin",
+        "idEmpresa",
+        "idSucursal",
+        "bd",
+        "tipoBase"
+    ],
+    "properties": {
+        "idInventario": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Inventario"
+        },
+        "idCotizacion": {
+            "type": "string",
+            "description": "Identificador de Cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "description": "Identificador del grupo de unidades"
+        },
+        "idDireccionFlotillas": {
+            "type": "string",
+            "description": "Identificador de Dirección de Flotillas"
+        },
+        "tipoUnidad": {
+            "type": "string",
+            "description": "Tipo de unidad"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año"
+        },
+        "modelo": {
+            "type": "string",
+            "description": "Modelo"
+        },
+        "idColorInterior": {
+            "type": "string",
+            "description": "Id de Color interior"
+        },
+        "colorInterior": {
+            "type": "string",
+            "description": "Color interior"
+        },
+        "idColorExterior": {
+            "type": "string",
+            "description": "Id de Color exterior"
+        },
+        "colorExterior": {
+            "type": "string",
+            "description": "Color exterior"
+        },
+        "clase": {
+            "type": "string",
+            "description": "Clase"
+        },
+        "catalogo": {
+            "type": "string",
+            "description": "Catálogo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio unitario"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo unitario"
+        },
+        "marca": {
+            "type": "string",
+            "description": "Marca"
+        },
+        "antiguedad": {
+            "type": "integer",
+            "description": "Cantidad de días desde la compra de la unidad"
+        },
+        "segmento": {
+            "type": "string",
+            "description": "Segmento"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripción"
+        },
+        "agencia": {
+            "type": "string",
+            "description": "Agencia"
+        },
+        "clasificacionTipoCompra": {
+            "type": "string",
+            "description": "Clasificación de tipo de compra"
+        },
+        "vin": {
+            "type": "string",
+            "description": "VIN"
+        },
+        "idEmpresa": {
+            "type": "integer",
+            "description": "Identificador de empresa"
+        },
+        "idSucursal": {
+            "type": "integer",
+            "description": "Identificador de sucursal"
+        },
+        "db": {
+            "type": "string",
+            "description": "Base de datos de Bpro"
+        },
+        "tipoBase": {
+            "type": "string",
+            "description": "Tipo de base de datos Bpro"
+        },
+        "idEstatusUnidadInteres": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3
+            ],
+            "description": "Id de estatus de unidad de interes"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

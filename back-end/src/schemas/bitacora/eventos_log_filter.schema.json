@@ -1,0 +1,44 @@
+{
+    "$id": "eventos_log_filter.schema.json",
+    "type": "object",
+    "required": [
+        "pagina",
+        "numeroRegistros"
+    ],
+    "properties": {
+        "pagina": {
+            "type": "integer",
+            "description": "Número de página"
+        },
+        "numeroRegistros": {
+            "type": "integer",
+            "description": "Número de registros"
+        },
+        "idUsuario": {
+            "type": "integer",
+            "description": "Identificador de usuario"
+        },
+        "fechaInicio": {
+            "type": "string",
+            "description": "Fecha inicial del evento",
+            "format": "date"
+        },
+        "fechaFin": {
+            "type": "string",
+            "description": "Fecha final del evento",
+            "format": "date"
+        },
+        "modulo": {
+            "type": "string",
+            "description": "Nombre del módulo"
+        },
+        "tabla": {
+            "type": "string",
+            "description": "Nombre de la tabla afectada"
+        },
+        "evento": {
+            "type": "string",
+            "description": "Nombre del evento"
+        }
+    }
+}

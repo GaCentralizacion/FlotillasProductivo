@@ -1,0 +1,91 @@
+{
+    "$id": "cotizacion_unidad_tramite_mov.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "idTramite",
+        "idSubtramite",
+        "idProveedor",
+        "nombreTramite",
+        "nombreSubtramite",
+        "nombreProveedor",
+        "costo",
+        "precio",
+        "tipoMovimiento"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Grupo"
+        },
+        "idDetalleUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Grupo"
+        },
+        "idEncPaqueteTramite": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de encabezado de paquete"
+        },
+        "idTramite": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de tramite"
+        },
+        "idSubtramite": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de subtramite"
+        },
+        "idProveedor": {
+            "type": "integer",
+            "description": "Identificador de proveedor"
+        },
+        "nombreTramite": {
+            "type": "string",
+            "description": "Nombre de trámite"
+        },
+        "nombreSubtramite": {
+            "type": "string",
+            "description": "Nombre de subtrámite"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre de Proveedor"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "tipoMovimiento": {
+            "type": "string",
+            "description": "Tipo de movimiento",
+            "enum": [
+                "A",
+                "B"
+            ]
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificación",
+            "format": "date-time"
+        }
+    }
+}

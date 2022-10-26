@@ -1,0 +1,77 @@
+{
+    "$id": "traslado.schema.json",
+    "type": "object",
+    "required": [
+        "idUbicacionOrigen",
+        "idUbicacionDestino",
+        "idProveedor",
+        "nombreProveedor"
+    ],
+    "properties": {
+        "idTraslado": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de la ruta de traslado"
+        },
+        "idUbicacionOrigen": {
+            "type": "number",
+            "description": "id del lugar de origen"
+        },
+        "idUbicacionDestino": {
+            "type": "number",
+            "description": "id del lugar de destino"
+        },
+        "idMarca": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Identificador de la marca"
+        },
+        "idEmpresa": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "Módulo relaciodo al evento evento"
+        },
+        "idSucursal": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "Identificador de la sucursal"
+        },
+        "idProveedor": {
+            "type": "number",
+            "description": "Identificador de Proveedor"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre de Proveedor"
+        },
+        "costoUnitario": {
+            "type": "number",
+            "description": "Costo unitario"
+        },
+        "precioUnitario": {
+            "type": "number",
+            "description": "Precio unitario"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        },
+        "ubicacionOrigen": {
+            "type": "object",
+            "$ref": "./ubicacion_traslado.schema.json"
+        },
+        "ubicacionDestino": {
+            "type": "object",
+            "$ref": "./ubicacion_traslado.schema.json"
+        },
+        "idCfdi": {
+            "type": "string",
+            "description": "uso Cfdi"
+        }
+    }
+}

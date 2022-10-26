@@ -1,0 +1,179 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="condicionesVenta">Condiciones de venta</h4>
+</div>
+
+<div class="modal-body container-fluid">
+  <form [formGroup]="formCondiciones" novalidate>
+    <div class="form-row">
+
+      <div class="form-group col-md-6">
+        <label for="formaPago">Condición de Pago</label>
+        <ng-select id="formaPago" name="formaPago" placeholder="Forma de Pago" [items]="condicionesIn"
+          bindValue="idCondicion" bindLabel="nombre" formControlName="idCondicion">
+        </ng-select>
+        <div *ngIf="submitted && fields['idCondicion'].errors" class="alert">
+          <div *ngIf="fields['idCondicion'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="idFinanciera">Financiera</label>
+        <ng-select id="idFinanciera" [items]="financierasRows" bindLabel="nombre" bindValue="idFinanciera"
+          formControlName="idFinanciera" placeholder="Financiera">
+        </ng-select>
+        <div *ngIf="submitted && fields['idFinanciera'].errors" class="alert">
+          <div *ngIf="fields['idFinanciera'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="colorFacturaExterior">Color Factura Exterior</label>
+        <input type="text" id="colorFacturaExterior" oninput="this.value = this.value.toUpperCase()"
+          formControlName="colorFacturaExterior" class="form-control">
+        <div *ngIf="submitted && fields['colorFacturaExterior'].errors" class="alert">
+          <div *ngIf="fields['colorFacturaExterior'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="colorFacturaInterior">Color Factura Interior</label>
+        <input type="text" id="colorFacturaInterior" oninput="this.value = this.value.toUpperCase()"
+          formControlName="colorFacturaInterior" class="form-control">
+        <div *ngIf="submitted && fields['colorFacturaInterior'].errors" class="alert">
+          <div *ngIf="fields['colorFacturaInterior'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="idCfdi">CFDI Unidades</label>
+        <ng-select id="idCfdi" [items]="CfdisRows" bindLabel="CUC_DESCRIPCION" bindValue="CUC_CVEUSOCFDI" formControlName="idCfdi"
+          placeholder="CFDI Unidades">
+        </ng-select>
+        <div *ngIf="submitted && fields['idCfdi'].errors" class="alert">
+          <div *ngIf="fields['idCfdi'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <!--label for="tipoOrden">Tipo de Orden</label>
+        <ng-select id="tipoOrden" formControlName="tipoOrden" [items]="tipoOrden" bindLabel="nombre"
+          bindValue="idTipoOrden" placeholder="Tipo de Orden" (change)=tipoOrdenOnChange($event)>
+        </ng-select>
+        <div *ngIf="submitted && fields['tipoOrden'].errors" class="alert">
+          <div *ngIf="fields['tipoOrden'].errors.required">
+            Campo requerido
+          </div>
+        </div-->
+      </div>
+
+      <!--form *ngIf="isCU" class="form-group col-md-6" style="margin-left: 0px;margin-top: 15px;background: rgb(230,230,230)">
+
+        <div class="d-flex flex-row" >
+          <span>            <input name="options" type="radio"  [checked]="curadio.suma" style="width: 50px;" (change)="onProfitSelectionChange('Suma')">
+            Suma al costo de la unidad</span>
+        </div>
+        <div class="d-flex flex-row" >
+          <span>            <input name="options" type="radio" [checked]="curadio.nosuma" style="width: 50px;" (change)="onProfitSelectionChange('NoSuma')">
+            No suma al costo de la unidad</span>
+        </div>
+
+      </form>
+
+      <form *ngIf="isCU" class="form-group col-md-6" style="margin-left: 0px;margin-top: 15px;background: rgb(230,230,230);padding-bottom: 25px;">
+
+        <input type="checkbox" name="imprime" [ngModel]="imprime" style="margin-right: 10px;" (change)="changeValue()">
+        <span>Imprime en factura</span>
+
+      </form-->
+
+
+
+      <div class="form-group col-md-6">
+        <label for="fechaHoraPromesaEntrega">Fecha y hora promesa de entrega</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" id="fechaHoraPromesaEntrega" formControlName="fechaHoraPromesaEntrega"
+           ngbDatepicker [minDate]="fechaMinima" #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="submitted && fields['fechaHoraPromesaEntrega'].errors && fields['fechaHoraPromesaEntrega'].invalid" class="alert">
+          <div *ngIf="fields['fechaHoraPromesaEntrega'].errors.required || fields['fechaHoraPromesaEntrega'].invalid" style="text-align: left;">
+            <span style="text-align: center;">Campo requerido</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <ngb-timepicker id="hora" formControlName="hora"  [meridian]="meridian" required></ngb-timepicker>
+        <div *ngIf="(submitted && fields['hora'].errors) || (fields['hora'].value | json) === '{}'" class="alert">
+          <div *ngIf="(fields['hora'].errors && fields['hora'].errors.required) || (fields['hora'].value | json) === '{}'"  style="text-align: left;">
+            <span style="text-align: center;">Campo requerido</span>
+          </div>
+        </div>
+      </div>
+
+      <!--div class="form-group col-md-12">
+        <label for="idCfdiAdicionales">CFDI Adicionales</label>
+        <ng-select id="idCfdiAdicionales" [items]="CfdisRows" bindLabel="CUC_DESCRIPCION" bindValue="CUC_CVEUSOCFDI"
+          formControlName="idCfdiAdicionales" placeholder="CFDI Adicionales">
+        </ng-select>
+        <div *ngIf="submitted && fields['idCfdiAdicionales'].errors" class="alert">
+          <div *ngIf="fields['idCfdiAdicionales'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div-->
+
+     <div class="form-group col-md-12">
+        <label for="iva">IVA</label>
+        <ng-select
+        id="iva"
+        formControlName="iva"
+        placeholder="iva"
+        [items]="ivasRows"
+        bindLabel="fullLabel"
+        bindValue="idIva"
+        >
+        </ng-select>
+        <div *ngIf="submitted && fields['iva'].errors" class="alert">
+          <div *ngIf="fields['iva'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="leyendaFactura">Leyenda Factura</label>
+        <textarea id="leyendaFactura" formControlName="leyendaFactura"
+          placeholder="Escriba la leyenda que quiere que aparezca en la facturación del vehículo." class="form-control"
+          minlength="4" rows="3">
+        </textarea>
+        <div *ngIf="submitted && fields['leyendaFactura'].errors" class="alert">
+          <div *ngIf="fields['leyendaFactura'].errors.required">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-warning modal-btn" (click)="closeModal()">Cancelar</button>
+  <button  type="button" [disabled]="pricingManagerService.onlyRead" class="btn btn-primary modal-btn" (click)="save()">Aceptar</button>
+</div>

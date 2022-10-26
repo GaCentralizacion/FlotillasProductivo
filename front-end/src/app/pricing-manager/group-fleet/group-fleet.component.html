@@ -1,0 +1,140 @@
+<div class="row">
+  <form [formGroup]="form">
+    <table class="table" style="min-height: 180px;" id='tableUnit'>
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Marca</th>
+          <th scope="col">Unidades</th>
+          <th scope="col">Empresa</th>
+          <th scope="col">Sucursal</th>
+          <th scope="col">Condiciones de Pago</th>
+          <th scope="col">Financiera</th>
+
+          <th scope="col">Tipo Venta</th>
+          <th scope="col">Moneda</th>
+          <th scope="col">Iva</th>
+
+          <th scope="col">opciones</th>
+          <th scope="col"><button type="button" class="btn btn-primary float-right" (click)="addArray()"
+              >
+              <i class="fas fa-plus"></i>
+            </button></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of flotillasItems; let i = index">
+          <td *ngIf="item.idCotizacion.state"><a href="#"
+              (click)="getCotizacion($event, item)">{{item.selectedMarca.id}}</a></td>
+          <td *ngIf="!item.idCotizacion.state">{{item.selectedMarca.id}}</td>
+          <td>{{item.selectedUnidades.id}}</td>
+          <td>{{item.selectedEmpresa.nombre}}</td>
+          <td>{{item.selectedSucursal.nombre}}</td>
+          <td>{{item.selectedCondicion.nombre}}</td>
+          <td>{{item.selectedFinanciera.nombre}}</td>
+          <td>{{item.selectedTipoVenta.nombre}}</td>
+          <td>{{item.selectedMoneda.nombre}}</td>
+          <td>{{item.selectedIva.nombre}}</td>
+          <td>
+            <button type="button" class="btn btn-danger float-right" (click)="removeItem(i)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngFor="let item of currentArray">
+          <td>
+            <ng-select #fmarcaNgSelect formControlName="marca" [items]="marcaIn" bindLabel="idMarca" bindValue="idMarca"
+              placeholder="Seleccione marca" [clearable]="false" name="marcas" [(ngModel)]="selectedMarca"
+              (change)=marcasOnChange($event) (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.idMarca}}">{{ item.idMarca}}</div>
+              </ng-template>            
+            </ng-select>
+          </td>
+
+          <td>
+            <input type="number" min=0 formControlName="unidades" class="form-control" placeholder="Unidades"
+              [(ngModel)]="selectedUnidades">
+          </td>
+
+          <td>
+            <ng-select #fempresaNgSelect formControlName="empresa" [items]="empresasIn" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Empresa" name="empresas" [(ngModel)]="selectedEmpresa"
+              (change)=empresasOnChange($event) (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template>            
+            </ng-select>
+          </td>
+
+          <td>
+            <ng-select #fsucursalNgSelect formControlName="sucursal" [items]="sucursalesIn" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Sucursal" [(ngModel)]="selectedSucursal"
+              (change)=sucursalesOnChange($event) name="sucursal" (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template>            
+            </ng-select>
+          </td>
+
+          <td>
+            <ng-select #fcondicionNgSelect formControlName="condicion" [items]="condicionesIn" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Condición" (change)=condicionesOnChange($event)
+              [(ngModel)]="selectedCondicion" name="condicion" (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template> 
+            </ng-select>
+          </td>
+
+          <td>
+            <ng-select #ffinancieraNgSelect formControlName="financiera" [items]="financierasIn" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Financiera" (change)=financierasOnChange($event)
+              [(ngModel)]="selectedFinanciera" name="financiera" (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template> 
+            </ng-select>
+          </td>
+
+          <td>
+            <ng-select #ffinancieraNgSelect formControlName="venta" [items]="tiposVenta" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Tipo Venta" (change)=ventaOnChange($event)
+              [(ngModel)]="selectedTipoVenta" name="venta" (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template> 
+            </ng-select>
+          </td>
+
+          <td>
+            <ng-select #ffinancieraNgSelect formControlName="moneda" [items]="monedas" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Moneda" (change)=monedaOnChange($event)
+              [(ngModel)]="selectedMoneda" name="moneda" (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template> 
+            </ng-select>
+          </td>
+
+          <td>
+            <ng-select #ffinancieraNgSelect formControlName="iva" [items]="ivas" bindLabel="nombre"
+              bindValue="nombre" placeholder="Seleccione Iva"  (change)=ivaOnChange($event)
+              [(ngModel)]="selectedIva" name="iva" (focus)="focusSelect()">
+              <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.nombre}}">{{ item.nombre}}</div>
+              </ng-template> 
+            </ng-select>
+          </td>
+
+          <td>
+            <button class="btn btn-primary" (click)="addItem()" [disabled]="!form.valid">
+              Agregar
+            </button>
+          </td>
+
+
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>

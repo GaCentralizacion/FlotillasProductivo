@@ -1,0 +1,7 @@
+{
+    "$id": "color_unidad_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./color_unidad.schema.json"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "$id": "unidad_medida.schema.json",
+    "type": "object",
+    "required": [
+        "idUnidadMedida",
+        "nombre"
+    ],
+    "properties": {
+        "idUnidadMedida": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Unidad de Medida"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        }
+    }
+}

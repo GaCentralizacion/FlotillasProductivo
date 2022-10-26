@@ -1,0 +1,31 @@
+{
+  "$id": "cliente_factura.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idCliente",
+      "nombreCliente",
+      "idContacto"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de Cotizador",
+          "maxLength": 20
+        },
+        "idCliente": {
+            "type": "number",
+            "description": "Número de identificador del cliente"
+        },
+        "nombreCliente": {
+            "type": "string",
+            "description": "Nombre del cliente",
+            "maxLength": 20
+        },
+        "idContacto": {
+            "type": "number",
+            "description": "Identificador del contacto"
+        }
+    }
+}

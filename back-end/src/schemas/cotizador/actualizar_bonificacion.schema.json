@@ -1,0 +1,30 @@
+{
+	"$id": "actualizar_bonificacion.schema.json",
+	"type": "object",
+	"required": [
+		"idCotizacion",
+    "bonificacion",
+    "idGrupoUnidad"
+	],
+	"properties": {
+		"idCotizacion": {
+			"type": "string",
+			"uniqueItems": true,
+			"description": "Identificador de Cotizador",
+			"maxLength": 20
+    },
+    "idGrupoUnidad": {
+			"type": "number",
+			"uniqueItems": true,
+			"description": "Identificador del grupo unidad"
+		},
+		"bonificacion": {
+			"type": "number",
+			"description": "Cantidad de bonificación"
+    },
+    "idBonificacion": {
+			"type": "number",
+			"description": "Identificador de bonificación"
+		}
+	}
+}

@@ -1,0 +1,33 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+    <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+  </div>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Datos Complementarios O.C. a BPRO</h4>
+    <button type="button" (click)="activeModal.close()" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="row" [formGroup]="formVehiculo" *ngIf="formVehiculo">
+    <div class="modal-body">
+        <div class='col-sm-12 col-md-6 col-xl-6'>
+            <small class="title-span">Color Interior</small><br>
+            <select formControlName="interiorColor" class="browser-default custom-select">
+              <option [value]="item.idColor" *ngFor="let item of interiorColors">{{item.nombre}}</option>
+            </select>
+          </div>
+          <div class='col-sm-12 col-md-6 col-xl-6'>
+            <small class="title-span">Color Exterior</small><br>
+            <select formControlName="exteriorColor" class="browser-default custom-select">
+              <option [value]="item.idColor" *ngFor="let item of exteriorColors">{{item.nombre}}</option>
+            </select>
+          </div>
+      </div>
+  </form> 
+  <div class="modal-footer">
+    <div class='col-sm-12 col-md-12 col-xl-12'>
+      <button type="button" (click)="saveOrderCompra()"
+        class="btn btn-primary float-right">Continuar</button>
+    </div>
+  </div>
+   

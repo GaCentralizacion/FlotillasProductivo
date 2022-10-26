@@ -1,0 +1,94 @@
+{
+    "$id": "cotizacion_unidad_accesorio_mov.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "tipoMovimiento"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "description": "Identificador de cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "description": "Identificador de grupo de unidad"
+        },
+        "idDetalleUnidad": {
+            "type": "integer",
+            "description": "Identificador de detalle de unidad"
+        },
+        "idAccesorio": {
+            "type": "string",
+            "description": "Identificador de accesorio"
+        },
+        "idEncPaqueteAccesorio": {
+            "type": "integer",
+            "description": "Identificador del paquete de accesorio"
+        },
+        "idDetPaqueteAccesorio": {
+            "type": "integer",
+            "description": "Identificador de accesorio del paquete"
+        },
+        "idAccesorioNuevo": {
+            "type": "integer",
+            "description": "Identificador de accesorio nuevo"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "idTipoProveedor": {
+            "type": "string",
+            "description": "Identificador del tipo de proveedor"
+        },
+        "idProveedor": {
+            "type": "integer",
+            "description": "Identificador de proveedor"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre del proveedor"
+        },
+        "idParte": {
+            "type": "string",
+            "description": "Identificador de parte"
+        },
+        "modeloAnio": {
+            "type": "string",
+            "description": "Modelo y año"
+        },
+        "cantidad": {
+            "type": "integer",
+            "description": "Cantidad de accesorios"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "tipoMovimiento": {
+            "type": "string",
+            "description": "Tipo de movimiento",
+            "enum": [
+                "A",
+                "B",
+                "C"
+            ]
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador del usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificacion del registro",
+            "format": "date-time"
+        }
+    }
+}

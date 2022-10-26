@@ -1,0 +1,28 @@
+{
+    "$id": "rel_cliente_direccion_flotillas.schema.json",
+    "type": "object",
+    "required": [
+        "idCliente",
+        "idDireccionFlotillas"
+    ],
+    "properties": {
+        "idCliente": {
+            "type": "integer",
+            "description": "Identificador de Cliente"
+        },
+        "idDireccionFlotillas": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Dirección de Flotilas"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

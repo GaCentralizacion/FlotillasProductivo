@@ -1,0 +1,7 @@
+{
+    "$id": "valida_disponible_cierre_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "valida_disponible_cierre.schema.json"
+    }
+}

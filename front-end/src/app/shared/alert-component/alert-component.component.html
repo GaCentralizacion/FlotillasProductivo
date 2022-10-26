@@ -1,0 +1,19 @@
+<ng-container>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{data.title}}</h4>
+    <button type="button" (click)="modalService.dismissAll()" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-12">
+      <span>{{data.message}}</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class='col-sm-12 col-md-12 col-xl-12'>
+      <button type="button" (click)="ok()" class="btn btn-primary float-right">{{data.msgOk}}</button>
+      <button type="button" (click)="cancel()" class="btn btn-warning float-right mr-2">{{data.msgCancel}}</button>
+    </div>
+  </div>
+</ng-container>

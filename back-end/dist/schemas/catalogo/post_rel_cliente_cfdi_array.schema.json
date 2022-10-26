@@ -1,0 +1,7 @@
+{
+    "$id": "post_rel_cliente_cfdi_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "./post_rel_cliente_cfdi.schema.json"
+    }
+}

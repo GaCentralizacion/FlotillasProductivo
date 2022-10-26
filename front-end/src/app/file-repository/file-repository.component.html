@@ -1,0 +1,163 @@
+<ng-template #uploadFileTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar nuevo archivo</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label>Marca</label>
+          <div class="input-group">
+            <ng-select [(ngModel)]="marcaSelectedUpload" placeholder="Marca" [items]="marcas"
+              [ngModelOptions]="{standalone: true}" bindValue="idMarca" bindLabel="idMarca" [clearable]="false">
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Año</label>
+          <div class="input-group">
+            <ng-select [(ngModel)]="anioSelectedUpload" placeholder="Año" [items]="anios"
+              [ngModelOptions]="{standalone: true}" [clearable]="false">
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Mes</label>
+          <div class="input-group">
+            <ng-select [(ngModel)]="mesSelectedUpload" placeholder="Mes" [items]="meses"
+              [ngModelOptions]="{standalone: true}" [clearable]="false">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <row>
+        <div class="form-group col-md-12">
+          <label>Archivo</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" (change)="handleInputChange($event)" accept=".xls,.xlsx,.doc,.docx,.pdf">
+            <label class="custom-file-label">{{fileNameUpload == undefined?'Elija un archivo':fileNameUpload}}</label>
+          </div>
+          <small class="form-text text-muted">
+            Debe seleccionar un archivo para agregarlo al repositorio evite que sea de gran tamaño (20 mb)
+          </small>
+        </div>
+        <div *ngIf="mensajeError != undefined" class="alert alert-warning fade show" role="alert">
+          {{mensajeError}}
+          <button (click)="closeMessage()" type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </row>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="setDocument()">Enviar</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+<ng-template #deleteFileTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar archivo</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <row>
+        <div class="form-group col-md-12">
+          <label>¿Realmente desea eliminar el archivo <strong>{{fileNameDelete}}</strong>?</label>
+        </div>
+        <div *ngIf="mensajeErrorEliminar != undefined" class="alert alert-warning fade show" role="alert">
+          {{mensajeErrorEliminar}}
+          <button (click)="closeMessageEliminar()" type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </row>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="deleteDocument()">Sí</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+<sh-context-menu #menu>
+  <ng-template shContextMenuItem let-file>
+    <div (click)="openModalDelete(deleteFileTemplate, file.filename)">
+      Eliminar "{{file.filename}}"
+    </div>
+  </ng-template>
+</sh-context-menu>
+<div>
+  <h1 class="general-titles">Repositorio de Archivos</h1>
+  <div class="shadow">
+    <div class="row p-2">
+      <div class="form-group col-md-6">
+        <div class="input-group">
+          <input #searchText aria-describedby="helpSearch" placeholder="Buscar" type="text" class="form-control">
+          <span class="input-group-btn">
+            <button (click)="selectMarca(undefined, searchText.value)" class="btn btn-light" type="button"><i
+                class="fa fa-search"></i></button>
+          </span>
+        </div>
+        <small *ngIf="marcaSelected != undefined" id="helpSearch" class="form-text text-muted">
+          Archivos encontrados: <span class="font-weight-bold">{{textoArchivosEncotrados}}</span> de la marca <span
+            class="font-weight-bold">{{marcaSelected.idMarca}}
+          </span>
+        </small>
+      </div>
+      <!-- <div class="col-md-3">
+        <div class="btn-group">
+          <button class="btn big-btn"><i class="fas fa-sort-alpha-down"></i></button>
+          <button class="btn big-btn"><i class="fas fa-sort-alpha-up"></i></button>
+          <button class="btn big-btn"><i class="fas fa-sort-amount-down"></i></button>
+          <button class="btn big-btn"><i class="fas fa-sort-amount-up"></i></button>
+        </div>
+      </div> -->
+      <div class="col-md-6">
+        <button (click)="openModal(uploadFileTemplate)" class="btn big-btn pull-right"><i
+            class="fas fa-cloud-upload-alt"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <label class="brand-title">Marcas</label>
+    </div>
+    <div *ngFor="let marca of marcas" class="col-auto not-selected-folder folder">
+      <div (click)="selectMarca(marca, searchText.value)"
+        [ngClass]="{'selected-folder': marcaSelected.idMarca == marca.idMarca}" class="d-inline-block text-center">
+        <i class="far fa-folder-open brand-folder"></i><br>
+        <p class="brand-name">{{marca.idMarca}}</p>
+      </div>
+    </div>
+    <hr class="m-0" width="100%">
+  </div>
+  <div class="years-container">
+    <div *ngFor="let yearItem of repositoryFiles" class="row">
+      <div class="col-md-2">
+        <p class="year-title text-right">{{yearItem.year}}</p>
+      </div>
+      <div *ngFor="let monthItem of yearItem.months" class="col-md-1 not-selected-folder folder">
+        <div (click)="selectMonth(yearItem.year, monthItem)"
+          [ngClass]="{'selected-folder': (yearItem.year + '/' + monthItem.monthName) == selectedMonth}"
+          class="d-inline-block text-center">
+          <i class="far fa-folder-open brand-folder"></i><br>
+          <p class="brand-name">{{monthItem.monthName}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="m-0" width="100%">
+  <div class="row mt-2" *ngIf="selectedFiles != undefined && selectedFiles.length>0">
+    <div class="col-md-2">
+      <p class="file-title text-right">Archivos</p>
+    </div>
+    <div *ngFor="let file of selectedFiles" class="ml-2 col-sm-2">
+      <div [shAttachMenu]="menu" [shMenuData]="file">
+        <div (click)="downloadFile(file.filename)" class="d-inline-block text-center file-item">
+          <i [ngClass]="file.iconClass" class="file"></i><br>
+          <p class="file-name">{{file.filename}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

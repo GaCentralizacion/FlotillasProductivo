@@ -1,0 +1,19 @@
+{
+    "$id": "tramite.schema.json",
+    "type": "object",
+    "required": [
+        "idTramite",
+        "nombre"
+    ],
+    "properties": {
+        "idTramite": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Trámite"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre del trámite"
+        }
+    }
+}

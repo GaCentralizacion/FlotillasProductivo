@@ -1,0 +1,56 @@
+{
+    "$id": "media_chat.schema.json",
+    "type": "object",
+    "required": [
+        "nombre",
+        "idContactoChat",
+        "tipoMedio"
+    ],
+    "properties": {
+        "idMediaChat": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de media"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre",
+            "maxLength": 100
+        },
+        "mediaPath": {
+            "type": "string",
+            "description": "Path"
+        },
+        "idContactoChat": {
+            "type": "string",
+            "description": "Identificador de contacto que generó el mensaje"
+        },
+        "tipoMedio": {
+            "type": "string",
+            "description": "Tipo de medio o extensión",
+            "enum": [
+                "jpg",
+                "jpeg",
+                "pdf",
+                "doc",
+                "docx",
+                "xls",
+                "xlsx",
+                "png"
+            ]
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        },
+        "contenido": {
+            "type": "string",
+            "description": "Contenido del archivo en base64"
+        }
+    }
+}

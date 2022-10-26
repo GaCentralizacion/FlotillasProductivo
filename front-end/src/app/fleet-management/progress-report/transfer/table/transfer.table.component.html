@@ -1,0 +1,80 @@
+<ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" #mainTable child-table
+  class="bootstrap mt-1 expandable" [columnMode]="'force'" [headerHeight]="50" [rowHeight]="50" [limit]="10"
+  [rows]="grupoUnidades" [selectionType]="'single'" [scrollbarH]="true" [selectAllRowsOnPage]="false"
+  [selected]="selected" (select)='onSelect($event)'>
+
+  <ngx-datatable-row-detail [rowHeight]="rowHeight" (toggle)="onDetailToggle($event)">
+
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+
+      <div style="margin-left: 10px;width: 100%" *ngIf="selected[0] && selected[0].children.length > 0">
+        <app-transfer-table [onlyRead]="onlyRead" #transferTableComponent [grupoUnidades]="selected[0].children"
+          [id]="childID" (changeParent)="somethingChange($event)" (lastEvent)="lastChange($event)"></app-transfer-table>
+      </div>
+
+    </ng-template>
+
+  </ngx-datatable-row-detail>
+
+
+  <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false"
+    name="#">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+        title="Mostrar Detalle" (click)="toggleExpandRow(row)"></a>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Movimiento" headerClass="font-weight-bold" cellClass="small" [draggable]="false"
+    [resizeable]="false">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{row.idCotizacionTraslado}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Punto de Partida" prop="ubicacionOrigen">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Punto de LLegada"
+    prop="ubicacionDestino">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Proveedor" prop="nombreProveedor">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Unidades" prop="cantidad">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Precio" prop="precioTotal">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{row.precioTotal | currency:'MXN':'symbol-narrow' }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Fecha de Entrega" prop="fechaEntrega">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Utilidad">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong><span [ngClass]="{'badge badge-danger': row.utilidadTotal < 0}">{{row.utilidadTotal | currency: ' ' }}
+          %</span></strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column headerClass="font-weight-bold" name="Acciones" [resizeable]="false" [width]="100"
+    cellClass="small" prop="condiciones">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <div *ngIf="!this.bProStatus.ucu_idpedidobpro">
+        <button [disabled]="onlyRead" style="font-size: 2em;color: blue; border-width: 0px;"
+          (click)="openModalEditComponent(row)">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button [disabled]="onlyRead" style="font-size: 2em;padding-left: 10px;color: red; border-width: 0px;"
+          (click)="trashRow(row)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+
+</ngx-datatable>

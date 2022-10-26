@@ -1,0 +1,98 @@
+{
+  "$id": "cliente.schema.json",
+  "type": "object",
+  "required": [
+    "idCliente"
+  ],
+  "properties": {
+    "idCliente": {
+      "type": "integer",
+      "uniqueItems": true,
+      "description": "Identificador del cliente"
+    },
+    "rfc": {
+      "type": "string",
+      "description": "RFC"
+    },
+    "tipoPersona": {
+      "type": "string",
+      "description": "Tipo de persona"
+    },
+    "tipoMoral": {
+      "type": "string",
+      "description": "Tipo de persona moral"
+    },
+    "nombreCompleto": {
+      "type": "string",
+      "description": "Nombre completo del cliente"
+    },
+    "curp": {
+      "type": "string",
+      "description": "CURP"
+    },
+    "telefono": {
+      "type": "string",
+      "description": "Teléfono de contacto"
+    },
+    "extension": {
+      "type": "string",
+      "description": "Extensión"
+    },
+    "telefonoAlternativo": {
+      "type": "string",
+      "description": "Teléfono alternativo"
+    },
+    "extensionAlternativo": {
+      "type": "string",
+      "description": "Extensión alternativo"
+    },
+    "celular": {
+      "type": "string",
+      "description": "Celular"
+    },
+    "correo": {
+      "type": "string",
+      "description": "Correo"
+    },
+    "pais": {
+      "type": "string",
+      "description": "País"
+    },
+    "estado": {
+      "type": "string",
+      "description": "Estado"
+    },
+    "ciudad": {
+      "type": "string",
+      "description": "Ciudad"
+    },
+    "municipioAlcaldia": {
+      "type": "string",
+      "description": "Municipio o alcaldía"
+    },
+    "colonia": {
+      "type": "string",
+      "description": "Colonia"
+    },
+    "calle": {
+      "type": "string",
+      "description": "Calle"
+    },
+    "numeroExterior": {
+      "type": "string",
+      "description": "Número exterior"
+    },
+    "numeroInterior": {
+      "type": "string",
+      "description": "Número interior"
+    },
+    "codigoPostal": {
+      "type": "string",
+      "description": "Código postal"
+    },
+    "estatus": {
+      "type": "string",
+      "description": "Estatus"
+    }
+  }
+}

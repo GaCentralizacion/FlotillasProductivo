@@ -1,0 +1,19 @@
+{
+    "$id": "financiera.schema.json",
+    "type": "object",
+    "required": [
+        "idFinanciera",
+        "nombre"
+    ],
+    "properties": {
+        "idFinanciera": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la Financiera"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre de la Financiera"
+        }
+    }
+}

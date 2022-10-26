@@ -1,0 +1,7 @@
+{
+  "$id": "valida_vin_asignados_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "./valida_vin_asignados.schema.json"
+  }
+}

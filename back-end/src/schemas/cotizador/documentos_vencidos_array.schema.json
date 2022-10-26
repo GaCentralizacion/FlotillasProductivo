@@ -1,0 +1,7 @@
+{
+    "$id": "documentos_vencidos_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "documentos_vencidos.schema.json"
+    }
+}

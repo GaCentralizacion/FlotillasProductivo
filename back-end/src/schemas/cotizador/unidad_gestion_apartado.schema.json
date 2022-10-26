@@ -1,0 +1,20 @@
+{
+    "$id": "unidad_gestion_apartado.schema.json",
+    "type": "object",
+    "required": [
+        "idSucursal",
+        "vin"
+    ],
+    "properties": {
+        "idSucursal": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Sucursal"
+        },
+        "vin": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "VIN"
+        }
+    }
+}

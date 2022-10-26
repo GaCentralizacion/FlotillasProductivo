@@ -1,0 +1,7 @@
+{
+    "$id": "cancelar_accesorio_de_pedido_adicionales_array.schema.json",
+    "type": "object",
+    "items": {
+      "$ref": "cancelar_accesorio_de_pedido_adicionales_array.schema.json"
+    }
+  }

@@ -1,0 +1,76 @@
+{
+    "$id": "cotizacion_unidad_servicio_unidad_mov.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "idServicioUnidad",
+        "tipoMovimiento"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de grupo de unidades"
+        },
+        "idDetalleUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de detalle de unidad"
+        },
+        "idServicioUnidad": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de servicio"
+        },
+        "catalogo": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de catálogo de unidades"
+        },
+        "anio": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "año"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripción"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "tipoMovimiento": {
+            "type": "string",
+            "description": "Tipo de movimiento",
+            "enum": [
+                "A",
+                "B"
+            ]
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificación",
+            "format": "date-time"
+        }
+    }
+}

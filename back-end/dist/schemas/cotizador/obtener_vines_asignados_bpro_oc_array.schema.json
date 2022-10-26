@@ -1,0 +1,7 @@
+{
+    "$id": "obtener_vines_asignados_bpro_oc_array.schema.json",
+    "type": "object",
+    "items": {
+        "$ref": "./obtener_vines_asignados_bpro_oc.schema.json"
+    }
+}
