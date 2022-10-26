@@ -1,0 +1,30 @@
+{
+    "$id": "detalle_unidad_asigna_vin.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion",
+        "idGrupoUnidad",
+        "idDetalleUnidad",
+        "vin"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de la cotización"
+        },
+        "idGrupoUnidad": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del grupo unidad"
+        },
+        "idDetalleUnidad": {
+            "type": "integer",
+            "description": "Identificador del detalle unidad"
+        },
+        "vin": {
+            "type": "string",
+            "description": "Identificador de la unidad"
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<div>
+    <h1 class="general-titles">Chat y Notificaciones</h1>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <app-chat-cotizaciones [chatCotizaciones]="grupoChatRows" (enviarContactos)="obtenerConctactos($event)" (mensajeContacto)="obtenerMensajes($event)" (enviaIdGrupoChat)="obtenerIdGrupoChat($event)"></app-chat-cotizaciones>
+        </div>
+        <div class="col-md-4">
+            <app-chat-usuarios [contactosObtenidos]="contactosObtenidos" [mensajeView]="mensajeView"></app-chat-usuarios>
+            <app-chat-notificacion [idGrupoChat]="idGrupoChat"></app-chat-notificacion>
+        </div>
+        <div class="col-md-4">
+            <app-chat-mensajes (messageEvent)="messageEvent($event)" [idGrupoChat]="idGrupoChat" [receptores]="contactosObtenidos"></app-chat-mensajes>
+        </div>
+    </div>
+</section>

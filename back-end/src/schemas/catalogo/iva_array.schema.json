@@ -1,0 +1,7 @@
+{
+    "$id": "iva_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "iva.schema.json"
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "$id": "modelo_filter.schema.json",
+    "type": "object",
+    "required": [
+        "idEmpresa",
+        "idCatalogo",
+        "anio"
+    ],
+    "properties": {
+        "idEmpresa": {
+            "type": "integer",
+            "description": "Identificador de empresa"
+        },
+        "idCatalogo": {
+            "type": "string",
+            "description": "Identificador de catálogo de vehículos"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año del modelo"
+        }
+    }
+}

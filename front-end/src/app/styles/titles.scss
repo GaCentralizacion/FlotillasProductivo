@@ -1,0 +1,30 @@
+.general-titles {
+    font-family: 'Segoe UI';
+    font-style:italic;
+    color: #ccc;
+    font-size: 2em;
+}
+
+.brand-title {
+  font-family: 'Helvetica Neue';
+  color: #777;
+  font-size: 2em;
+}
+
+.geneal-sub-titles {
+    font-family: 'Segoe UI';
+    font-style:italic;
+    font-size: 2em;
+}
+
+
+.gif-loading {
+  position: fixed;
+  height:100%;
+  width: 100%;
+  margin: auto;
+  top: 0;left: 0;right: 0;bottom: 0;
+  z-index: 1006;
+  background-color: rgba(0,0,0,0.7);
+  perspective: 1500px;
+}

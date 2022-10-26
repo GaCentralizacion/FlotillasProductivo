@@ -1,0 +1,20 @@
+<div class="box box-primary direct-chat direct-chat-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Contactos</h3>
+    </div>
+
+    <div class="box-body">
+        <div *ngIf="mensajeView && mensajeView.length > 0">
+            <label class="general-titles">{{ mensajeView }}</label>
+        </div>
+        <div *ngIf="!contactosObtenidos.length" class="col-md-3 contact">
+        </div>
+        <div class="list-group contact-show">
+            <ul class="list-group">
+                <li *ngFor="let contactos of contactosObtenidos" class="list-group-item">
+                    {{ contactos.nombreCompleto }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

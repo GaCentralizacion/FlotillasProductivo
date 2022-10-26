@@ -1,0 +1,61 @@
+<h3 class="general-titles">
+    Catálogo de Usuarios
+</h3>
+<div>
+  <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5" [rows]="usuariosFilter" [columnMode]="'force'" [limit]="5" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+
+    <ngx-datatable-column [width]="30" [sortable]="true" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="idUsuario" prop="idUsuario">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchIdUsuario" placeholder="Id"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="nombreCompleto" prop="nombreCompleto">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchNombreCompleto" placeholder="Nombre completo"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="email" prop="email">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchEmail" placeholder="Email"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="userName" prop="userName">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchUserName" placeholder="Usuario"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="celular" prop="celular">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchCelular" placeholder="Celular"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="fechaRegistro" prop="fechaRegistro">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchFechaRegistro" placeholder="Fecha de registro"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="50" name="ultimoLogin" prop="ultimoLogin">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchUltimoLogin" placeholder="Último login"
+         (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+
+</div>

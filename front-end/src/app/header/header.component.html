@@ -1,0 +1,60 @@
+<header class="main-header" *ngIf="collapsed != undefined">
+  <a class="logo" [ngClass]="{'sidebar-collapse': collapsed}">
+    <span class="logo-mini"><img class="icono-f"></span>
+    <span class="logo-lg"><img class="icono-f"> Flotillas</span>
+  </a>
+  <nav class="navbar navbar-static-top shadow bg-white" [ngClass]="{'sidebar-collapse': collapsed}">
+    <a id="sidebar-toggle-buttom" (click)="toggle()">
+      <i class="fas fa-bars"></i>
+    </a>
+    <form class="form-inline">
+      <span class="btn mr-1 realtive" (click)="showNotificationEvent()">
+        <i class="fa fa-bell notification">
+        </i>
+        <div class="notification-count">
+          <span>{{ (messages.length + cotizaciones.length) }}</span>
+        </div>
+      </span>
+      <span class="btn mr-1" (click)="gotoFileRepository()"><img class="file"></span>
+      <span class="btn mr-1" (click)="gotoLog()"><img class="grid"></span>
+      <span class="btn mr-1" (click)="closeSession()"><img class="close"></span>
+    </form>
+  </nav>
+</header>
+
+
+<div class="menu-arrow" [ngClass]="{'animated bounceInDown':showNotification, 'bounceNone':!showNotification}">
+  <div class="menu" [style.top]="'10px'">
+    <ul class="menu-list">
+        <i fxFlex="15" fxLayoutAlign="center center" class="fa fa-edit" style="color: #3c8dbc"></i>
+        <span fxLayoutAlign="start center" fxFlex="85">Cotizaciones</span>
+      <li fxLayout="row" *ngFor="let cot of cotizaciones">
+        <div class="notification-label">
+          <span style="color: black">{{ (cot.idGrupoChat) ?  (cot.idGrupoChat): 'AU-ZM-NZA-UN-5645' }}</span>
+          <div>
+            <a *ngIf="cot.idTipoNotificacion === 3" [href]="cot.link">Notificacion de cr&eacute;dito</a>
+            <a *ngIf="cot.idTipoNotificacion === 9" [href]="cot.link">Notificacion de unidades</a>
+            <a *ngIf="cot.idTipoNotificacion === 2" [href]="cot.link">Notificacion de utilidad</a>
+          </div>
+        </div>
+      </li>
+      <i fxFlex="15" fxLayoutAlign="center center" class="fa fa-comments" style="color: green"></i>
+      <span fxLayoutAlign="start center" fxFlex="85">Mensajes</span>
+      <li fxLayout="row" *ngFor="let mess of messages">
+        <div class="notification-label">
+          <span  style="color: black">{{ (mess.idGrupoChat) ?  (mess.idGrupoChat): 'AU-ZM-NZA-UN-5645' }}</span>
+          <div>
+            <a  [href]="mess.link">{{ (mess.leida) ?  'mensaje leido': 'mensaje nuevo' }}</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="arrowtest-top" style="left: 45%;"></div>
+  </div>
+</div>
+
+
+
+<div class="fake-header">
+
+</div>

@@ -1,0 +1,7 @@
+{
+  "$id": "actualizar_imprime_factura_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "actualizar_imprime_factura.schema.json"
+  }
+}

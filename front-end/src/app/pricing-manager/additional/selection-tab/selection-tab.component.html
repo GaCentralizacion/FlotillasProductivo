@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <ngb-tabset [justify]="'start'">
+    
+      <ngb-tab title="Tramites y Gestion">
+        <ng-template ngbTabContent>
+          <app-group-tables [actualTab]="'tramites'" [gruposUnidades]="gruposUnidades"></app-group-tables>
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab title="Accesorios">
+          <ng-template ngbTabContent>
+              <app-group-tables [actualTab]="'accesorios'" [gruposUnidades]="gruposUnidades"></app-group-tables>
+          </ng-template>
+      </ngb-tab>
+
+      <ngb-tab title="Órdenes de Servicio">
+          <ng-template ngbTabContent>
+              <app-group-tables [actualTab]="'serviciosUnidad'" [gruposUnidades]="gruposUnidades"></app-group-tables>
+          </ng-template>
+      </ngb-tab>
+
+      <ngb-tab title="Resumen">
+          <ng-template ngbTabContent>
+            <div class="d-flex flex-column">
+                <div class="col-12 summary-table">
+                    <h5>Resumen</h5>
+                    <hr class="linea1">
+                    <app-summary-tables #adicionales [cotizaciones]="gruposUnidades" type="Total"></app-summary-tables>
+                </div>
+                <div class="col-12 summary-table">
+                    <h5>Trámites y Gestión</h5>
+                    <hr class="linea1">
+                    <app-summary-tables #servicios [cotizaciones]="gruposUnidades" type="Tramites" ></app-summary-tables>
+                </div>
+                <div class="col-12 summary-table">
+                    <h5>Accesorios</h5>
+                    <hr class="linea1">
+                    <app-summary-tables #accesorios [cotizaciones]="gruposUnidades" type="Accesorios" ></app-summary-tables>
+                </div>
+                <div class="col-12 summary-table">
+                    <h5>Órdenes de Servicio</h5>
+                    <hr class="linea1">
+                    <app-summary-tables #ordenes [cotizaciones]="gruposUnidades" type="Ordenes" ></app-summary-tables>
+                </div>
+              </div>
+          </ng-template>
+      </ngb-tab>
+  </ngb-tabset>
+</div>

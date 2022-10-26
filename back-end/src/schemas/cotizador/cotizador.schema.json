@@ -1,0 +1,155 @@
+{
+    "$id": "cotizador.schema.json",
+    "type": "object",
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Cotizador"
+        },
+        "idDireccionFlotillas": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Flotillas"
+        },
+        "idCliente": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "Identificador de Cliente"
+        },
+        "nombreCliente": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "nombre del Cliente"
+        },
+        "idCondicion": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Identificador del metodo de pago C0-credito C1-contado"
+        },
+        "nombreCondicion": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "nombre de la Condición de pago"
+        },
+        "idEmpresa": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "Módulo relaciodo al evento evento"
+        },
+        "nombreEmpresa": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "nombre de la Empresa"
+        },
+        "idMarca": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Identificador de la marca"
+        },
+        "idSucursal": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "Identificador de la sucursal"
+        },
+        "nombreSucursal": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "nombre de la Sucursal"
+        },
+        "idUsuario": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Identificador del Usuario que genera la cotizacion"
+        },
+        "unidades": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "cantidad de unidades"
+        },
+        "idLicitacion": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Identificador de la licitación"
+        },
+        "idFinanciera": {
+            "type": "number",
+            "uniqueItems": false,
+            "description": "Identificador de la financiera"
+        },
+        "nombreFinanciera": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "nombre de la Condición de pago"
+        },
+        "idCfdi": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "Identificador del CFDI"
+        },
+        "idCfdiAdicionales": {
+            "type": "string",
+            "description": "Identificador del Cfdi para adicionales"
+        },
+        "tipoOrden": {
+            "type": "string",
+            "enum": [
+                "FI",
+                "CU"
+            ],
+            "description": "FI - Facturación Independiente, CU - Con Cargo a la Unidad"
+        },
+        "status": {
+            "type": "string",
+            "uniqueItems": false,
+            "description": "status del la cotizacion"
+        },
+        "step": {
+            "type": "integer",
+            "description": "Número de step del proceso de cotización"
+        },
+        "costoTotal": {
+            "type": "number",
+            "description": "Costo Total"
+        },
+        "precioTotal": {
+            "type": "number",
+            "description": "Precio Total"
+        },
+        "numeroOrden": {
+            "type": "string",
+            "description": "Número de órden"
+        },
+        "idTipoVenta": {
+            "type": "string",
+            "description": "Id de tipo de venta"
+        },
+        "idMonedaVenta": {
+            "type": "string",
+            "description": "Id de moneda de venta"
+        },
+        "idIva": {
+            "type": "string",
+            "description": "Id de IVA"
+        },
+        "tasaIva": {
+            "type": "number",
+            "description": "Tasa de iva"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "description": "Fecha de modificación",
+            "format": "date-time"
+        },
+        "grupoUnidades": {
+            "type": "array",
+            "items": {
+                "$ref": "cotizacion_grupo_unidad.schema.json"
+            }
+        }
+    }
+}

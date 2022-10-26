@@ -1,0 +1,7 @@
+{
+    "$id": "tramite_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "tramite.schema.json"
+    }
+}

@@ -1,0 +1,113 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<div class="title-area">
+  <h1 class="general-titles">Adicionales</h1>
+  <h1 class="general-titles" *ngIf="cotizacion" style="font-size: 20px">{{ cotizacion.idCotizacion }}</h1>
+</div>
+<div class="title-area grid_area">
+  <div>
+    <h5 class="">Trámites - Accesorios - Servicios</h5>
+  </div>
+  <div>
+    <h6 class="">Financiera: {{financiera ? financiera : 'NO APLICA' }}</h6>
+  </div>
+  <div>
+    <h6 class="align-right">Número de Licitación: {{idLicitacion ? idLicitacion : 'NO APLICA'}}</h6>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <form [formGroup]="form1">
+    <div class="row d-flex flex-row-reverse" style="margin-bottom: 10px;">
+      <div class="col-md-2 d-flex d-flex-column">
+        <span class="mt-auto mx-auto">
+          <!-- [disabled]="!activo || pricingManagerService.onlyRead || ((  !idTipoOrden || (!idCfdi && idTipoOrden === 'FI')) && hasAditional())" -->
+          <button
+            [disabled]="!activo || pricingManagerService.onlyRead"
+            type="button" (click)="continuar(adicionalesSisco)" class="btn btn-primary fa-pull-right mt-2">
+            Continuar
+          </button>
+        </span>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-md-4"><small>Tipo de Orden</small>
+        <div *ngIf="!activo || pricingManagerService.onlyRead">
+          {{srtTipoOrden}}
+        </div>
+        <div
+          [ngClass]="{'mostrar': !activo || !pricingManagerService.onlyRead,'oculto': !activo || pricingManagerService.onlyRead}">
+          <ng-select #tipoOrdenNgSelect formControlName="tipoOrden" placeholder="Seleccionar Tipo de Orden"
+            [items]="tipoOrden" bindLabel="nombre" bindValue="idTipoOrden" [(ngModel)]="idTipoOrden"
+            (change)=tipoOrdenOnChange($event)>
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+
+        <form *ngIf="!idCfdi" style="margin-left: 0px;margin-top: 15px;background: rgb(230,230,230)">
+
+          <div class="d-flex flex-row" *ngIf="idTipoOrden">
+            <span> <input name="options" type="radio" [disabled]="!activo || pricingManagerService.onlyRead"
+                [checked]="curadio.suma" style="width: 50px;" (change)="onProfitSelectionChange('Suma')">
+              Suma al precio de la unidad</span>
+          </div>
+          <div class="d-flex flex-row" *ngIf="idTipoOrden">
+            <span> <input name="options" type="radio" [disabled]="!activo || pricingManagerService.onlyRead"
+                [checked]="curadio.nosuma" style="width: 50px;" (change)="onProfitSelectionChange('NoSuma')">
+              No suma al precio de la unidad</span>
+          </div>
+
+        </form>
+
+        <small *ngIf="idCfdi">CFDI</small>
+        <div *ngIf="!activo || pricingManagerService.onlyRead">
+          {{srtCFDI}}
+        </div>
+        <div [ngClass]="{'mostrar': !activo || !pricingManagerService.onlyRead,'oculto': !activo || pricingManagerService.onlyRead}">
+          <ng-select *ngIf="idCfdi" #cfdiNgSelect formControlName="cfdi" placeholder="Seleccionar CFDI" [items]="cfdi"
+            bindLabel="nombre" bindValue="idCfdi" [(ngModel)]="idCfdi" (change)=cfdiOnChange($event)
+            [disabled]="!activo || pricingManagerService.onlyRead">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="col-md-4" *ngIf="!idCfdi && idTipoOrden">
+
+
+        <form style="margin-left: 0px;margin-top: 15px;background: rgb(230,230,230);padding-bottom: 25px;">
+
+          <input type="checkbox" name="imprime" [disabled]="!activo || pricingManagerService.onlyRead"
+            [ngModel]="imprime" style="margin-right: 10px;" (change)="changeValue()">
+          <span>Imprime en factura</span>
+
+        </form>
+
+
+
+      </div>
+
+    </div> -->
+  </form>
+  <div class="tables">
+    <app-selection-tab></app-selection-tab>
+  </div>
+</div>
+
+<ng-template #adicionalesSisco let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Accesorios Pendientes de Cotización</h4>
+  </div>
+  <div class="modal-body">
+    <div>
+      {{mensajeValidacion}}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" [disabled]='enviandoSisco' (click)="agregarCotizacionSisco()">Enviar a SISCO</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.dismiss('Cross click')">Cancelar</button>
+  </div>
+</ng-template>

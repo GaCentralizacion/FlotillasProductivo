@@ -1,0 +1,96 @@
+<div>
+    <h1 class="general-titles">Dashboard</h1>
+</div>
+<app-direccion-flotilla-select (emitEvent)="changeDir($event)"></app-direccion-flotilla-select>
+
+<div class="d-flex flex-column w-100">
+    <div class="d-flex flex-row w-100">
+        <div class="d-flex flex-column w-100">
+            <div class="card-body orange d-flex flex-column p-2" style="cursor: pointer;"
+                (click)="goTo('main/cotizaciones', cotizacionesCount)">
+                <span>{{cotizacionesCount}}</span>
+                <i class="fa fa-6x fa-calculator d-flex flex-row-reverse"></i>
+                <span class="card-body-span d-flex flex-row-reverse"><i
+                        class="fa fa-arrow-right"></i>Cotizaciones</span>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column w-100">
+            <div class="card-body blue d-flex flex-column p-2" style="cursor: pointer;"
+                (click)="goTo('main/gestionFlotilla', gestionCount)">
+                <span>{{gestionCount}}</span>
+                <i class="fa fa-6x fa-car d-flex flex-row-reverse"></i>
+                <span class="card-body-span d-flex flex-row-reverse"><i class="fa fa-arrow-right"></i>Flotillas</span>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column w-100">
+            <a href="http://192.168.20.121:4020/busqueda?contratoId=20" target="_blank"
+                onMouseOver="this.style.color='#eee52a'">
+                <div class="card-body yellow d-flex flex-column p-2" style="cursor: pointer;">
+                    <span></span>
+                    <i class="fa fa-6x fa-chart-bar d-flex flex-row-reverse"></i>
+                    <span class="card-body-span d-flex flex-row-reverse"><i class="fa fa-arrow-right"></i>Reporte de
+                        avance</span>
+
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="d-flex flex-row w-100 mt-5 direct-chat-info">
+    <div class="d-flex flex-row w-100">
+
+        <div style="display: block;height: 250px;margin-right: 10px" class="chart card-chart">
+            <span class="d-flex align-items-center" style="height: 30px;margin-left: 10px">
+                <i class="fa fa-comments" style="margin-right: 10px"></i>
+                MENSAJES RECIENTES
+            </span>
+            <div #scrollMe class="direct-chat-messages" style="overflow: scroll; height: xyz;">
+                <div class="direct-chat-msg itemMessaje" (click)="irChatCotizaciones(item)"
+                    *ngFor="let item of messages">
+                    <div [ngClass]="{'right': item.idUsuarioModificacion == idUsuario}">
+                        <p class="direct-chat-img color-user circle">{{ item.usuario }}</p>
+                        <div class="direct-chat-text">
+                            <p><b>{{item.idGrupoChat}}</b></p>
+                            {{ item.cuerpoMensaje }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: block;width: 100%;height: 250px;margin-right: 10px" class="chart card-chart">
+            <span class="d-flex align-items-center" style="height: 30px;margin-left: 10px">
+                <i class="fa fa-list" style="margin-right: 10px"></i>
+                ULTIMAS NOTIFICACIONES
+            </span>
+            <div style="overflow: scroll; height: 90%;">
+                <div class="row notificacion" *ngFor="let notificacion of notifaciones; let i = index">
+                    <div style="width: 80%; height: 40px;" [ngStyle]="{backgroundColor: (i%2) ? '#008D4C' : '#F44336'}">
+                        <div class="row text-bold" style="margin-left: 0px;">
+                            <div style="width: 40%;">{{ notificacion.descripcion }}</div>
+                            <div style="width: 60%;">{{ notificacion.cotizacion }}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="!(i%2)" class="card-tiempo text-right diagonal-rojo">0 min</div>
+                    <div *ngIf="(i%2)" class="card-tiempo text-right diagonal-verde">0 min</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: block;width: 100%;height: 250px;margin-right: 10px" class="chart card-chart">
+            <span class="d-flex align-items-center" style="height: 30px;margin-left: 10px">
+                <i class="fa fa-chart-pie" style="margin-right: 10px"></i>
+                FLOTILLAS
+            </span>
+            <div style="display: block;">
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

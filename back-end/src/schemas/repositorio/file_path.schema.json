@@ -1,0 +1,14 @@
+{
+    "$id": "file_path.schema.json",
+    "type": "object",
+    "required": [
+        "path"
+    ],
+    "properties": {
+        "path": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Ruta del archivo o directorio"
+        }
+    }
+}

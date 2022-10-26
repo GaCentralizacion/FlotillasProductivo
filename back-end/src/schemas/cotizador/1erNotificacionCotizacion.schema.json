@@ -1,0 +1,14 @@
+{
+  "$id": "1erNotificacionCotizacion.schema.json",
+  "type": "string",
+  "required": [
+      "idCotizacion"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "idCotizacion"
+      }
+  }
+}

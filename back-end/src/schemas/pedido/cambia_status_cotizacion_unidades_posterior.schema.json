@@ -1,0 +1,16 @@
+{
+  "$id": "cambia_status_cotizacion_unidades_posterior.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idGrupoUnidad",
+      "idDetalleUnidad"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de cotizacion"
+      }
+  }
+}

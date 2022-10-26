@@ -1,0 +1,19 @@
+{
+  "$id": "filtrar_clientes_combo.schema.json",
+  "type": "object",
+  "required": [
+      "filtro"
+  ],
+  "properties": {
+      "filtro": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Subcadena del campo nombre completo del cliente"
+      },
+      "tipoPersona": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Subcadena del tipo de persona Fisicas (FIS) o Moral (MOR)"
+        }
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "$id": "valida_existencia_movimientos.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotizacion"
+        }
+    }
+}

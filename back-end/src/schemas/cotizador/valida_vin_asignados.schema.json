@@ -1,0 +1,14 @@
+{
+  "$id": "valida_vin_asignados.schema.json",
+  "type": "object",
+  "required": [
+      "vin"
+  ],
+  "properties": {
+      "vin": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "VIN"
+      }
+  }
+}

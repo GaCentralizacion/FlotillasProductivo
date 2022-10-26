@@ -1,0 +1,148 @@
+<div class="modal-header">
+  <h4 class="modal-title general-titles">Configuración de paquetes</h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]='forma'>
+    <div class="form-row">
+      <div class="col-md-3">
+        <small for="nombre">Nombre</small>
+        <div class="input-group">
+          <input formControlName="nombre" name="nombre" [(ngModel)]="paqueteAccesorios.nombre" type="text"
+            class="form-control" id="nombre">
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <small for="descripcion">Descripción</small>
+        <div class="input-group">
+          <input formControlName="descripcion" name="descripcion" [(ngModel)]="paqueteAccesorios.descripcion"
+            type="text" class="form-control" id="descripcion">
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex flex-column">
+        <span class="mt-auto mx-auto">
+          <button type="button" (click)="cancelar()" class="btn btn-warning mx-1">Cancelar</button>
+          <button type="button" [disabled]="!isValidForm()" class="btn btn-primary mx-1"
+            (click)="guardar()">Guardar</button>
+        </span>
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="col-md-2">
+        <small>Marca</small>
+        <ng-select #marcaNgSelectModal [clearable]="false" placeholder="Seleccionar marca" [items]="marcas"
+          bindLabel="idMarca" bindValue="idMarca" [(ngModel)]="paqueteAccesorios.idMarca"
+          (change)="marcasOnChange($event)" [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+
+      <div class="col-md-3">
+        <small>Empresa</small>
+        <ng-select #empresaNgSelectModal placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+          bindValue="idEmpresa" [(ngModel)]="paqueteAccesorios.idEmpresa" (change)="empresasOnChange($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+
+      <div class="col-md-3">
+        <small>Sucursal</small>
+        <ng-select #sucursalNgSelectModal placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+          bindValue="idSucursal" [(ngModel)]="paqueteAccesorios.idSucursal" (change)="sucursalesOnChange($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+
+      <div class="col-md-1">
+        <small style="color:#fff">Buscar items</small>
+        <button type="button" class="btn btn-primary" (click)="search()">Buscar</button>
+      </div>
+    </div>
+    <hr>
+
+  </form>
+  <div class="row">
+    <div class="col-md-6 ml-1">
+      <div class="row">
+        <div class="input-group col-md-8">
+          <input [disabled]="rowsFiltered == undefined || rowsFiltered.length == 0" [(ngModel)]="buscarText" type="text"
+            class="form-control" placeholder="Buscar">
+          <div class="input-group-append">
+            <button [disabled]="rowsFiltered == undefined || rowsFiltered.length == 0" (click)="updateFilter()"
+              class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <button (click)="crearEditarAccesorio()" type="button" class="btn btn-outline-dark col-auto">Nuevo</button>
+      </div>
+    </div>
+  </div>
+  <div class="row mx-1 mt-2">
+    <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" #ngxDataTableModal class="material col-md-5" [rows]="rowsFiltered" [rowClass]="getRowClass"
+      [columnMode]="'force'" [limit]="5" [headerHeight]="50" [columnMode]="'force'" [footerHeight]="50"
+      [rowHeight]="'auto'" [selected]="accesoriosSelected" [selectionType]="'multiClick'">
+      <ngx-datatable-column name="ID" prop="id"></ngx-datatable-column>
+      <ngx-datatable-column name="Nombre" prop="nombre"></ngx-datatable-column>
+      <ngx-datatable-column name="Modelo y año" prop="modeloAnio"></ngx-datatable-column>
+      <ngx-datatable-column name="Costo" prop="costo">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Cantidad" prop="cantidad">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <input id="cantidad_rowIndex" type="number" name="Cantidad_rowIndex" min="1" step="1" [value]="1" placeholder="Cantidad"
+          (input)="setValueCantidad($event.target.value, row)" [(ngModel)]="row.cantidad"
+          >
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Precio" prop="precio">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="col-md-1 d-flex d-flex-column">
+      <button type="button" (click)="agregarItem()" class="btn-floating btn-dark mx-auto my-auto"><i
+          class="fas fa-arrow-right"></i></button>
+    </div>
+    <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="material col-md-6" [limit]="5" [headerHeight]="50" [columnMode]="'force'" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="paqueteAccesorios.accesorios" [rowClass]="getRowClass">
+      <ngx-datatable-column width="80" name="ID" prop="idParte"></ngx-datatable-column>
+      <ngx-datatable-column width="100" name="Servicio" prop="nombre"></ngx-datatable-column>
+      <ngx-datatable-column width="100" name="Modelo y año" prop="modeloAnio"></ngx-datatable-column>
+      <ngx-datatable-column width="80" name="Costo" prop="costo">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Cantidad" prop="cantidad">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <input id="cantidad_rowIndex" type="number" name="Cantidad_rowIndex" min="1" step="1" [value]="1" placeholder="Cantidad"
+          (input)="setValueCantidad($event.target.value, row)" [(ngModel)]="row.cantidad"
+          >
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column width="80" name="Precio" prop="precio">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column width="150" name="">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <button type="button" (click)="eliminarItem(row)" class="btn-floating btn-danger my-auto mr-2"><i
+              class="fas fa-trash"></i></button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row mr-auto ml-1">
+    <div class="col-md-8">
+      <small>Los accesorios que se muestran en <span class="row-orange">naranja</span> fueron agregados
+        recientemente y aún no son parte del catálogo de BPro.</small>
+    </div>
+  </div>
+</div>

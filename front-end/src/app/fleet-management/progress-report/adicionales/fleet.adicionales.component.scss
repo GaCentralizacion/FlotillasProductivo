@@ -1,0 +1,49 @@
+@import "../../../styles/titles.scss";
+
+.container-b {
+    button {
+        margin-left: 10px;
+    }
+}
+.fs-small {
+    font-size: 12px;
+}
+
+.disabled-button {
+    cursor: no-drop !important;
+}
+
+.bg-grupal   { background-color: olivedrab; }
+
+.fs-md {
+    font-size: 13px;
+}
+
+.fs-bg {
+    font-size: 14px;
+}
+
+.paquetes-container {
+    padding-top: 25px;
+    min-height: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+.botones {
+    float: right;
+}
+
+hr {
+    margin-top: 0px;
+    border: 2px solid #6b6b6b !important;
+    padding-top: 0px;
+}
+
+.titulo {
+    font-family: 'Segoe UI';
+    font-style: italic;
+    color: #ccc;
+    font-size: 2em;
+}

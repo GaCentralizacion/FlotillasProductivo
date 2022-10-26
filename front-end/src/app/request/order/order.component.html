@@ -1,0 +1,181 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Configurar pedido</h4>
+  <button type="button" (click)="activeModal.close()" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *ngIf="solicitudGrupo">
+  <form class="row">
+    <div class="col-md-12">
+      <p><strong>Datos de la unidad</strong></p>
+      <hr>
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Catálogo</small>
+      <input type="text" [value]="solicitudGrupo.catalogo" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Año</small>
+      <input type="text" [value]="solicitudGrupo.anio" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Versión</small>
+      <input type="text" [value]="solicitudGrupo.versionUnidad" disabled class="form-control">
+    </div>
+    <!-- <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Color Interior</small>
+      <input type="text" [value]="solicitudGrupo.colorInterior" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Color Exterior</small>
+      <input type="text" [value]="solicitudGrupo.colorExterior" disabled class="form-control">
+    </div> -->
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Clase</small>
+      <input type="text" [value]="solicitudGrupo.clase" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Modelo</small>
+      <input type="text" [value]="solicitudGrupo.modelo" disabled class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Precio Lista</small>
+      <span class="form-control">{{ solicitudGrupo.precioLista | currency }}</span>
+    </div>
+    <div class='col-sm-12 col-md-3 col-xl-3'>
+      <small class="title-span">Cantidad</small>
+      <input type="text" [value]="solicitudGrupo.cantidad" disabled class="form-control">
+    </div>
+  </form>
+  <form class="row" [formGroup]="formPedido" *ngIf="formPedido">
+    <div class="col-md-12 mt-2">
+      <p><strong>Datos del pedido</strong></p>
+      <hr>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Folio de planta</small>
+      <input type="text" formControlName="folioPlanta" class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Fecha de ingreso del folio</small>
+      <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker"
+        style="width: 80%;display: inline;" formControlName="fechaIngresoFolio">
+      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"
+        style="margin-top: auto;margin-bottom: auto;">
+        <img src="assets/images/fontawesomeicons/edit-regular.svg" alt="" style="width: 10px;">
+      </button>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Fecha probable de entrega</small>
+      <input class="form-control" placeholder="yyyy-mm-dd" name="fechaProbableEntrega" ngbDatepicker #d1="ngbDatepicker"
+        formControlName="fechaProbableEntrega" style="width: 80%;display: inline;">
+      <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"
+        style="margin-top: auto;margin-bottom: auto;">
+        <img src="assets/images/fontawesomeicons/edit-regular.svg" alt="" style="width: 10px;">
+      </button>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Estatus del pedido a planta</small>
+      <select formControlName="estatusPedidoPlanta" class="browser-default custom-select">
+        <option [value]="item.estatus" *ngFor="let item of estatus">{{item.estatus}}</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <button type="button" class="btn btn-primary modal-btn float-right" (click)="addPedido()"
+        [disabled]="!formPedido.valid || this.solicitudGrupo.folioPlanta">Agregar</button>
+      <button type="button" class="btn btn-primary modal-btn float-right mr-2" (click)="addPedido()"
+        [disabled]="!formPedido.valid || !this.solicitudGrupo.folioPlanta">Editar</button>
+    </div>
+  </form>
+  <form class="row" [formGroup]="formEntrega" *ngIf="formEntrega">
+    <div class="col-md-12">
+      <p><strong>Configuración de entrega</strong></p>
+      <hr>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Mes</small><br>
+      <select formControlName="mes" class="browser-default custom-select">
+        <option [value]="item.nombre" *ngFor="let item of meses">{{item.nombre}}</option>
+      </select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Año</small><br>
+      <select formControlName="anio" class="browser-default custom-select">
+        <option [value]="item" *ngFor="let item of anios">{{item}}</option>
+      </select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Entrega estimada</small>
+      <input type="text" formControlName="entregaEstimada" type="number" class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Facturadas planta</small>
+      <input type="text" formControlName="facturadasPlanta" type="number" class="form-control">
+    </div>
+    <div class="col-12">
+      <button type="button" class="btn btn-primary modal-btn float-right" (click)="addEntrega(false)"
+        [disabled]="!(solicitudGrupoEntrega && formPedido.valid || this.solicitudGrupo.folioPlanta)">Agregar</button>
+      <button type="button" class="btn btn-primary modal-btn float-right mr-2" (click)="addEntrega(true)"
+      [disabled]="banderaEditar">Editar</button>
+    </div>
+  </form>
+  <p><strong>Detalle entrega unidades</strong></p>
+  <hr>
+  <form class="row">
+  <div class='col-sm-12 col-md-12 col-xl-12'>
+      <button type="button" class="btn btn-success modal-btn float-right mr-2"
+      [disabled]="!(banderaProceso =='PENDIENTE' && banderaFacturar !=0)" (click)="addOrderCompra()"
+      >Generar Orden de compra</button>
+      <!-- [disabled]="!solicitudGrupoEntrega" -->
+      <!-- PROCESADAS BPRO -->
+      <button type="button" [disabled]= "!(banderaProceso =='PROCESADAS')"class="btn btn-warning float-right mr-2"
+      (click)="addFactCot()">Facturar</button>
+  </div>
+</form>
+  <hr>
+  <div class='col-sm-12'>
+    <ngx-datatable #table [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      class="bootstrap" [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable" [rows]="entregas"
+      (select)="onSelect($event)" [selectionType]="SelectionType.single">
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Año" prop="anio">
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Mes" prop="mes">
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1"
+        name="Entrega estimada" prop="entregaEstimada"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Facturadas"
+        prop="facturadasPlanta"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Cotizacion"
+        prop="idCotizacion">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <input id="idCotizacion_rowIndex"  [disabled]="row.facturadasPlanta == 0" type="text" name="Cotizacion_rowIndex" placeholder="#"
+          (input)="setValueidCotizacion($event.target.value, row)" [(ngModel)]="row.idCotizacion"
+          >
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Orden de compra"
+        prop="ordencompunidadesn"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Proceso"
+        prop="estatus"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Eliminar">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div>
+            <!-- <b style="color: red;cursor: pointer;" (click)="remove(row)">Quitar</b> -->
+            <img class="img-delete" (click)="deleteEntrega(row)"
+              src="assets/images/fontawesomeicons/trash-can-solid.svg" alt="">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Guardar">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div>
+            <!-- <b style="color: red;cursor: pointer;" (click)="remove(row)">Quitar</b> -->
+            <img class="img-delete" (click)="saveCotizacion(row)"
+              src="assets/images/fontawesomeicons/edit-regular.svg" alt="Guardar">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@import '../../styles/titles.scss';
+
+/deep/.datatable-body-cell {
+  font-size: 11px !important;
+  text-align: center !important;
+}
+
+/deep/
+  .ngx-datatable.fixed-header
+  .datatable-header
+  .datatable-header-inner
+  .datatable-header-cell {
+  text-align: center !important;
+}
+
+.width-input {
+  width: 90%;
+  text-align: center;
+}

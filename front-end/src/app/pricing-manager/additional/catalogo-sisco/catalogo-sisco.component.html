@@ -1,0 +1,63 @@
+<div class="modal-header">
+   <h4 class="general-titles" id="modal-basic-title">CATALOGO SISCO
+      <br>
+      <h4>Grupo {{idGrupoUnidad}} , Total de Unidades: {{idDetalleUnidad}}</h4>
+   </h4>
+</div>
+<div class="modal-body container-fluid">
+   <div *ngIf="filtroDescripcion != ''">
+      <h5 class="general-titles" id="modal-basic-title">
+         Accesorio a buscar: <span style="font-size: 18px;">{{filtroDescripcion}}</span>
+      </h5>
+   </div>
+   <div>
+      <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+         [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="accesoriosSiscoFiltro" [columnMode]="'flex'"
+         [limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+         [rowClass]="rowClassChange" [columnMode]="'force'" [scrollbarH]="true">
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="idPartida" prop="idPartida" [width]="10"
+            cellClass="small">
+         </ngx-datatable-column>
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Partida" prop="Partida" [width]="10"
+            cellClass="small">
+         </ngx-datatable-column>
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="No. Parte" prop="noParte" [width]="10"
+            cellClass="small">
+         </ngx-datatable-column>
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Cantidad x Unidad" prop="cantidad"
+            [width]="120" cellClass="small">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+               <input class="form-control-sm mt-1" id="cantidad_rowIndex" type="number" name="Cantidad_rowIndex" min="0"
+                  [(ngModel)]="row.cantidad" placeholder="Cantidad">
+            </ng-template>
+         </ngx-datatable-column>
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Total" prop="cantidad" [width]="10"
+            cellClass="small">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+               {{idDetalleUnidad * row.cantidad}}
+            </ng-template>
+         </ngx-datatable-column>         
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Descripción" prop="Descripción" [width]="10"
+            cellClass="small">
+            <ng-template ngx-datatable-header-template>
+               <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchDescripcion" placeholder="Descripción"
+                  name="searchDescripcion" (input)="filterDescripcion()">
+            </ng-template>
+         </ngx-datatable-column>
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Costo" prop="Costo" [width]="10"
+            cellClass="small">
+         </ngx-datatable-column>
+         <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Venta" prop="Venta" [width]="10"
+            cellClass="small">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+               <input currencyMask class="form-control-sm mt-3" id="Venta_rowIndex" type="text" name="Venta_rowIndex"
+                   [(ngModel)]="row.Venta" placeholder="Venta" [options]="{ prefix: '$ ', thousands: ',', precision: 2}">
+            </ng-template>
+         </ngx-datatable-column>
+      </ngx-datatable>
+   </div>
+</div>
+<div class="modal-footer">
+   <button type="button" class="btn btn-primary modal-btn" (click)="agregar()">Agregar</button>
+   <button type="button" class="btn btn-warning modal-btn" (click)="closeModal()">Cancelar</button>
+</div>

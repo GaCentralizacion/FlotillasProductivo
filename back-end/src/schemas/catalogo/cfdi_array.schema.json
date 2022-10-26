@@ -1,0 +1,7 @@
+{
+    "$id": "cfdi_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "cfdi.schema.json"
+    }
+}

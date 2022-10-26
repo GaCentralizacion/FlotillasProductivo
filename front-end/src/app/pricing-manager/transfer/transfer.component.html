@@ -1,0 +1,262 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<div id="parentContainer">
+  <div class="d-flex flex-row title">
+    <div class="mr-auto">
+      <h2 class="general-titles">Traslados</h2>
+      <h1 class="general-titles" *ngIf="cotizacion" style="font-size: 20px">{{ cotizacion.idCotizacion }}</h1>
+    </div>
+    <div>
+      <h6 class="p-2">Financiera: {{financiera ? financiera : 'NO APLICA' }}</h6>
+    </div>
+    <div>
+      <h6 class="p-2">Número de Licitación: {{idLicitacion ? idLicitacion : 'NO APLICA'}}</h6>
+    </div>
+  </div>
+  <hr class="linea1">
+  <div class="d-flex flex-row-reverse">
+    <button [disabled]="!activo || pricingManagerService.onlyRead" class="btn btn-primary"
+      (click)="continuar()">Continuar</button>
+  </div>
+
+  <div class="col-md-12" style="position: relative;">
+    <div class="w-100 d-flex flex-row-reverse" style="position: absolute;z-index:3;top: -30px;padding-right: 25px;">
+      <button (click)="exportExcel()" class="btn btn-primary">
+        <i class="fa fa-file-excel"></i>
+      </button>
+    </div>
+    <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" #groupTable
+      class="bootstrap mt-5 expandable" [columnMode]="'force'" [headerHeight]="50" [rowHeight]="50" [limit]="10"
+      [rows]="grupoUnidades" [selectionType]="'single'" [selectAllRowsOnPage]="false" [selected]="selected"
+      (select)='onSelect($event)'>
+
+      <ngx-datatable-column name="Cantidad" headerClass="font-weight-bold" cellClass="small" [draggable]="false"
+        [resizeable]="false">
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <strong>{{row.cantidad}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Apartados" prop="idCotizacion">
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <strong>{{ row.unidadesInteres.length }}/{{row.cantidad}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Año" prop="anio">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Modelo" prop="modelo">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Color Int" prop="colorInterior">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Color Ext" prop="colorExterior">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Clase" prop="clase">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" name="Catalogo" prop="catalogo">
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </div>
+
+  <div id="custom-container" *ngIf="selected && selected.length > 0">
+
+    <div>
+      <div class="d-flex flex-row title">
+        <div class="mr-auto">
+          <h5 id="totalUnidades">Total unidades en cotizaci&oacute;n: {{ unidades }}</h5>
+        </div>
+      </div>
+      <hr class="linea1">
+
+      <form class="col-md-12" [formGroup]="form">
+        <div class="row col-md-12">
+          <div class="tras-item col-md-3">
+            <small class="title-span">Fecha de Entrega</small>
+            <small class="form-text text-muted" style="color:#fff !important">Fecha de Entrega</small>
+            <div class="d-flex flex-row">
+              <input formControlName="db" name="db" id="db" class="form-control" formControlNameplaceholder="yyyy-mm-dd"
+                [(ngModel)]="model" [minDate]="minDate" ngbDatepicker #d="ngbDatepicker">
+              <i class="fa fa-calendar d-flex align-items-center calendar" (click)="d.toggle()"></i>
+            </div>
+          </div>
+          <div class="form-group tras-item col-md-3">
+            <small class="title-span">Unidades</small>
+            <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+            <input formControlName="unidades" min="1" max="9999" name="unidades" id="unidades" type="number"
+              class="form-control marca-input" [(ngModel)]="unidades" (input)="changeUnidad()" name="unidades"
+              onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <span *ngIf="customForm.unidades" style="color: red">Campo Requerido</span>
+            <span *ngIf="customForm.unidadesDisponibles" style="color: red">Unidades disponibles:
+              {{customForm.unidadesDisponiblesLabel}}</span>
+          </div>
+
+          <div class="tras-item col-md-3">
+            <small for="inputMarca">Punto de Partida</small>
+            <small class="form-text text-muted" style="color:#fff !important">Punto de Partida</small>
+            <div class="d-flex flex-row">
+              <ng-select #selectPartida style="width: 100%;" formControlName="puntoPartida" name="puntoPartida"
+                id="puntoPartida" (search)="onSearchPuntoP($event)" [addTag]="addTagNowRef"
+                (change)="findTraslado($event)" placeholder="Seleccionar Punto de Partida" [items]="ubicaciones"
+                bindLabel="nombre" bindValue="idUbicacionTraslado" [(ngModel)]="idPuntoDePartida">
+              </ng-select>
+              <span *ngIf="customForm.puntoPartida" style="color: red">Campo Requerido</span>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-12">
+          <div class="tras-item col-md-3">
+            <small for="inputMarca">Punto de LLegada</small>
+            <small class="form-text text-muted" style="color:#fff !important">Punto de Llegada</small>
+            <div class="d-flex flex-row">
+              <ng-select #selectLlegada style="width: 100%;" formControlName="puntoLlegada" name="puntoLlegada"
+                id="puntoLlegada" (search)="onSearchPuntoL($event)" [addTag]="addTagNowRef"
+                (change)="findTraslado($event)" placeholder="Seleccionar Punto de LLegada" [items]="ubicaciones"
+                bindLabel="nombre" bindValue="idUbicacionTraslado" [(ngModel)]="idPuntoDeLLegada">
+              </ng-select>
+              <span *ngIf="customForm.puntoLlegada" style="color: red">Campo Requerido</span>
+            </div>
+          </div>
+
+          <div class="tras-item col-md-3">
+            <small for="inputMarca">Proveedor</small>
+            <small class="form-text text-muted" style="color:#fff !important">Proveedor</small>
+            <ng-select formControlName="proveedor" name="proveedor" id="proveedor" placeholder="Seleccionar Proveedor"
+              [items]="proveedores" bindLabel="nombreCompletoIdProveedor" bindValue="idProveedor"
+              [(ngModel)]="idProveedor" (change)="findTraslado($event)">
+            </ng-select>
+            <span *ngIf="customForm.proveedor" style="color: red">Campo Requerido</span>
+          </div>
+
+
+          <div class="tras-item col-md-3 d-flex flex-row">
+            <div>
+              <small class="title-span">Costo Unidad</small>
+              <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+              <input type="text" class="form-control marca-input" [attr.disabled]="isFirstTransfer() ? '' : null"
+                (ngModelChange)="changeCostoUnidad($event)" currencyMask
+                [options]="{ prefix: '$ ', thousands: ',', precision: 2}" [(ngModel)]="costoUnidad"
+                formControlName="costoUnidad" name="costoUnidad" id="costoUnidad"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+              <span *ngIf="customForm.costoUnidad" style="color: red">Campo Requerido</span>
+            </div>
+            <div class="unidad">
+              <small class="title-span">Precio Unidad</small>
+              <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+              <input type="text" class="form-control marca-input" [attr.disabled]="isFirstTransfer() ? '' : null"
+                (ngModelChange)="changePrecioUnidad($event)" currencyMask
+                [options]="{ prefix: '$ ', thousands: ',', precision: 2}" [(ngModel)]="precioUnidad"
+                formControlName="precioUnidad" name="precioUnidad" id="precioUnidad"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+              <span *ngIf="customForm.precioUnidad" style="color: red">Campo Requerido</span>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-12">
+          <div class="tras-item col-md-3">
+            <small for="inputMarca">Medio de Trasporte</small>
+            <small class="form-text text-muted" style="color:#fff !important">Medio de Trasporte</small>
+            <ng-select formControlName="tipoTraslado" name="tipoTraslado" id="tipoTraslado"
+              placeholder="Seleccionar Tipo Traslado" [items]="tiposTraslados" bindLabel="name"
+              bindValue="idTipoTraslado" [(ngModel)]="idTipoTraslado">
+            </ng-select>
+            <span *ngIf="customForm.traslado" style="color: red">Campo Requerido</span>
+          </div>
+          <div class="tras-item col-md-3">
+            <small class="form-text text-muted" style="color:#fff !important">Medio de Trasporte</small>
+            <small class="form-text text-muted" style="color:#fff !important">Medio de Trasporte</small>
+            <small class="title-span" *ngIf="idTipoTraslado && precioTotal > 0">Impuesto por traslado:
+              {{((precioTotal - (precioTotal / ( 1 + ( 4 / 100 ) ) ))).toFixed(2)}}</small>
+            <small class="title-span" *ngIf="precioTotal === 0 || !(idTipoTraslado)">Impuesto por traslado: 0</small>
+          </div>
+          <div class="tras-item col-md-3 d-flex flex-row">
+            <div class="w-100">
+              <small class="title-span">Costo Total</small>
+              <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+              <input type="text" class="form-control marca-input" [attr.disabled]="isFirstTransfer() ? '' : null"
+                (ngModelChange)="changeCostoTotal($event)" currencyMask
+                [options]="{ prefix: '$ ', thousands: ',', precision: 2}" [(ngModel)]="costoTotal"
+                formControlName="costoTotal" name="costoTotal" id="costoTotal"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+              <span *ngIf="customForm.costoTotal" style="color: red">Campo Requerido</span>
+            </div>
+            <div class="unidad w-100">
+              <small class="title-span">Precio Total</small>
+              <small class="form-text text-muted" style="color:#fff !important">Unidades</small>
+              <input type="text" class="form-control marca-input" [attr.disabled]="isFirstTransfer() ? '' : null"
+                (ngModelChange)="changePrecioTotal($event)" currencyMask
+                [options]="{ prefix: '$ ', thousands: ',', precision: 2}" [(ngModel)]="precioTotal"
+                formControlName="precioTotal" name="precioTotal" id="precioTotal"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+              <span *ngIf="customForm.precioTotal" style="color: red">Campo Requerido</span>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-12">
+          <div class="tras-item col-md-6">
+            <div>
+              <small for="inputMarca">Uso CFDI</small>
+              <small class="form-text text-muted" style="color:#fff !important">Uso Cfdi</small>
+              <ng-select #selectCfdi style="width: 100%;" formControlName="tipoCfdi" name="tipoCfdi" id="tipoCfdi"
+                placeholder="Seleccionar CFDI" [items]="cfdi" bindLabel="nombre" bindValue="idCfdi"
+                [(ngModel)]="idCfdi">
+              </ng-select>
+              <span *ngIf="customForm.tipoCfdi" style="color: red">Campo Requerido</span>
+            </div>
+          </div>
+          <div class="tras-item col-md-3">
+          </div>
+        </div>
+        <div class="row col-md-12">
+          <div class="tras-item col-md-6">
+            <small id="" class="form-text text-muted" style="color:#fff !important"></small>
+            <div class="custom-control custom-checkbox mr-sm-2">
+              <input type="checkbox" formControlName="checkCostoCero" value="false" (change)=costoCeroOnChange($event) class="custom-control-input"
+                id="customControlAutosizing" name="checkbox" [attr.disabled]="enableDisableCheck ? true : null">
+              <label class="custom-control-label" for="customControlAutosizing">Traslado con costo cero</label>
+              
+            </div>
+          </div>
+          <div class="tras-item col-md-3">
+          </div>
+        </div>
+        <div class="row col-md-12">
+          <div class="tras-item col-md-10 add d-flex justify-content-end">
+            <button [disabled]="pricingManagerService.onlyRead" *ngIf="!currentEditSelected" type="submit"
+              class="btn btn-primary add d-flex justify-content-end" (click)="agregarTraslado(1)">Agregar</button>
+          </div>
+        </div>
+        <div class="row col-md-12">
+          <div class="tras-item col-md-10 add d-flex justify-content-end">
+            <div class="d-flex flex-row" *ngIf="currentEditSelected">
+              <button class="btn btn-primary p-2 add d-flex justify-content-end" (click)="agregarTraslado(2)"
+                [disabled]="pricingManagerService.onlyRead">Editar</button>
+              <button class="btn btn-warning p-2 add d-flex justify-content-end"
+                (click)="resetValues()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+
+      <div class="d-flex flex-row title">
+        <div class="mr-auto">
+          <h5>Lista de Movimientos</h5>
+        </div>
+      </div>
+      <hr class="linea1">
+
+      <app-transfer-table [onlyRead]="onlyRead" [grupoUnidades]="currentTraslados"
+        (changeParent)="somethingChange($event)" (lastEvent)="lastChange($event)"></app-transfer-table>
+
+    </div>
+
+  </div>
+
+</div>

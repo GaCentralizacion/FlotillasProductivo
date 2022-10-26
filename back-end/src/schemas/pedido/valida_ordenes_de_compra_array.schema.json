@@ -1,0 +1,7 @@
+{
+    "$id": "valida_ordenes_de_compra_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "valida_ordenes_de_compra.schema.json"
+    }
+}

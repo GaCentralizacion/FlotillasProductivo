@@ -1,0 +1,7 @@
+{
+    "$id": "cotizacion_unidad_servicio_unidad_mov_array.schema",
+    "type": "array",
+    "items": {
+        "$ref": "cotizacion_unidad_servicio_unidad_mov.schema.json"
+    }
+}

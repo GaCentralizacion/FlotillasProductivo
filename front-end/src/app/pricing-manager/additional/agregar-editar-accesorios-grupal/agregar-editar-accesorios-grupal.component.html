@@ -1,0 +1,333 @@
+<div class="modal-header">
+   <h4 class="general-titles" id="modal-basic-title">Paquetes / Accesorios
+      <span *ngIf="idGrupoUnidad" style="font-size: 18px;">( {{ versionUnidad !== undefined ? versionUnidad : getName()
+         }} )</span>
+   </h4>
+</div>
+<div class="modal-body container-fluid">
+   <ngb-tabset [justify]="'start'" (tabChange)="tabChanged($event)">
+      <ngb-tab title="Accesorios" id='accesorio'>
+         <ng-template ngbTabContent>
+            <div *ngIf="idGrupoUnidad !== undefined">
+               <h3>Accesorios asignados</h3>
+               <ngx-datatable class="bootstrap" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+                  [rowHeight]="'auto'" [rows]="accesoriosSinPaqueteAsignadosFiltro" [limit]="10"
+                  [rowClass]="rowClassChange" [selectAllRowsOnPage]="false" [columnMode]="'force'" [scrollbarH]="true"
+                  [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}">
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Nombre" prop="nombre" [width]="40"
+                     cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchNombreSeleccionado"
+                           placeholder="Nombre" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Marca" prop="idMarca" [width]="60"
+                     cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchMarcaSeleccionado"
+                           placeholder="Marca" name="marcaSelect" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Modelo y año" prop="modeloAnio"
+                     [width]="60" cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchModeloAnioSeleccionado"
+                           placeholder="Modelo y año" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo" [width]="50"
+                     cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchCostoSeleccionado"
+                           placeholder="Costo" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                     <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{value | currency:'MXN':'symbol-narrow'}}
+                     </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Precio" prop="precio" [width]="50"
+                     cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchPrecioSeleccionado"
+                           placeholder="Precio" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                     <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{value | currency:'MXN':'symbol-narrow'}}
+                     </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Cantidad" prop="cantidad" [width]="60"
+                     cellClass="small">
+                     <ng-template ngx-datatable-header-template let-row="row" let-rowIndex="rowIndex">
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchCantidadSeleccionado"
+                           placeholder="Cantidad" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                     <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <input class="form-control-sm mt-3" id="cantidad_rowIndex" type="number"
+                           name="Cantidad_rowIndex" min="0" step="1" value="0" placeholder="Cantidad"
+                           (input)="getCantidadUpdate($event.target.value, row, rowIndex)" [(ngModel)]="row.cantidad"
+                           [value]="cantidadSeleccionada[rowIndex]">
+                     </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Existencia" prop="existencia"
+                     [width]="50" cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchExistenciaSeleccionado"
+                           placeholder="Existencia" (keyup)="updateFilterAccesoriosSeleccionados()">
+                     </ng-template>
+                     <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{value | number:0}}
+                     </ng-template>
+                  </ngx-datatable-column>
+
+                  <!--ngx-datatable-column name="Tipo proveedor" [resizeable]="false" [flexGrow]="6" [width]="50"
+                     cellClass="small">
+                     <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <ng-select [items]="tipoProveedoresSeleccionados" bindLabel="idTipoProveedor"
+                           placeholder="Tipo de proveedor" bindValue="idTipoProveedor" appendTo="body"
+                           (change)="onSelectTipoProveedor($event)" appendTo="body" [clearable]="true"
+                           [(ngModel)]="opcionTipoProveedor[rowIndex].idTipoProveedor">
+                        </ng-select>
+                     </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="Nombre proveedor" [flexGrow]="7" [width]="50" cellClass="small">
+                     <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <ng-select [items]="proveedoresNombres" [clearable]="true" bindLabel="nombreCompleto"
+                           placeholder="Nombre de proveedor" bindValue="nombreCompleto"
+                           (change)="onSelectNombreProveedor($event)" appendTo="body"
+                           [(ngModel)]="opcionNombreProveedor[rowIndex].nombreProveedor">
+                        </ng-select>
+                     </ng-template>
+                  </ngx-datatable-column-->
+
+                  <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="¿Nuevo?" prop="esNuevo" [width]="40"
+                     cellClass="small">
+                     <ng-template ngx-datatable-header-template>
+                        <p class="small mb-2">¿Es nuevo?</p>
+                        <input type="checkbox" [indeterminate]="filtroEsNuevoSeleccionado === null"
+                           [ngModel]="filtroEsNuevoSeleccionado === true" [checked]="filtroEsNuevoSeleccionado"
+                           (change)="setFiltroEsNuevoSeleccionado(filtroEsNuevoSeleccionado)">
+                     </ng-template>
+                     <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{value?'Sí': 'No'}}
+                     </ng-template>
+                  </ngx-datatable-column>
+               </ngx-datatable>
+            </div>
+
+            <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+               [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="accesoriosRows" [columnMode]="'flex'"
+               [limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+               [rowClass]="rowClassChange" [columnMode]="'force'" [scrollbarH]="true">
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Nombre" prop="nombre" [width]="40"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchNombre" placeholder="Nombre"
+                        name="searchNombre" (input)="filterHeader()">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Marca" prop="idMarca" [width]="60"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchMarca" placeholder="Marca"
+                        name="searchMarca" (input)="filterHeader()">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Origen" prop="Origen" [width]="60"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchOrigen" placeholder="Origen"
+                        name="searchOrigen" (input)="filterHeader()">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Modelo y año" prop="modeloAnio"
+                  [width]="60" cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchModeloAnio"
+                        placeholder="Modelo y año" name="searchAnio" (input)="filterHeader()">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo" [width]="50"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchCosto" placeholder="Costo"
+                        name="searchCosto" (keyup)="filterHeader()">
+                  </ng-template>
+                  <ng-template let-value="value" ngx-datatable-cell-template>
+                     {{value | currency:'MXN':'symbol-narrow'}}
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Precio" prop="precio" [width]="50"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchPrecio" placeholder="Precio"
+                        name="searchPrecio" (keyup)="filterHeader()">
+                  </ng-template>
+
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <input currencyMask class="form-control-sm mt-1" style="width: 170px;" id="precio_rowIndex"
+                        type="text" name="Precio_rowIndex" [options]="{ prefix: '$ ', thousands: ',', precision: 2}"
+                        [(ngModel)]="row.precio" placeholder="Precio"
+                        (input)="getCantidad($event.target.value, row, rowIndex)" [disabled]="precioBloqueado(row)">
+                  </ng-template>
+               </ngx-datatable-column>
+
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Cantidad" prop="cantidad" [width]="60"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchCantidad" placeholder="Cantidad"
+                        name="searchCantidad" (keyup)="filterHeader()">
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <input class="form-control-sm mt-1" id="cantidad_rowIndex" type="number" name="Cantidad_rowIndex"
+                        min="0" step="1" value="0" [(ngModel)]="row.cantidad" placeholder="Cantidad"
+                        (input)="getCantidad($event.target.value, row, rowIndex)">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Existencia" prop="existencia"
+                  [width]="50" cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchExistencia"
+                        placeholder="Existencia" name="searchExistincia" (keyup)="filterHeader()">
+                  </ng-template>
+                  <ng-template let-value="value" ngx-datatable-cell-template>
+                     {{value | number:0}}
+                  </ng-template>
+               </ngx-datatable-column>
+               <!--ngx-datatable-column name="Tipo proveedor" [resizeable]="false" [flexGrow]="3" [width]="50"
+                  cellClass="small">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <div style="position: relative;">
+                     <ng-select [items]="tipoProveedores" bindLabel="idTipoProveedor" placeholder="Tipo de proveedor"
+                        bindValue="idTipoProveedor" [selectOnTab]="true" (change)="onSelectTipoProveedor($event)"
+                        appendTo="body" [clearable]="true" [(ngModel)]="row.idTipoProveedor">
+                     </ng-select>
+                     <i *ngIf="row.cantidad > 0 && row.idTipoProveedor == null" style="color: red;font-size: 20px;top: 5px;position: absolute;">*</i>
+                     </div>
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column name="Nombre proveedor" [flexGrow]="7" [width]="50" cellClass="small">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <div style="position: relative;">
+                     <ng-select [items]="proveedoresNombres" [clearable]="true" bindLabel="nombreIdProveedor"
+                        placeholder="Nombre de proveedor" bindValue="nombreCompleto"
+                        (change)="onSelectNombreProveedor($event)" appendTo="body" [(ngModel)]='row.nombreProveedor'>
+                     </ng-select>
+                     <i  *ngIf="row.cantidad > 0 && row.nombreProveedor == null" style="color: red;font-size: 20px;top: 5px;position: absolute;">*</i>
+                     </div>
+                  </ng-template>
+               </ngx-datatable-column-->
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Planta" prop="Planta" [width]="10"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchPlanta" placeholder="Planta"
+                        name="searchPlanta" (keyup)="filterHeader()">
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column name="Almacen" [flexGrow]="3" [width]="15" cellClass="small">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <div style="position: relative;">
+                        <ng-select [disabled]="row.Planta === 'NO'" [items]="almacenes" [clearable]="true"
+                           bindLabel="nombreAlmacen" placeholder="Almacen" bindValue="idAlmacen" appendTo="body"
+                           [(ngModel)]='row.idAlmacen'>
+                        </ng-select>
+                        <i *ngIf="row.Planta === 'SI' && row.idAlmacen == null && row.cantidad > 0"
+                           style="color: red;font-size: 20px;top: 5px;position: absolute;">*</i>
+                     </div>
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column name="Costo" [flexGrow]="3" [width]="40" cellClass="small">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <!--*ngIf="!row.existencia || row.existencia <= 0" se elimina OCT99 05082020-->
+                     <div style="position: relative;">
+                        <input currencyMask class="form-control-sm mt-1" style="width: 170px;" id="precio_rowIndex"
+                           type="text" name="Costo_rowIndex" [options]="{ prefix: '$ ', thousands: ',', precision: 2}"
+                           [(ngModel)]="row.costo" placeholder="Costo"
+                           [disabled]="costoBloqueado(row)"
+                           (input)="getCantidad($event.target.value, row, rowIndex)">
+                        <i *ngIf="row.costo >= row.precio && row.cantidad > 0"
+                           style="color: red;font-size: 20px;top: 5px;position: absolute;">*</i>
+                     </div>
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="¿Nuevo?" prop="esNuevo" [width]="40"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <p class="small mb-2">¿Es nuevo?</p>
+                     <input type="checkbox" [indeterminate]="filtroEsNuevo === null" [ngModel]="filtroEsNuevo === true"
+                        [checked]="filtroEsNuevo" (change)="setFiltroEsNuevo(filtroEsNuevo)">
+                  </ng-template>
+                  <ng-template let-value="value" ngx-datatable-cell-template>
+                     {{value?'Sí': 'No'}}
+                  </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Buscar" prop="existencia" [width]="40"
+                  cellClass="small">
+                  <ng-template ngx-datatable-header-template>
+                     <p class="small mb-2">Buscar</p>
+                  </ng-template>
+                  <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                     <button type="button" *ngIf="(value === 0 || value === '') && (row.Planta === 'NO')" (click)="buscarSisco(row)"
+                        class="btn btn-transparent">
+                        <i class="fa fa-search fa-lg"></i>
+                     </button>
+                  </ng-template>
+               </ngx-datatable-column>
+            </ngx-datatable>
+         </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Paquetes" id='paquetes'>
+         <ng-template ngbTabContent>
+            <div class="Kits">
+               <div class="row">
+                  <div *ngFor="let paqueteAccesorio of paqueteAccesorios; let i=index" class="col-md-3">
+                     <div class="small-box bg-green-active">
+                        <div class="inner">
+                           <div class="row">
+                              <div class="col-md-3 white">
+                                 <h3>{{paqueteAccesorio.accesorios.length}}</h3>
+                              </div>
+                              <div class="col-md-9 d-flex flex-column">
+                                 <p class="text-right">
+                                    <span>
+                                       <div class="form-check">
+                                          <label class="form-check-label mr-4"
+                                             for="check{{i}}">{{paqueteAccesorio.descripcion}}</label>
+                                          <input [checked]="paqueteAccesorio.isChecked"
+                                             (change)="onSelectPaquetesAccesorios(paqueteAccesorio)" type="checkbox"
+                                             class="form-check-input" id="check{{i}}">
+                                       </div>
+                                    </span>
+                                 </p>
+                                 <h4 class="text-right mt-auto">
+                                    {{paqueteAccesorio.precioTotal | currency:'MXN':'symbol-narrow'}}
+                                 </h4>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="icon" [ngbTooltip]="paqueteAccesorio.nombresDetalle" placement="bottom"
+                           tooltipClass="tooltip-bg-gray">
+                           <i class="fas fa-box"></i>
+                        </div>
+                        <div class="small-box-footer">
+                           <h4>{{paqueteAccesorio.nombre}}</h4>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </ng-template>
+      </ngb-tab>
+   </ngb-tabset>
+</div>
+<div class="modal-footer">
+   <button type="button" class="btn btn-secondary modal-btn" (click)="abrirCatalogoSisco()">Catalogo SISCO</button>
+   <button type="button" class="btn btn-dark modal-btn" (click)="abrirAgregarSisco()">Agregar SISCO</button>
+   <button type="button" *ngIf="activeId === 'accesorio' || activeId === 'accesorios'" [disabled]="checkValidation()"
+      class="btn btn-primary modal-btn" (click)="agregarAccesorioSinPaquete('A')">Agregar</button>
+   <button type="button" *ngIf="activeId === 'paquetes'" class="btn btn-primary modal-btn"
+      [disabled]="paqueteAccesoriosCreacion.length === 0" (click)="agregarPaquetesAccesorios('A')">Agregar</button>
+   <button type="button" class="btn btn-warning modal-btn" (click)="closeModal()">Cancelar</button>
+</div>

@@ -1,0 +1,57 @@
+{
+    "$id": "mensaje_chat.schema.json",
+    "type": "object",
+    "required": [
+        "cuerpoMensaje",
+        "idContactoChat"
+    ],
+    "properties": {
+        "idMensajeChat": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de mensaje"
+        },
+        "cuerpoMensaje": {
+            "type": "string",
+            "description": "Mensaje",
+            "maxLength": 512
+        },
+        "idGrupoChat": {
+            "type": "string",
+            "description": "Identificador de grupo de chat"
+        },
+        "idContactoChat": {
+            "type": "string",
+            "description": "Identificador de contacto que generó el mensaje"
+        },
+        "idMediaChat": {
+            "type": "string",
+            "description": "Identificador de archivo de chat"
+        },
+        "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de creación del mensaje"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        },
+        "media": {
+            "description": "Medio",
+            "$ref": "media_chat.schema.json"
+        },
+        "receptores": {
+            "description": "Datos de los que recibieron el mensaje",
+            "type": "array",
+            "items": {
+                "$ref": "receptor_chat.schema.json"
+            }
+        }
+    }
+}

@@ -1,0 +1,124 @@
+<div class="modal-header">
+  <h4 class="modal-title general-titles">Configuración de Paquetes Otros Adicionales</h4>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <form class="mt-3" [formGroup]="forma">
+      <div class="row">
+        <div class="form-group col-md-3">
+          <small for="inputFolio">Nombre del Paquete</small>
+          <input formControlName="nombre" name="nombre" [(ngModel)]="paqueteAdicionales.nombre" type="text"
+            class="form-control" id="nombre">
+          <small class="description-text" for="inputFolio">El nombre debe ser Descriptivo</small>
+        </div>
+        <div class="form-group col-md-4">
+          <small for="inputFolio">Descripción del Paquete</small>
+          <div class="input-group">
+            <input formControlName="descripcion" name="descripcion" [(ngModel)]="paqueteAdicionales.descripcion"
+              type="text" class="form-control" id="descripcion">
+          </div>
+          <small class="description-text" for="inputFolio">El nombre debe ser Descriptivo</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <small for="inputFolio">Marca</small>
+          <ng-select #marcaNgSelect [clearable]="false" placeholder="Seleccionar marca" [items]="marcas"
+            bindLabel="idMarca" bindValue="idMarca" [(ngModel)]="paqueteAdicionales.idMarca"
+            (change)="marcasOnChange($event)" [ngModelOptions]="{standalone: true}">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <small for="inputFolio">Empresa</small>
+          <ng-select #empresaNgSelect placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+            bindValue="idEmpresa" [(ngModel)]="paqueteAdicionales.idEmpresa" (change)="empresasOnChange($event)"
+            [ngModelOptions]="{standalone: true}">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <small for="inputFolio">Sucursal</small>
+          <ng-select #sucursalNgSelect placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+            bindValue="idSucursal" [(ngModel)]="paqueteAdicionales.idSucursal" (change)="sucursalesOnChange($event)"
+            [ngModelOptions]="{standalone: true}">
+          </ng-select>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="container-fluid">
+    <br>
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="box-2">
+          <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap" [rows]="rowsFiltered" [columnMode]="'force'" [limit]="7" [headerHeight]="50"
+            [footerHeight]="50" [rowHeight]="'auto'">
+            <ngx-datatable-column [width]="50" [sortable]="true" [canAutoResize]="false" [draggable]="false"
+              [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+            </ngx-datatable-column>
+            <!--  <ngx-datatable-column [width]="50" name="ID" prop="idConcepto"></ngx-datatable-column> -->
+            <ngx-datatable-column [width]="50" name="Nombre" prop="nombre">
+              <ng-template ngx-datatable-header-template>
+                <input class="width-input" type="text" [(ngModel)]="searchNombre" placeholder="Nombre"
+                  (keyup)="updateFilter()">
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [width]="20" name="Acción"
+              prop="idConcepto">
+              <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <a href="" title="Gestionar" (click)="onSelect($event, row)">
+                  <i class="fas fa-arrow-circle-right"></i>
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+        <small class="description-text float-right" for="inputFolio">Accesorios y/o tramites disponibles.</small>
+      </div>
+
+      <div class="col-md-8">
+        <div class="box-2">
+          <table class="table table-hover table-sm">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">U/Medida</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of conceptos; index as i">
+                <th scope="row">{{item.idConcepto}}</th>
+                <td><input [(ngModel)]="item.nombreConcepto" type="text" class="form-control" disabled></td>
+                <td><input [(ngModel)]="item.nombre" placeholder="Nombre" type="text" class="form-control"></td>
+                <td>
+                  <ng-select placeholder="Seleccionar U/M" [items]="unidadesMedidas" bindLabel="nombre"
+                    bindValue="idUnidadMedida" [(ngModel)]="item.idUnidadMedida">
+                  </ng-select>
+                </td>
+                <td><input type="number" [(ngModel)]="item.costo" class="form-control"></td>
+                <td><input type="number" [(ngModel)]="item.precio" class="form-control"></td>
+                <td><button type="button" class="btn btn-trash float-right" (click)="removeItem(i)"><i
+                      class="fas fa-trash"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="d-flex flex-column">
+    <span class="mt-auto ml-auto">
+      <button type="button" class="btn btn-primary float-right" (click)="saveAdicionales()">Guardar</button>
+      <button type="button" class="btn btn-warning float-right" (click)="paqueteModal.close('cancel')">Cancelar</button>
+    </span>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+{
+    "$id": "inventario_unidad.schema.json",
+    "type": "object",
+    "required": [
+        "idInventario",
+        "tipoUnidad",
+        "anio",
+        "modelo",
+        "colorInterior",
+        "colorExterior",
+        "clase",
+        "catalogo",
+        "precio",
+        "costo",
+        "cantidad",
+        "marca",
+        "antiguedad",
+        "segmento",
+        "descripcion",
+        "agencia",
+        "clasificacionTipoCompra",
+        "vin",
+        "idEmpresa",
+        "idSucursal",
+        "bd",
+        "tipoBase"
+    ],
+    "properties": {
+        "idInventario": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Inventario"
+        },
+        "tipoUnidad": {
+            "type": "string",
+            "description": "Tipo de unidad"
+        },
+        "anio": {
+            "type": "string",
+            "description": "Año"
+        },
+        "modelo": {
+            "type": "string",
+            "description": "Modelo"
+        },
+        "idColorInterior": {
+            "type": "string",
+            "description": "Id de Color interior"
+        },
+        "colorinterior": {
+            "type": "string",
+            "description": "Color interior"
+        },
+        "idColorExterior": {
+            "type": "string",
+            "description": "Id de Color exterior"
+        },
+        "colorExterior": {
+            "type": "string",
+            "description": "Color exterior"
+        },
+        "clase": {
+            "type": "string",
+            "description": "Clase"
+        },
+        "catalogo": {
+            "type": "string",
+            "description": "Catálogo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio unitario"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo unitario"
+        },
+        "cantidad": {
+            "type": "integer",
+            "description": "Cantidad de unidades disponibles"
+        },
+        "marca": {
+            "type": "string",
+            "description": "Marca"
+        },
+        "anitguedad": {
+            "type": "integer",
+            "description": "Cantidad de días desde la compra de la unidad"
+        },
+        "segmento": {
+            "type": "string",
+            "description": "Segmento"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripción"
+        },
+        "agencia": {
+            "type": "string",
+            "description": "Agencia"
+        },
+        "clasificacionTipoCompra": {
+            "type": "string",
+            "description": "Clasificación de tipo de compra"
+        },
+        "vin": {
+            "type": "string",
+            "description": "VIN"
+        },
+        "idEmpresa": {
+            "type": "integer",
+            "description": "Identificador de empresa"
+        },
+        "idSucursal": {
+            "type": "integer",
+            "description": "Identificador de sucursal"
+        },
+        "db": {
+            "type": "string",
+            "description": "Base de datos de Bpro"
+        },
+        "tipoBase": {
+            "type": "string",
+            "description": "Tipo de base de datos Bpro"
+        },
+        "idCotizacion": {
+            "type": "string",
+            "description": "Id de cotización"
+        }
+    }
+}

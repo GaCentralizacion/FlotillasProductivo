@@ -1,0 +1,48 @@
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+ 
+.panelEncabezado{
+    background-color: lightslategray;
+    color: white;
+}
+
+.contenedorPanel{
+    border-color: lightblue;
+    border-radius: 4px;
+}
+  
+  .bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+  }
+  
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+  
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+
+  /deep/.uno {
+    background-color: darkkhaki; color: white; border-radius: 5px;
+  }
+  /deep/ .dos {
+    background-color:darkseagreen; color: white; border-radius: 5px;
+  }
+  /deep/.tres {
+    background-color:darkgray; color: white; border-radius: 5px;
+  }
+  /deep/.cuatro {
+    background-color:lightslategrey; color: white; border-radius: 5px;
+  }

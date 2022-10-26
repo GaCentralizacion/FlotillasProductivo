@@ -1,0 +1,19 @@
+<div>
+  <h1 class="general-titles">Catálogos</h1>
+</div>
+<form class="form-inline mt-5">
+  <div class="form-group mb-2 mr-2">
+    <small id="passwordHelpInline" class="text-muted">
+      Seleccione un catálogo
+    </small>
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <ng-select style="width: 200px !important;" #catalogosNgSelect [clearable]="false" placeholder="Seleccionar un catálogo" [(ngModel)]="selectedItem" [ngModelOptions]="{standalone: true}"
+      [items]="selectionables" bindLabel="caption" bindValue="name">
+    </ng-select>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2" (click)="setRoute($event, selectedItem)">Continuar</button>
+</form>
+<div>
+  <router-outlet></router-outlet>
+</div>

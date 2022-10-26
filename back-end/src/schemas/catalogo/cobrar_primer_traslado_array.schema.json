@@ -1,0 +1,7 @@
+{
+  "$id": "cobrar_primer_traslado_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "cobrar_primer_traslado.schema.json"
+  }
+}

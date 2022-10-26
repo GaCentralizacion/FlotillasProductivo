@@ -1,0 +1,77 @@
+<h3 class="general-titles">
+    Catálogo de Tramites y Gestión
+</h3>
+<ngb-tabset [justify]="'end'">
+  <ngb-tab title="Trámites y Gestión">
+    <ng-template ngbTabContent>
+      <form class="mt-3">
+        <div class="form-row align-items-center">
+          <div class="col-md-3">
+            <small for="inputAno">Marca</small>
+            <ng-select [clearable]="false" placeholder="Seleccionar marca" [items]="marcas" bindLabel="idMarca"
+              bindValue="idMarca" (change)=marcasOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputAno">Empresa</small>
+            <ng-select #empresaNgSelect placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+              bindValue="idEmpresa" (change)=empresaOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputAno">Sucursal</small>
+            <ng-select #sucursalNgSelect placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+              bindValue="idSucursal" (change)=sucursalesOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputAno">Trámite</small>
+            <ng-select #tramiteNgSelect placeholder="Seleccionar el trámite" [items]="tramites" bindLabel="nombre" bindValue="idTramite"
+              (change)=tramiteOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputAno">Subtrámite</small>
+            <ng-select #subtramiteNgSelect placeholder="Seleccionar el subtrámite" [items]="subtramites" bindLabel="nombre"
+              bindValue="idSubtramite" (change)=subtramiteOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3 mt-4">
+            <button type="submit" class="btn btn-primary" (click)="search($event)">Buscar</button>
+          </div>
+        </div>
+      </form>
+
+      <div>
+        <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5" [rows]="rows" [columnMode]="'force'" [limit]="5" [headerHeight]="50"
+          [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
+          <ngx-datatable-column [width]="30" [sortable]="true" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="ID" prop="idProveedor"></ngx-datatable-column>
+          <ngx-datatable-column name="Nombre Completo" prop="nombreCompleto">
+            <ng-template ngx-datatable-header-template>
+              <input class="width-input" type="text" [(ngModel)]="searchNombre" placeholder="Nombre Completo"
+                (keyup)="updateFilter($event)">
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Costo" prop="costo">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value | currency:'MXN':'symbol-narrow'}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Precio" prop="precio">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value | currency:'MXN':'symbol-narrow'}}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Paquetes">
+    <ng-template ngbTabContent>
+      <app-paquete-tramite></app-paquete-tramite>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

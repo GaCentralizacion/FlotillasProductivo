@@ -1,0 +1,24 @@
+{
+    "$id": "bonificacion_catalogo.schema.json",
+    "type": "object",
+    "required": [
+        "sucursal",
+        "idCatalogo",
+        "modelo"
+    ],
+    "properties": {
+        "sucursal": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de la sucursal"
+        },
+        "idCatalogo": {
+            "type": "string",
+            "description": "Identificador del catalogo"
+        },
+        "modelo": {
+            "type": "string",
+            "description": "Modelo de la unidad"
+        }
+    }
+  }

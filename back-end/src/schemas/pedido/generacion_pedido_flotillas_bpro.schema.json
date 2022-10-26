@@ -1,0 +1,14 @@
+{
+    "$id": "generacion_pedido_flotillas_bpro.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotización"
+        }
+    }
+}

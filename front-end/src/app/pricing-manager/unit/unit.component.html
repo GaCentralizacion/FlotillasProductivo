@@ -1,0 +1,274 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<div class="title-area">
+  <h1 class="general-titles">Unidades</h1>
+  <h1 class="general-titles" *ngIf="cotizacion" style="font-size: 20px">{{ cotizacion.idCotizacion }}</h1>
+</div>
+
+<ng-template #deleteTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar Grupo de Unidades</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="form-group col-md-12">
+        <label>¿Realmente desea eliminar el Grupo de Unidades <strong>{{nombreEliminar}}</strong>?</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="deleteGrupo()">Sí</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+<div *ngIf="cotizacion != undefined">
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <h5 *ngIf="cotizacion.unidades">Cotización (<strong class="small">{{cotizacion.unidades}}</strong>)</h5>
+      <h5 *ngIf="!cotizacion.unidades">Cotización</h5>
+    </div>
+
+    <div class="col-md-5 float-right">
+      <div>
+        <label for="">Financiera:</label>
+        <label for="" class="ml-2">{{cotizacion.nombreFinanciera}}</label>
+      </div>
+    </div>
+
+    <div class="col-md-3 float-right">
+      <div>
+        <label for="">{{cotizacion.idLicitacion != undefined?'Número de licitación:':''}}</label>
+        <label for="" class="ml-2">{{cotizacion.idLicitacion}}</label>
+      </div>
+    </div>
+  </div>
+  <hr class="linea1">
+  <form [formGroup]='forma'>
+    <div class="form-row mt-2">
+      <div class="form-group col-md-4">
+        <small for="inputMarca">Marca Previamente seleccionada</small>
+        <input type="text" class="form-control marca-input" id="inputMarca" value="{{cotizacion.idMarca}}" disabled>
+      </div>
+      <div class="form-group col-md-4">
+        <small for="inputFolio">Folio</small>
+        <input type="text" class="form-control" id="inputFolio" value="{{idCotizacion}}" disabled>
+      </div>
+      <div class="form-group col-md-4"
+        [ngClass]="{'red': (forma.controls['catalogo'].errors?.required) && forma.touched}">
+        <small for="inputCatalogo">Catálogo</small>
+        <ng-select placeholder="Seleccionar catálogo" [items]="catalogos" bindLabel="linea"
+          [disabled]="isCatalogoLoading" bindValue="idUnidadBpro" (change)=catalogoOnChange($event) #ngSelectCatalogo
+          formControlName="catalogo" name="catalogo">
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+            <span>{{ item.linea + ' - ' + item.idUnidadBpro }}</span>
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            <span>{{ item.linea + ' ' + item.idUnidadBpro }}</span>
+          </ng-template>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['catalogo'].errors?.required) && forma.touched">
+          Debe seleccionar un catálogo.
+        </div>
+      </div>
+
+    </div>
+    <div class="form-row mt-2">
+      <div class="form-group col-md-4" [ngClass]="{'red': (forma.controls['anio'].errors?.required) && forma.touched}">
+        <small for="inputAno">Año</small>
+        <ng-select #ngSelectAnio placeholder="Seleccionar año" [items]="years" formControlName="anio"
+          (change)=yearOnChange($event)>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['anio'].errors?.required) && forma.touched">
+          Debe seleccionar un año.
+        </div>
+      </div>
+      <div class="form-group col-md-4"
+        [ngClass]="{'red': (forma.controls['version'].errors?.required) && forma.touched}">
+        <small for="inputVersion">Versión</small>
+        <ng-select #ngSelectVersion placeholder="Seleccionar Versión" [items]="versiones" bindLabel="nombre"
+          bindValue="nombre" formControlName="version" (change)=versionOnChange($event)>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['version'].errors?.required) && forma.touched">
+          Debe seleccionar una versión.
+        </div>
+      </div>
+      <div class="form-group col-md-4"
+        [ngClass]="{'red': (forma.controls['interiorColor'].errors?.required) && forma.touched}">
+        <small for="inputColInt">Color Interior</small>
+        <ng-select formControlName="interiorColor" #ngSelectColorInterior [items]="interiorColors" bindLabel="fullLabel"
+          bindValue="idColor" placeholder="Seleccionar color interior" (change)=interiorColorOnChange($event)>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['interiorColor'].errors?.required) && forma.touched">
+          Debe seleccionar un color interior.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row mt-2">
+      <div class="form-group col-md-4"
+        [ngClass]="{'red': (forma.controls['exteriorColor'].errors?.required) && forma.touched}">
+        <small for="inputColExt">Color Exterior</small>
+        <ng-select formControlName="exteriorColor" #ngSelectColorExterior [items]="exteriorColors" bindLabel="fullLabel"
+          bindValue="idColor" placeholder="Seleccionar color exterior" (change)=exteriorColorOnChange($event)>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['exteriorColor'].errors?.required) && forma.touched">
+          Debe seleccionar un color exterior.
+        </div>
+      </div>
+
+      <div class="form-group col-md-4" [ngClass]="{'red': (forma.controls['clase'].errors?.required) && forma.touched}">
+        <small for="inputClase">Clase</small>
+        <ng-select #ngSelectColorClase placeholder="Seleccionar clase" [items]="clases" bindLabel="nombre"
+          bindValue="id" formControlName="clase" (change)=claseOnChange($event)>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['clase'].errors?.required) && forma.touched">
+          Debe seleccionar una clase.
+        </div>
+      </div>
+
+      <div class="form-group col-md-4"
+        [ngClass]="{'red': (forma.controls['modelo'].errors?.required) && forma.touched}">
+        <small for="inputUnidad">Modelo</small>
+        <ng-select placeholder="Modelo" #ngSelectColorModelo [items]="modelos" bindLabel="nombre" bindValue="id"
+          formControlName="modelo" (change)=modeloOnChange($event)>
+        </ng-select>
+        <div class="red small" *ngIf="(forma.controls['modelo'].errors?.required) && forma.touched">
+          Debe seleccionar un modelo.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row mt-1">
+      <div class="form-group col-md-3"
+        [ngClass]="{'red': (forma.controls['cantidad'].errors?.required) && forma.touched}">
+        <small for="validationServer03">Cantidad ({{ getInventario() + ' de ' + getCantidad(selectedCantidad) }})
+        </small>
+        <input type="number" step="1" min="1" class="form-control" id="cantidad" placeholder="Ingrese una cantidad"
+          formControlName="cantidad" [(ngModel)]="selectedCantidad" required>
+        <div class="red small" *ngIf="(forma.controls['cantidad'].errors?.required) && forma.touched">
+          Debe ingresar una cantidad.
+        </div>
+      </div>
+
+      <div class="form-group col-md-5" [ngClass]="{'red': (selectedPrecio && selectedPrecio < 1)}">
+        <div class="d-flex flex-row">
+          <small for="inputPrecio" *ngIf="verCosto">Costo</small>
+          <small for="inputPrecio" class="ml-auto">Precio</small>
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend" *ngIf="verCosto">
+            <div class="input-group-text small" title="Costo Lista">
+              {{costoLista == undefined?'-':costoLista | currency:'MXN':'symbol-narrow'}}</div>
+          </div>
+          <input type="text" class="form-control" (focus)="focusInput()" id="inputPrecio"
+            placeholder="Ingrese el precio" currencyMask title="Precio Lista" formControlName="precio"
+            [(ngModel)]="selectedPrecio" required
+            onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+        </div>
+        <div class="red small" *ngIf="(forma.controls['precio'].errors?.required) && forma.touched">
+          Debe ingresar un precio.
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <small for="validationServer03">Inventario</small>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="{{units}}" aria-label="206"
+            aria-describedby="basic-addon2" disabled>
+          <div class="input-group-append">
+            <button [disabled]="!units||units==0" class="btn btn-outline-dark" (click)="openModalUnidadesInteres()"
+              type="button">Unidades</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4" *ngIf="!editing">
+        <button type="button" class="btn btn-info" (click)="saveItem(true)"
+          [disabled]="(!forma.valid || isLoadingAdd || selectedPrecio < 1) || (pricingManagerService.onlyRead)">Agregar</button>
+      </div>
+      <div class="form-group col-md-6" *ngIf="editing">
+        <button type="button" class="btn btn-info" (click)="saveItem(false)"
+          [disabled]="!forma.valid || selectedPrecio < 1">Actualizar</button>
+        <button type="button" class="btn btn-warning ml-1" (click)="cancel()"
+          [disabled]="!forma.valid">Cancelar</button>
+      </div>
+
+    </div>
+  </form>
+
+
+  <div class="row mt-2">
+    <div class="col-md-6">
+      <h3>Tabla de cotización</h3>
+    </div>
+  </div>
+  <hr class="linea1">
+
+  <div class="row table-responsive">
+    <table class="table">
+      <thead class="thead-light center">
+        <tr>
+          <th scope="col">Catálogo</th>
+          <th scope="col">Versión</th>
+          <th scope="col">Año</th>
+          <th scope="col">Color Interior</th>
+          <th scope="col">Color Exterior</th>
+          <th scope="col">Clase</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody class="center small">
+        <tr *ngFor="let item of cotizacion.gruposUnidades; let i = index">
+          <td>{{item.catalogo}}</td>
+          <td>{{item.versionUnidad}}</td>
+          <td>{{item.anio}}</td>
+          <td>{{item.colorInterior}}</td>
+          <td>{{item.colorExterior}}</td>
+          <td>{{item.clase}}</td>
+          <td>{{item.modelo}}</td>
+          <td>{{item.cantidad}}</td>
+          <td> <span> {{ item.precio | currency }}</span></td>
+          <td class="center">
+            <button [disabled]="pricingManagerService.onlyRead" type="button" class="btn btn-primary mr-1"
+              (click)="edit(item)"><i class="fas fa-edit"></i></button>
+            <button [disabled]="pricingManagerService.onlyRead" type="button" class="btn btn-danger mr-1"
+              (click)="openModalDelete($event, deleteTemplate, item)"><i class="fas fa-trash"></i></button>
+            <button type="button" class="btn btn-warning" (click)="openInfoModal(item)"><i
+                class="fas fa-info-circle"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-group col-md-12 mt-5">
+      <button [disabled]="pricingManagerService.onlyRead 
+                          || (cotizacion.gruposUnidades && cotizacion.gruposUnidades.length === 0) 
+                          " type="button" class="btn btn-primary pull-right"
+        (click)="sendGroupdetails(refreshTemplate)">Continuar</button>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #refreshTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Continuar sin actualizar</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>¿Realmente desea continuar? , los cambios sin actualizar se perderan.</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="modal.close(true)">Sí</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close(false)">Cancelar</button>
+  </div>
+</ng-template>

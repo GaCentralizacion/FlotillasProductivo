@@ -1,0 +1,115 @@
+<div>
+  <h1 class="general-titles">Auditar</h1>
+
+  <div class="container">
+    <!-- Inicio container Auditar  -->
+
+    <form class="form" name="bitacora">
+      <!-- Inicio Formulario Auditar  -->
+      <div class="form-row">
+        <!-- Inicio div.row center -->
+
+        <div class="form-group col-sm-4">
+          <!--ng-select- Inicio div.form-group col-sm-4 -->
+          <label for="moduloFormControlSelect">Modulo</label>
+          <ng-select [items]="modulos" placeholder="Elija un módulo" [(ngModel)]="selectedModulo" name="modulos">
+          </ng-select>
+          <small class="form-text text-muted">Seleccione un modulo a auditar</small>
+        </div>
+        <!--ng-select- Fin div.form-group col-sm-4 -->
+
+        <div class="form-group col-sm-4">
+          <!--ng-select- Inicio div.form-group col-sm-4 -->
+          <label for="moduloFormControlSelect">Usuario</label>
+          <ng-select  [items]="usuarios"
+                      bindLabel="userName"
+                      bindValue="idUsuario"
+                      placeholder="Elija un usuario"
+                      [(ngModel)]="selectedUsuario"
+                      name="usuarios">
+          </ng-select>
+          <small class="form-text text-muted">Seleccione un Usuario a auditar</small>
+        </div>
+        <!--ng-select Fin div.form-group col-sm-4 -->
+
+        <div class="form-group col-sm-4">
+          <!--ng-select- Inicio div.form-group col-sm-4 -->
+          <label for="moduloFormControlSelect">Eventos</label>
+          <ng-select [items]="eventos" placeholder="Elija un evento" [(ngModel)]="selectedEvento" name="eventos">
+          </ng-select>
+          <small class="form-text text-muted">Seleccione un Evento a auditar</small>
+        </div>
+        <!--ng-select Fin div.form-group col-sm-4 -->
+
+        <div class="form-group col-sm-3"></div><!-- Fin div.form-group col-sm-3 solo para maquetar -->
+
+        <div class="form-group col-sm-3">
+          <!--datepicker- Inicio div.form-group col-sm-3 -->
+          <label for="moduloFormControlSelect">Desde</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="AAAAMMDD" name="fromDateModel" [(ngModel)]="fromDateModel"
+              ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <span class="">
+                <button class="btn btn-outline-secondary calendar calendario" (click)="d.toggle()" type="button"><i
+                    class="fa fa-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--datepicker- Fin div.form-group col-sm-3 -->
+
+        <div class="form-group col-sm-3">
+          <!--datepicker- Inicio div.form-group col-sm-3 -->
+          <label for="moduloFormControlSelect">Hasta</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="AAAAMMDD" name="untilDateModel" [(ngModel)]="untilDateModel"
+              ngbDatepicker #e="ngbDatepicker">
+            <div class="input-group-append">
+              <span class="">
+                <button class="btn btn-outline-secondary calendar calendario" (click)="e.toggle()" type="button"><i
+                    class="fa fa-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--datepicker- Fin div.form-group col-sm-3 -->
+
+        <div class="form-group col-sm-3"></div>
+        <!--div.form-group col-sm-3 solo para maquetar -->
+
+      </div><!-- Fin div.row center -->
+
+      <div class="form-row justify-content-center">
+        <!--div.row justify-content-center boton enviar requets -->
+        <button class="btn btn-primary col-sm-3" (click)="buscar()">Buscar</button>
+      </div>
+      <!--div.row justify-content-center boton enviar requets -->
+
+    </form><!-- Fin Formulario Bitacora -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <!--div.row box-1 tabla respuesta auditar -->
+        <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap fullscreen mx-2" [headerHeight]="50" [columnMode]="'flex'"
+          [externalPaging]="true" [footerHeight]="50" [rowHeight]="'auto'" [rows]="eventosLog" [count]="totalRegistros"
+          [offset]="numeroPagina" [limit]="registrosPorPagina" (page)="cambiaPagina($event)">
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Id"
+            prop="idEventoLog"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Id Usuario"
+            prop="idUsuario"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Fecha y hora"
+            prop="fechaHoraText"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Módulo"
+            prop="modulo"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Tabla"
+            prop="tabla"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Evento"
+            prop="evento"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="4" name="Datos"
+            prop="datos"></ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+  </div>
+</div>

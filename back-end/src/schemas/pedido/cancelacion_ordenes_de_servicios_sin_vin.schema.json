@@ -1,0 +1,32 @@
+{
+  "$id": "cancelacion_ordenes_de_servicios_sin_vin.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idGrupoUnidad", 
+      "idDetalleUnidad", 
+      "idServicioUnidad"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "idGrupoUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del grupo unidad"
+      },
+      "idDetalleUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del detalle de la unidad"
+      },
+      "idServicioUnidad": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador del servicio asignado a la unidad"
+      }
+  }
+}

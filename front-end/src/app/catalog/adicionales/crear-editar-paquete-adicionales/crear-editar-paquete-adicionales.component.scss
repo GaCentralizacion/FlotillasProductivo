@@ -1,0 +1,59 @@
+@import "../../../styles/titles.scss";
+@import "../../../styles/texts.scss";
+
+.box-2 {
+  min-height: 470px;
+  max-height: 470px;
+  border: 1px solid #dddddd;
+  box-shadow: 1px 1px 5px #dddddd;
+  overflow-y: auto;
+}
+
+i {
+  font-size: 2em;
+  color: #444;
+}
+
+button {
+  margin-left: 10px;
+}
+
+.btn-trash {
+  margin: 0;
+  border-radius: 30px;
+  background: rgba(231, 104, 0, 0);
+}
+
+.btn-trash > i {
+  font-size: 1.3em;
+  color: rgb(163, 0, 0);
+}
+
+th {
+  font-size: 11px !important;
+}
+
+td {
+  font-size: 11px !important;
+}
+
+td > input {
+  font-size: 11px !important;
+}
+
+/deep/ .row-orange {
+  color: #d89c25;
+}
+
+/deep/.datatable-body-cell {
+  font-size: 11px !important;
+  text-align: center !important;
+}
+
+/deep/
+  .ngx-datatable.fixed-header
+  .datatable-header
+  .datatable-header-inner
+  .datatable-header-cell {
+  text-align: center !important;
+}

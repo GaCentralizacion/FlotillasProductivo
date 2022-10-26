@@ -1,0 +1,31 @@
+{
+	"$id": "actualizar_imprime_factura.schema.json",
+	"type": "object",
+	"required": [
+		"idCotizacion",
+    "idDetalleUnidad",
+    "idGrupoUnidad",
+    "imprimeFactura"
+	],
+	"properties": {
+		"idCotizacion": {
+			"type": "string",
+			"uniqueItems": true,
+			"description": "Identificador de Cotizador",
+			"maxLength": 20
+    },
+    "idGrupoUnidad": {
+			"type": "number",
+			"uniqueItems": true,
+			"description": "Identificador del grupo unidad"
+		},
+		"idDetalleUnidad": {
+			"type": "number",
+			"description": "Identificador del detalle unidad"
+    },
+    "imprimeFactura": {
+			"type": "boolean",
+			"description": "Imprime Factura"
+		}
+	}
+}

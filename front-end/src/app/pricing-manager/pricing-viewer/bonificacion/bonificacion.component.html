@@ -1,0 +1,37 @@
+<div style="padding: 20px">
+  <h1 class="general-titles">Bonificaciones</h1>
+  
+  <hr>
+  <div class="row" style="margin-top: 30px;">
+
+    <div class="col-md-4">
+      <span class="title-span">Bonificaciones</span>
+      <small class="form-text text-muted" style="color:#fff !important">cliente</small>
+
+      <ng-select #contactoNgSelect placeholder="Seleccione Bonificacion"
+      [items]="bonificaciones" bindLabel="Bonificacion" bindValue="Bonificacion" name="cliente"
+      [clearable]="false"
+      (change)=clientesOnChange($event) [notFoundText]="loadClientes">
+        <ng-template ng-label-tmp let-item="item">
+          <div>{{ item.ClaveBonificacion + '-' + item.NombrePromocion + '-' + (item.Bonificacion | currency)}}</div>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div>{{ item.ClaveBonificacion + '-' + item.NombrePromocion + '-' + (item.Bonificacion | currency)}}</div>
+        </ng-template>
+      </ng-select>
+
+    </div>
+
+
+
+  </div>
+
+  <div class="col-md-12 mt-3 mb-3 container-b d-flex flex-row-reverse">
+    <button class="btn btn-primary p-2" (click)="save()" [disabled]="!bonificacion">
+        Aceptar
+    </button>
+    <button class="btn btn-warning p-2" (click)="cancel()">
+        Cancelar
+    </button>
+  </div>
+</div>

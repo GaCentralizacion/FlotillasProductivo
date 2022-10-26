@@ -1,0 +1,64 @@
+{
+    "$id": "det_paquete_tramite.schema.json",
+    "type": "object",
+    "required": [
+        "idTramite",
+        "idSubtramite",
+        "idProveedor",
+        "nombreTramite",
+        "nombreSubtramite",
+        "nombreProveedor",
+        "costo",
+        "precio"
+    ],
+    "properties": {
+        "idEncPaqueteTramite": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del paquete de trámites"
+        },
+        "idTramite": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador del trámite"
+        },
+        "idSubtramite": {
+            "type": "string",
+            "description": "Identificador del subtrámite"
+        },
+        "idProveedor": {
+            "type": "integer",
+            "description": "Identificador del proveedor"
+        },
+        "nombreTramite": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Nombre del trámite"
+        },
+        "nombreSubtramite": {
+            "type": "string",
+            "description": "Nombre del subtrámite"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre del proveedor"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

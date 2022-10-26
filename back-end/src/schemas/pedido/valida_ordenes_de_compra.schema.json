@@ -1,0 +1,14 @@
+{
+    "$id": "valida_ordenes_de_compra.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de cotizacion"
+        }
+    }
+}

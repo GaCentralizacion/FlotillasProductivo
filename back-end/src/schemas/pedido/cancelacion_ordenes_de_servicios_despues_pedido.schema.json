@@ -1,0 +1,26 @@
+{
+  "$id": "cancelacion_ordenes_de_servicios_despues_pedido.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "vin", 
+      "idServicioUnidad"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "vin": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador de la unidad"
+      },
+      "idServicioUnidad": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador del servicio asignado a la unidad"
+      }
+  }
+}

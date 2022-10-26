@@ -1,0 +1,7 @@
+{
+    "$id": "rel_cliente_direccion_flotillas_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "rel_cliente_direccion_flotillas.schema.json"
+    }
+}

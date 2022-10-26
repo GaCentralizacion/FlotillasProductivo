@@ -1,0 +1,74 @@
+<h3 class="general-titles">
+    Catálogo de Clientes
+  </h3>
+<button type="button" class="btn btn-success mb-15" (click)="guardarFlotillas()">Guardar</button>
+<app-error></app-error>
+<div>
+  <ngx-datatable #mydatatable
+  [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+  *ngIf="flotillas != undefined"
+  class="bootstrap"
+  [loadingIndicator]="loadingIndicator"
+  [columns]="columns"
+  [columnMode]="'force'"
+  [limit]="10"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [rows]="rows">
+    <ngx-datatable-column width="80" name="id" prop="idCliente" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="nombreCompleto" [flexGrow]="1">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchTextName" placeholder="Búsqueda por Nombre" (ngModelChange)="change()">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="rfc" [flexGrow]="1">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchText" placeholder="Búsqueda por RFC" (ngModelChange)="change()">
+      </ng-template>
+
+    </ngx-datatable-column>
+    <ngx-datatable-column name="estatus" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="correo" [flexGrow]="1"></ngx-datatable-column>
+
+    <ngx-datatable-column width="200" name="Dirección - Flotillas" prop="direccionesFlotillas" [flexGrow]="1">
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+        <angular2-multiselect [data]="flotillas" [(ngModel)]="value" [settings]="settings"
+          (onSelect)="onSelectDeselecItem($event, row)" (onDeSelect)="onSelectDeselecItem($event, row)"
+          (onSelectAll)="onSelectDeselecAllItems($event, row)" (onDeSelectAll)="onSelectDeselecAllItems($event, row)">
+        </angular2-multiselect>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column width="300" name="CFDI - Unidades" prop="direccionesCFDIUnidades" [flexGrow]="1">
+
+      <ng-template ngx-datatable-header-template>
+          <ng-select appendTo="body" [(ngModel)]="searchTextUnidad" placeholder="Unidades" [items]="allCfdi" (ngModelChange)="change()"  bindLabel="nombre" bindValue="idCfdi">
+            </ng-select>
+      </ng-template>
+
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+        <angular2-multiselect [data]="allCfdi" [(ngModel)]="value" [settings]="settingsCFDI"
+          (onSelect)="select($event, row, 'unidades')" (onDeSelect)="onSelectDeselecItem($event, row)"
+          (onSelectAll)="onSelectDeselecAllItems($event, row)" (onDeSelectAll)="onSelectDeselecAllItems($event, row)">
+        </angular2-multiselect>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column width="300" name="CFDI - Accesorios" prop="direccionesCFDIAccesorios" [flexGrow]="1">
+
+        <ng-template ngx-datatable-header-template>
+            <ng-select appendTo="body" [(ngModel)]="searchTextAccesorio" placeholder="Accesorios" [items]="allCfdi" (ngModelChange)="change()"  bindLabel="nombre" bindValue="idCfdi">
+            </ng-select>
+          </ng-template>
+
+
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+        <angular2-multiselect [data]="allCfdi" [(ngModel)]="value" [settings]="settingsCFDI"
+          (onSelect)="select($event, row,'accesorios')" (onDeSelect)="onSelectDeselecItem($event, row)"
+          (onSelectAll)="onSelectDeselecAllItems($event, row)" (onDeSelectAll)="onSelectDeselecAllItems($event, row)">
+        </angular2-multiselect>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

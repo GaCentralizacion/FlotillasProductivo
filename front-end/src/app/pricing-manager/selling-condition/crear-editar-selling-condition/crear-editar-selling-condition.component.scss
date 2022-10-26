@@ -1,0 +1,18 @@
+.alert {
+  text-align: center;
+  color: red;
+}
+
+*:focus {
+  outline: none;
+}
+
+ng-select:focus{
+  outline: none;
+}
+
+.condition {
+  background-color: transparent;
+  background: transparent;
+  border: none;
+}

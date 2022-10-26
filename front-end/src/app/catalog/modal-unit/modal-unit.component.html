@@ -1,0 +1,107 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i  style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<div class="modal-header">
+  <h4 class="modal-title">Unidades de Interés</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" *ngIf="rows" style="width: 100%" class="bootstrap" [rows]="rows" [columnMode]="'force'"
+    [headerHeight]="50" [rowHeight]="'auto'" [selectionType]="'checkbox'"
+    [selected]="unidadesInteresSeleccionadas" (select)='onSelect($event)' [scrollbarH]="true">
+    <ngx-datatable-column [width]="39" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+      [resizeable]="false">
+      <ng-template ngx-datatable-header-template let-value="value">
+        <p class="small mb-2">Todos</p>
+        <input type="checkbox" [checked]="isMaxCheck()" (change)="selectFn()" />
+      </ng-template>
+      <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
+        let-onCheckboxChangeFn="onCheckboxChangeFn">
+        <input type="checkbox" [checked]="row.isSelected" [disabled]="isMaxCheck() && !row.isSelected" (change)="onCheckboxChangeFn3($event, row)" />
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Id" prop="idInventario"></ngx-datatable-column>
+    <ngx-datatable-column name="Vin" prop="vin"></ngx-datatable-column>
+    <ngx-datatable-column name="Año" prop="anio">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Año</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" placeholder="Año" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Modelo" prop="modelo">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Modelo</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" placeholder="Modelo" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Color Interior" prop="colorInterior">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Color Interior</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" placeholder="Color Interior" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Color Exterior" prop="colorExterior">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Color Exterior</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" placeholder="Color Exterior" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Clase" prop="clase">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Clase</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" placeholder="Clase" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Catálogo" prop="catalogo">
+      <ng-template ngx-datatable-header-template>
+        <label for="">Catálogo</label>
+      </ng-template>
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" placeholder="Clase" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Precio" prop="precio"></ngx-datatable-column>
+    <ngx-datatable-column name="Costo" prop="costo"></ngx-datatable-column>
+    <ngx-datatable-column name="Marca" prop="marca"></ngx-datatable-column>
+    <ngx-datatable-column name="Antiguedad" prop="antiguedad"></ngx-datatable-column>
+    <ngx-datatable-column name="Segmento" prop="segmento"></ngx-datatable-column>
+    <ngx-datatable-column name="Versión" prop="descripcion"></ngx-datatable-column>
+    <ngx-datatable-column name="Agencia" prop="agencia"></ngx-datatable-column>
+    <ngx-datatable-column name="Clasificación de tipo de compra" prop="clasificacionTipoCompra"></ngx-datatable-column>
+    <ngx-datatable-column name="bd" prop="bd"></ngx-datatable-column>
+    <ngx-datatable-column name="Tipo de Base" prop="tipoBase"></ngx-datatable-column>
+    <ngx-datatable-column name="Tipo de Unidad" prop="tipoUnidad"></ngx-datatable-column>
+  </ngx-datatable>
+
+</div>
+<div class="modal-footer ">
+
+  <div class="form-row mt-2">
+
+    <div class="form-group col-md-6">
+      <label for="" class="notice">Importante: Se solicitará la aprobación del apartado de las unidades seleccionadas al
+        cerrar la cotización.</label>
+    </div>
+
+    <div class="form-group col-md-6 text-align-right">
+      <button type="button" class="btn btn-warning text-white mr-2" (click)="cancelar()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="reservar()">Aceptar</button>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,132 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+<div class="title-area">
+  <h1 class="general-titles">Gestor de solicitudes</h1>
+</div>
+<form class="row" [formGroup]="form">
+  <div class="col-md-12 ">
+    <p><strong>Seguimiento a las entregas de los pedidos a planta</strong></p>
+    <i class="bi bi-arrow-left-right"></i>
+    <hr>
+  </div>
+  <div class='col-sm-12 col-md-6 col-xl-6 mt-2'>
+    <small class="title-span">Flotilla</small>
+    <app-direccion-flotilla-select clearStyles=true [showLabel]=false>
+    </app-direccion-flotilla-select>
+  </div>
+  <div class='col-sm-12 col-md-6 col-xl-6'>
+    <small class="title-span">Marca</small>
+    <select formControlName="idMarca" class="browser-default custom-select">
+      <option [value]="item.idMarca" *ngFor="let item of marcas">{{item.idMarca}}</option>
+    </select>
+  </div>
+  <div class='col-sm-12 col-md-6 col-xl-6'>
+    <small class="title-span">Empresa</small>
+    <ng-select #empresaNgSelect formControlName="idEmpresa" [items]="empresas" bindLabel="nombre" bindValue="idEmpresa"
+      placeholder="Seleccione empresa" name="empresas" notFoundText="Sin información">
+    </ng-select>
+  </div>
+  <div class='col-sm-12 col-md-6 col-xl-6'
+    [ngClass]="{'red': (form.controls.idSucursal.errors?.required) && form.touched}">
+    <small class="title-span">Sucursal</small>
+    <ng-select #sucursalNgSelect formControlName="idSucursal" [items]="sucursales" bindLabel="nombre"
+      bindValue="idSucursal" placeholder="Seleccione sucursal" name="surcursales" notFoundText="Sin información">
+    </ng-select>
+  </div>
+</form>
+<div class="row">
+  <div class="col-6"></div>
+  <div class="col-6 card-group mt-4" *ngIf="indicadores">
+    <div class="card text-white text-center bg-primary">
+      <div class="">
+        <h5>{{ indicadores.solicitadas }}</h5>
+        <p class="">Solicitadas</p>
+      </div>
+    </div>
+    <div class="card text-white text-center bg-secondary">
+      <div class="">
+        <h5 class="">{{ indicadores.solicitadas - indicadores.recibidas }}</h5>
+        <p class="">Por llegar</p>
+      </div>
+    </div>
+    <div class="card text-white text-center bg-success">
+      <div class="">
+        <h5>{{ indicadores.recibidas }}</h5>
+        <p>Recibidas</p>
+      </div>
+    </div>
+    <div class="card text-white text-center bg-warning">
+      <div class="">
+        <h5 class="">{{ indicadores.atrasadas }}</h5>
+        <p class="">Atrasadas</p>
+      </div>
+    </div>
+    <div class="card text-white text-center bg-danger">
+      <div class="">
+        <h5 class="">{{ indicadores.sinAsignar }}</h5>
+        <p class="">Sin asignar</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 md-12 mt-2">
+    <button type="button" class="btn btn-warning float-right" [disabled]="!groupSelected"
+      (click)="goToEdit()">Editar</button>
+    <button type="button" class="btn btn-primary float-right mr-2" (click)="goToNewRequest()">Nuevo</button>
+  </div>
+  <div class="col-12 mt-2">
+    <ngx-datatable *ngIf="!isLoading" #table
+      [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap"
+      [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'" [limit]="10" [headerHeight]="50"
+      [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable" [rows]="solicitudesFilter"
+      (select)="onSelect($event)" [selectionType]="SelectionType.single">
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="NombreFlotilla"
+        prop="nombreFlotilla">
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Marca" prop="idMarca">
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Folio"
+        prop="idSolicitudCotizacion"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="ClienteFinal"
+        prop="cliente"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3"
+        name="Cliente a Facturar" prop="clienteFactura"></ngx-datatable-column>
+      <!-- <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Contacto"
+        prop="clienteContacto"></ngx-datatable-column> -->
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="OrdenCompra"
+        prop="ordenCompra"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Cantidad"
+        prop="cantidad"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Reasignadas">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div *ngIf="row.totalReasignadas > 0">
+            <strong style="color: red;">{{ row.totalReasignadas }}</strong>
+          </div>
+          <div *ngIf="row.totalReasignadas == 0">
+            <span>{{ row.totalReasignadas }}</span>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="FechaCreación">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div>
+            <span>{{ row.fechaCreacion | date: 'dd/MM/yyyy' }}</span>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Estatus"
+        prop="estatusCotizacion"></ngx-datatable-column>
+      <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div>
+            <!-- <b style="color: red;cursor: pointer;" (click)="remove(row)">Quitar</b> -->
+            <img class="img-delete" (click)="deleteSolicitud(row)"
+              src="assets/images/fontawesomeicons/trash-can-solid.svg" alt="">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

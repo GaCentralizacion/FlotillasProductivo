@@ -1,0 +1,35 @@
+@import '../styles/color.scss';
+
+.card {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  }
+  
+  .card-header {
+      background-color: $dark-gray;
+  }
+
+  .login-user {
+    margin-top: -15%;
+    content:url(../../assets/images/loginUser.svg);
+    height: 100px;
+  }
+
+  .main-header-login {
+    background-color: $white;
+    height: 23vh;
+  }
+
+  .andrade-logo {
+      height: 23vh;
+      content:url(../../assets/images/logoGeneral.png);
+  }
+
+  .background-image {
+    background-image: url('../../assets/images/background.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: static;
+    height: 77vh;
+    width: auto;
+  }

@@ -1,0 +1,86 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Vehiculos asignados</h4>
+  <button type="button" (click)="modalService.dismissAll()" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *ngIf="form">
+  <div class="row">
+    <br>
+    <br>
+    <div class="col-12 mt-2">
+      <ngx-datatable *ngIf="!isLoading" #table
+        [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap" [check] [scrollbarH]="true" 
+        (select)="onSelect($event)" [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'"
+        [limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable"
+        [rows]="vehiculos" [checkboxable]="true" [selectionType]="'multi'" (select)="onSelect($event)">
+
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="VIN" [width]="150"
+        prop="vin"></ngx-datatable-column>
+        <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Marca" prop="idMarca" [width]="80">
+        </ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Catálogo" [width]="80"
+            prop="catalogo"></ngx-datatable-column> 
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Año"[width]="50"
+            prop="anio"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Versión" [width]="280"
+            prop="version"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="3" name="Interior" [width]="180"
+            prop="interior"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Exterior" [width]="180"
+            prop="exterior"></ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Clase" [width]="100"
+            prop="clase"></ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Modelo" [width]="100"
+            prop="modelo"></ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Precio" [width]="100"
+            prop="precioLista">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <label class="form-check-label" for="headerCheck">{{row.precioLista | currency:"MXN"}}</label>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Solicitud" [width]="80"
+            prop="idSolicitudCotizacion"></ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Cliente" [width]="280"
+            prop="idCliente"></ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Folio" [width]="100"
+            prop="folioPlanta"></ngx-datatable-column>
+            <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Fecha de recepción" [width]="180"
+            prop="fecha"></ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+  <br>
+  <form [formGroup]="form">
+    <div class="form-row">
+      <div class="col-md-6">
+        <div class="position-relative formGroup">
+          <small class="title-span">Solicitud a reasignar</small>
+          <ng-select [items]="comboSolicitudReasignar" formControlName="idSolicitudReasignar" bindLabel="TEXT"
+            bindValue="ID" placeholder="Seleccione" name="filtros" (change)=OnChange($event)
+            notFoundText="Sin información">
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="position-relative formGroup">
+          <small class="title-span">Grupo a reasignar</small>
+          <ng-select [items]="comboGrupoReasignar" formControlName="idGrupoReasignar" bindLabel="TEXT"
+            bindValue="ID" placeholder="Seleccione" name="filtros"  (change)=OnChangeC2($event)
+            notFoundText="Sin información">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br>
+  <br>
+</div>
+<div class="modal-footer">
+  <div class='col-sm-12 col-md-12 col-xl-12'>
+      <button type="button" [disabled]="combos.idSolicitudReasignar==0 && combos.idGrupoReasignar==0" (click)="addVehiculo()" 
+      class="btn btn-primary float-right">Reasignar</button>
+      <button type="button" [disabled]="combos.idSolicitudReasignar==0 && combos.idGrupoReasignar==0" (click)="addGrupo()"
+      class="btn btn-success float-left">Crear Nuevo Grupo</button>
+  </div>
+</div>

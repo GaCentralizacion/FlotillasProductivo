@@ -1,0 +1,42 @@
+{
+    "$id": "correo.schema.json",
+    "type": "object",
+    "required": [
+        "para",
+        "asunto"
+    ],
+    "properties": {
+        "para": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "email"
+            },
+            "description": "Lista de direcciones de correo"
+        },
+        "asunto": {
+            "type": "string",
+            "description": "Asunto"
+        },
+        "cuerpo": {
+            "type": "string",
+            "description": "Cuerpo del correo"
+        },
+        "adjuntos": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "description": "Nombre del archivo con extensión"
+                    },
+                    "contenido": {
+                        "type": "string",
+                        "description": "Contenido en formato base64. Ej. data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH..."
+                    }
+                }
+            }
+        }
+    }
+}

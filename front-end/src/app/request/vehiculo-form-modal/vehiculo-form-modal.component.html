@@ -1,0 +1,98 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Agregar unidad</h4>
+  <button type="button" (click)="modalService.dismissAll()" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *ngIf="formVehiculo">
+  <form class="row" [formGroup]="formVehiculo">
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls.idCatalogo.errors?.required) && formVehiculo.touched}">
+      <small for="inputCatalogo">Catálogo</small>
+      <ng-select placeholder="Seleccionar catálogo" [items]="catalogos" bindLabel="linea" [disabled]="isCatalogoLoading"
+        bindValue="idUnidadBpro" (change)=catalogoOnChange($event) #ngSelectCatalogo formControlName="idCatalogo"
+        name="catalogo">
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+          <span>{{ item.linea + ' - ' + item.idUnidadBpro }}</span>
+        </ng-template>
+        <ng-template ng-label-tmp let-item="item">
+          <span>{{ item.linea + ' ' + item.idUnidadBpro }}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6 mt-2'
+      [ngClass]="{'red': (formVehiculo.controls.anio.errors?.required) && formVehiculo.touched}">
+      <small for="inputAno">Año</small>
+      <ng-select #ngSelectAnio placeholder="Seleccionar año" [items]="years" formControlName="anio"
+        (change)=yearOnChange($event)>
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls['version'].errors?.required) && formVehiculo.touched}">
+      <small for="inputVersion">Versión</small>
+      <ng-select #ngSelectVersion placeholder="Seleccionar Versión" [items]="versiones" bindLabel="nombre"
+        bindValue="nombre" formControlName="version">
+      </ng-select>
+    </div>
+    <!-- <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls['interiorColor'].errors?.required) && formVehiculo.touched}">
+      <small for="inputColInt">Color Interior</small>
+      <ng-select formControlName="interiorColor" #ngSelectColorInterior [items]="interiorColors" bindLabel="fullLabel"
+        bindValue="idColor" placeholder="Seleccionar color interior">
+      </ng-select>
+    </div> -->
+    <!-- <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls['exteriorColor'].errors?.required) && formVehiculo.touched}">
+      <small for="inputColExt">Color Exterior</small>
+      <ng-select formControlName="exteriorColor" #ngSelectColorExterior [items]="exteriorColors" bindLabel="fullLabel"
+        bindValue="idColor" placeholder="Seleccionar color exterior">
+      </ng-select>
+    </div> -->
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls['clase'].errors?.required) && formVehiculo.touched}">
+      <small for="inputClase">Clase</small>
+      <ng-select #ngSelectColorClase placeholder="Seleccionar clase" [items]="clases" bindLabel="nombre" bindValue="nombre"
+        formControlName="clase">
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls['modelo'].errors?.required) && formVehiculo.touched}">
+      <small for="inputUnidad">Modelo</small>
+      <ng-select placeholder="Modelo" #ngSelectColorModelo [items]="modelos" bindLabel="nombre" bindValue="nombre"
+        formControlName="modelo">
+      </ng-select>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'
+      [ngClass]="{'red': (formVehiculo.controls['cantidad'].errors?.required) && formVehiculo.touched}">
+      <small class="title-span">Cantidad</small>
+      <input type="text" type="number" formControlName="cantidad" class="form-control">
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Precio Lista</small>
+      <span class="form-control">{{ formVehiculo.value.precioLista | currency }}</span>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6' style="padding-top: 25px;padding-left: 41px;">
+      <input type="checkbox" formControlName="requiereEquipamiento" class="custom-control-input"
+        id="requiereEquipamiento" name="checkbox">
+      <label class="custom-control-label" for="requiereEquipamiento">Requiere equipamiento</label>
+    </div>
+    <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Observaciones</small>
+      <textarea  type="text" formControlName="observaciones" name="observaciones" id="observaciones" style="width: 100%;"></textarea>
+    </div>
+    <!-- <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Ubicación</small>
+      <input type="text"  formControlName="ubicacion" id="ubicacion" class="form-control">
+    </div> -->
+    <!-- <div class='col-sm-12 col-md-6 col-xl-6'>
+      <small class="title-span">Facturado a</small>
+      <input type="text"  formControlName="facturadoA" id="facturadoA" class="form-control">
+    </div> -->
+  </form>
+</div>
+<div class="modal-footer">
+  <div class='col-sm-12 col-md-12 col-xl-12'>
+    <button type="button" [disabled]="!formVehiculo.valid" (click)="addVehiculo()"
+      class="btn btn-primary float-right">Guardar</button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{
+    "$id": "proveedor_adicional.schema.json",
+    "type": "object",
+    "required": [
+        "idProveedor"
+    ],
+    "properties": {
+        "idProveedor": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de proveedor"
+        },
+        "nombreCompleto": {
+            "type": "string",
+            "description": "Nombre completo del proveedor"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        }
+    }
+}

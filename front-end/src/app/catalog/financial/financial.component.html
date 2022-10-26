@@ -1,0 +1,40 @@
+<h3 class="general-titles">
+    Catálogo de Financieras
+</h3>
+<div>
+  <form class="mt-3">
+    <div class="form-row align-items-center">
+      <div class="col-md-3">
+        <small for="inputMarca">Marca</small>
+        <ng-select #marcaNgSelect placeholder="Seleccionar marca" [items]="marcas" bindLabel="idMarca"
+          bindValue="idMarca" (change)=marcasOnChange($event) notFoundText="Sin registros">
+        </ng-select>
+      </div>
+      <div class="col-md-3">
+        <small for="inputEmpresa">Empresa</small>
+        <ng-select #empresaNgSelect placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+          bindValue="idEmpresa" (change)=empresaOnChange($event) notFoundText="Sin registros">
+        </ng-select>
+      </div>
+      <div class="col-md-3">
+        <small for="inputSucursal">Sucursal</small>
+        <ng-select #sucursalNgSelect placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+          bindValue="idSucursal" (change)=sucursalesOnChange($event) notFoundText="Sin registros">
+        </ng-select>
+      </div>
+    </div>
+  </form>
+
+  <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5" [rows]="financierasFilter" [columnMode]="'force'" [limit]="5"
+    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+    <ngx-datatable-column [width]="30" [sortable]="true" [canAutoResize]="false" [draggable]="false"
+      [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="50" name="ID" prop="idFinanciera"></ngx-datatable-column>
+    <ngx-datatable-column [width]="200" name="Nombre" prop="nombre">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchNombre" placeholder="Nombre" (keyup)="updateFilter()">
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

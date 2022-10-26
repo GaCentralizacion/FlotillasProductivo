@@ -1,0 +1,55 @@
+<div style="padding: 20px">
+
+  <h1 class="general-titles">¿ Cuenta con el n&uacute;mero de &oacute;rden de compra?</h1>
+  <hr>
+
+  <div class="w-100 d-flex flex-row">
+
+    <div class="w-50 d-flex flex-column">
+
+        <div class="form-check form-check-inline">
+            <input [disabled]="isOrden" class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="isOrden" (change)="changeValue(true)">
+            <label class="form-check-label" for="inlineCheckbox1">Si, tengo el n&uacute;mero de &oacute;rden de compra</label>
+        </div>
+
+        <div class="col-md-6 mt-3">
+            <small class="title-span licitacion-span">N&uacute;mero de &oacute;rden de compra</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">N&uacute;mero de &oacute;rden de compra</small>
+            <input type="text" class="form-control" [disabled]="!isOrden" name="orden" [(ngModel)]="orden"
+              placeholder="N&uacute;mero de &oacute;rden">
+            <small class="info-label">Descripci&oacute;n del formato de n&uacute;mero de &oacute;rden de compra</small>
+        </div>
+
+        <div class="mt-3">
+          <input [disabled]="!isOrden" type="file" accept="application/pdf" (change)="onFileChange($event)">
+        </div>
+  
+
+    </div>
+
+    <div class="w-50 d-flex flex-column">
+
+
+      <div class="form-check form-check-inline">
+            <input [disabled]="!isOrden" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"  [checked]="!isOrden"  (change)="changeValue(false)">
+            <label class="form-check-label" for="inlineCheckbox1">No, tengo el n&uacute;mero de &oacute;rden de compra</label>
+      </div>
+      <span class="info-label">Si no posee el n&uacute;mero de &oacute;rden puede continuar el proceso sin problemas.</span>
+
+    </div>
+
+
+  </div>
+  
+
+
+  <div class="d-flex flex-row-reverse">
+      <button (click)="continue()" [disabled]="isError() || isEjecutando" class="btn btn-primary d-flex flex-row-reverse" style="margin-top: 30px;margin-right: 30px">
+          Continuar
+      </button>  
+      <button (click)="cancel()" class="btn btn-warning d-flex flex-row-reverse" style="margin-top: 30px;margin-right: 30px">
+          Cancelar
+      </button>  
+    </div>    
+
+</div>

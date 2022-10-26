@@ -1,0 +1,391 @@
+<div class="user-register mt-5">
+  <div class="title-area">
+    <h1 class="general-titles">Registro de la cotización</h1>
+  </div>
+  <div class="user-form" *ngIf="nuevaCotizacion">
+    <form [formGroup]="formCarga">
+      <div class="form-row">
+        <div class="col-md-12">
+          <small id="" class="form-text text-muted" style="color:#fff !important">multimarca</small>
+          <div class="custom-control custom-checkbox mr-sm-2">
+            <input type="checkbox" (change)=multimarcaOnChange($event) class="custom-control-input"
+              id="customControlAutosizing" name="checkbox">
+            <label class="custom-control-label" for="customControlAutosizing">Registro por multimarca</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-1">
+          <small class="title-span">Filtro</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Filtro</small>
+          <ng-select #filtroNgSelect [items]="filtros" bindLabel="text"
+            bindValue="value" placeholder="Seleccione" name="filtros" (change)=filtrosOnChange($event)
+            notFoundText="Sin información">
+          </ng-select>
+        </div>
+        <div class="col-md-4">
+          <small class="title-span">Clientes</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Clientes</small>
+
+          <!-- <ng-select #clienteNgSelect formControlName="clienteFormControl" placeholder="Seleccione Cliente" (search)="searchContacto($event)"
+          [items]="clientes" bindLabel="nombreCompleto" bindValue="idCliente" name="cliente"
+           [notFoundText]="'Sin información'" [searchFn]="customSearchFn" (change)=contactoOnChange($event)>
+           <ng-template ng-option-tmp let-item="item">
+            <div title="{{item.nombreCompleto}}">{{item.nombreCompleto}}</div>
+          </ng-template>
+          </ng-select> -->
+
+          <ng-select #clienteNgSelect formControlName="clienteFormControl" placeholder="Seleccione Cliente"
+            [items]="clientes" bindLabel="nombreCompleto" bindValue="idCliente" name="cliente" 
+            (search)=clientesOnSearch($event) (change)=clientesOnChange($event)
+            [ngClass]="{ 'is-invalid': submitted && f.flotillasForm.errors }" [notFoundText]="'Sin información'">
+            <ng-template ng-option-tmp let-item="item">
+              <div title="{{item.nombreCompleto}}">{{item.nombreCompleto}}</div>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="d-flex justify-content-center  align-items-center" style="padding-top: 15px;cursor: pointer;"
+          (click)="getClientes()">
+          <i class="fa" [ngClass]="{'fa-circle-notch fa-spin': isLoadingCliente, 'fa-search': !isLoadingCliente}"
+            style="color: gray"></i>
+        </div>
+
+        <div class="col-md-3" *ngIf="multimarca"></div>
+
+        <div class="col-md-3" *ngIf="multimarca">
+          <small class="title-span licitacion-span">Numero de licitación</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Licitación</small>
+          <input type="text" class="form-control" formControlName="licitacionFormControl"
+            placeholder="Número de Licitación" id="multi">
+        </div>
+
+        <div class="col-md-3" *ngIf="!multimarca">
+          <small class="title-span">Marca</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Marca</small>
+          <ng-select #marcaNgSelect formControlName="marcaFormControl" [items]="marcas"
+            bindLabel="idMarca" bindValue="idMarca" placeholder="Seleccione marca" name="marcas"
+            (change)=marcasOnChange($event)  notFoundText="Sin información">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3" *ngIf="!multimarca">
+          <small class="title-span">Empresa</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Empresa</small>
+          <ng-select #empresaNgSelect formControlName="empresaFormControl"
+            [items]="empresas" bindLabel="nombre" bindValue="idEmpresa" placeholder="Seleccione empresa" name="empresas"
+
+            (change)=empresaOnChange($event)  notFoundText="Sin información">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-row">
+
+        <div class="col-md-3" *ngIf="!multimarca">
+          <small class="title-span">Sucursal</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Sucursal</small>
+          <ng-select #sucursalNgSelect formControlName="sucursalFormControl"
+            [items]="sucursales" bindLabel="nombre" bindValue="idSucursal" placeholder="Seleccione sucursal"
+            name="surcursales" (change)=sucursalesOnChange($event) notFoundText="Sin información">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3" *ngIf="!multimarca">
+          <small class="title-span">Condición de pago</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Condición de pago</small>
+          <ng-select #condicionNgSelect formControlName="condicionFormControl"
+            [items]="condiciones" bindLabel="nombre" bindValue="idCondicion" placeholder="Seleccione condicion"
+            name="condiciones" (change)=condicionesOnChange($event) notFoundText="Sin información">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3" *ngIf="!multimarca">
+          <small class="title-span">Financiera</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Financiera</small>
+          <ng-select #financieraNgSelect formControlName="financieraFormControl"
+            [items]="financieras" bindLabel="nombre" bindValue="idFinanciera" placeholder="Seleccione financiera"
+            name="financieras" (change)=financierasOnChange($event) notFoundText="Sin información">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3" *ngIf="multimarca"></div>
+        <div class="col-md-3" *ngIf="multimarca"></div>
+        <div class="col-md-3" *ngIf="multimarca"></div>
+
+        <div class="col-md-3">
+          <small class="title-span">CFDI</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">CFDI</small>
+          <ng-select #cfdiNgSelect formControlName="cfdiFormControl" [items]="cfdi"
+            bindLabel="CUC_DESCRIPCION" bindValue="CUC_CVEUSOCFDI" placeholder="Seleccione cfdi" name="cfdi"
+            (change)=cfdiOnChange($event)  notFoundText="Sin información">
+          </ng-select>
+        </div>
+
+      </div>
+
+      <div class="form-row" *ngIf="!multimarca">
+
+          <div class="col-md-6" *ngIf="!multimarca">
+            <small class="title-span">Canal de Venta</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Canal de Venta</small>
+            <ng-select #tipoNgSelect formControlName="tipoVentaFormControl"
+              [items]="tiposVenta" bindLabel="label" bindValue="idTipoVenta" placeholder="Seleccione canal de venta"
+              name="surcursales"  notFoundText="Sin información"   (change)=ventaOnChange($event)>
+            </ng-select>
+          </div>
+          <div class="col-md-3" *ngIf="!multimarca">
+            <small class="title-span">Moneda</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Moneda</small>
+            <ng-select  #monedaNgSelect  formControlName="monedaFormControl"
+              [items]="monedas" bindLabel="nombre" bindValue="idMonedaVenta" placeholder="Seleccione Moneda"
+              name="financieras"  notFoundText="Sin información"   (change)=monedaOnChange($event)>
+            </ng-select>
+          </div>
+          <div class="col-md-3" *ngIf="!multimarca">
+            <small class="title-span">Iva</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Iva</small>
+            <ng-select  #ivaNgSelect  formControlName="ivaFormControl"
+              [items]="ivas" bindLabel="nombre" bindValue="idIva" placeholder="Seleccione Iva"
+              name="iva"  notFoundText="Sin información"  (change)=ivaOnChange($event)>
+            </ng-select>
+          </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-md-1">
+          <small class="title-span">Filtro</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Filtro</small>
+          <ng-select #filtroContactoNgSelect  [items]="filtros" bindLabel="text"
+            bindValue="value" placeholder="Seleccione" name="filtros" (change)=filtrosOnChangeContacto($event)
+            notFoundText="Sin información">
+          </ng-select>
+        </div>
+        <div class="col-md-5">
+          <small class="title-span">Contacto</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Contacto</small>
+          <ng-select #contactoNgSelect formControlName="contactoFormControl" placeholder="Seleccione Contacto" (search)="searchContacto($event)"
+          [items]="clientesFis" bindLabel="nombreCompleto" bindValue="idCliente" name="contacto"
+           [notFoundText]="'Sin información'" [searchFn]="customSearchFn" (change)=contactoOnChange($event)>
+           <ng-template ng-option-tmp let-item="item">
+            <div title="{{item.nombreCompleto}}">{{item.nombreCompleto}}</div>
+          </ng-template>
+          </ng-select>
+        </div>
+        <div class="d-flex justify-content-center  align-items-center" style="padding-top: 15px;cursor: pointer;" (click)="getClientesFis()" >
+          <i class="fa"  [ngClass]="{'fa-circle-notch fa-spin': isLoadingCotacto, 'fa-search': !isLoadingCotacto}" style="color: gray"></i>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-2"*ngIf="flagTipoVentaSelect">
+          <small class="title-span">Tipo de venta</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Tipo de venta</small>
+          <ng-select #tipoVentaNgSelect  formControlName="tVentaFormControl" [items]="tipoVenta" bindLabel="text"
+            bindValue="value" placeholder="Seleccione tipo de venta" name="Tipo de venta" 
+            notFoundText="Sin información" (change)=tVentaOnChange($event)> 
+            <ng-template ng-option-tmp let-item="item">
+              <div title="{{item.text}}">{{item.text}}</div>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="col-md-6" *ngIf="!multimarca && flagVentaSelect">
+          <small class="title-span">Contrato</small>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Contrato</small>
+          <ng-select #contratoNgSelect formControlName="contratoFormControl" 
+            [items]="contratos" bindLabel="TEXT" bindValue="VALUE" placeholder="Seleccione contrato"
+            name="contratos" notFoundText="Sin información" (change)=contratoOnChange($event)>
+          </ng-select>
+        </div>
+    </div>
+
+
+      <div class="user-register">
+        <div class="title-area">
+          <h3 class="general-titles">Información de cliente</h3>
+        </div>
+        <app-cliente-informacion [clienteInfo]="clienteInfo"></app-cliente-informacion>
+      </div>
+
+      <div class="multimarca-combo" [hidden]="!multimarca">
+        <app-group-fleet #groupFleetComponent [clienteIn]="idCliente" [marcaIn]="marcas"
+          [cotizacionesIn]="cotizaciones"> </app-group-fleet>
+      </div>
+
+      <div class="feet" *ngIf="!multimarca">
+        <button  [disabled]="!formCarga.valid" type="submit" (click)="onSubmit()" class="btn btn-primary float-right">Continuar</button>
+      </div>
+      <div class="feet" *ngIf="multimarca">
+        <button (click)="saveCotizaciones()" class="btn btn-primary float-right">Guardar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="user-form " *ngIf="!nuevaCotizacion && multimarca">
+    <form [formGroup]="formConsulta" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="col-md-2 small">
+          <small id="" class="form-text text-muted" style="color:#fff !important">multimarca</small>
+          <div class="custom-control custom-checkbox mr-sm-2">
+            <input type="checkbox" formControlName="multimarcaFormControl" class="custom-control-input"
+              id="customControlAutosizing" name="checkbox">
+            <label class="custom-control-label" for="customControlAutosizing">Registro por multimarca</label>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <span class="title-span">Cliente</span>
+          <small class="form-text text-muted" style="color:#fff !important">cliente</small>
+          <input type="text" formControlName="clienteFormControl" class="form-control marca-input">
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div *ngIf="idLicitacion != undefined" class="col-md-5">
+          <span class="title-span">Numero de licitación</span>
+          <small id="" class="form-text text-muted" style="color:#fff !important">Licitación</small>
+          <input type="text" formControlName="licitacionFormControl" class="form-control marca-input">
+        </div>
+
+      </div>
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <span class="title-span">CFDI</span>
+          <small id="" class="form-text text-muted" style="color:#fff !important">CFDI</small>
+          <input type="text" formControlName="cfdiFormControl" class="form-control marca-input">
+        </div>
+      </div>
+      <div class="user-register">
+        <div class="title-area">
+          <h3>Información de cliente</h3>
+        </div>
+        <app-cliente-informacion [clienteInfo]="clienteInfo"></app-cliente-informacion>
+      </div>
+
+      <div class="multimarca-combo">
+        <app-group-fleet #groupFleetComponent [clienteIn]="idCliente" [marcaIn]="marcas"
+          [cotizacionesIn]="cotizaciones"> </app-group-fleet>
+      </div>
+
+      <div class="feet">
+        <button (click)="saveCotizaciones()" class="btn btn-primary float-right">Guardar</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="user-form" *ngIf="!nuevaCotizacion && !multimarca">
+      <form [formGroup]="formConsulta2">
+        <div class="form-row">
+          <div class="col-md-3">
+            <small id="" class="form-text text-muted" style="color:#fff !important">multimarca</small>
+            <div class="custom-control custom-checkbox mr-sm-2">
+              <input type="checkbox" formControlName="multimarcaConsultaFormControl" class="custom-control-input"
+                id="customControlAutosizing" name="checkbox">
+              <label class="custom-control-label" for="customControlAutosizing">Registro por multimarca</label>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <small class="title-span">Clientes</small>
+            <small class="form-text text-muted" style="color:#fff !important">cliente</small>
+            <input type="text" formControlName="clienteConsultaFormControl" class="form-control marca-input">
+          </div>
+
+          <div class="col-md-3">
+            <small class="title-span">Marca</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Marca</small>
+            <input type="text" formControlName="marcaConsultaFormControl" class="form-control marca-input">
+          </div>
+
+          <div class="col-md-3">
+            <small class="title-span">Empresa</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Empresa</small>
+            <input type="text" formControlName="empresaConsultaFormControl" class="form-control marca-input">
+          </div>
+        </div>
+        <div class="form-row">
+
+          <div class="col-md-3" >
+            <small class="title-span">Sucursal</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Sucursal</small>
+            <input type="text" formControlName="sucursalConsultaFormControl" class="form-control marca-input">
+          </div>
+
+          <div class="col-md-3">
+            <small class="title-span">Condición de pago</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Condición de pago</small>
+            <input type="text" formControlName="condicionConsultaFormControl" class="form-control marca-input">
+          </div>
+
+          <div class="col-md-3" >
+            <small class="title-span">Financiera</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Financiera</small>
+            <input type="text" formControlName="financieraConsultaFormControl" class="form-control marca-input">
+          </div>
+
+
+          <div class="col-md-3">
+            <small class="title-span">CFDI</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">CFDI</small>
+            <input type="text" formControlName="cfdiConsultaFormControl" class="form-control marca-input">
+          </div>
+
+
+
+
+
+        </div>
+
+        <div class="form-row"  *ngIf="!nuevaCotizacion && !multimarca">
+
+          <div class="col-md-6" *ngIf="!multimarca">
+            <small class="title-span">Canal de Venta</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Canal de Venta</small>
+            <input type="text" formControlName="tipoVentaConsultaFormControl" class="form-control marca-input">
+          </div>
+          <div class="col-md-3" *ngIf="!multimarca">
+            <small class="title-span">Moneda</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Moneda</small>
+            <input type="text" formControlName="monedaConsultaFormControl" class="form-control marca-input">
+          </div>
+          <div class="col-md-3" *ngIf="!multimarca">
+            <small class="title-span">Iva</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Iva</small>
+            <input type="text" formControlName="ivaConsultaFormControl" class="form-control marca-input">
+          </div>
+      </div>
+
+
+        <div class="form-row" *ngIf="!nuevaCotizacion && !multimarca">
+
+          <div class="col-md-6" *ngIf="!multimarca">
+            <small class="title-span">Contacto</small>
+            <small id="" class="form-text text-muted" style="color:#fff !important">Contacto</small>
+            <input type="text" formControlName="contactoConsultaFormControl" class="form-control marca-input">
+          </div>
+      </div>
+
+
+        <div class="user-register">
+          <div class="title-area">
+            <h3 class="general-titles">Información de cliente</h3>
+          </div>
+          <app-cliente-informacion [clienteInfo]="clienteInfo"></app-cliente-informacion>
+        </div>
+
+        <div class="multimarca-combo" [hidden]="!multimarca">
+          <app-group-fleet #groupFleetComponent [clienteIn]="idCliente" [marcaIn]="marcas"
+            [cotizacionesIn]="cotizaciones"> </app-group-fleet>
+        </div>
+        <br>
+        <div class="feet">
+          <button *ngIf="!isContinuar" [disabled]="pricingManagerService.perfilSoloLectura" type="submit" (click)="onSubmit()" class="btn btn-primary float-right">Continuar</button>
+          <button *ngIf="isContinuar" [disabled]="pricingManagerService.perfilSoloLectura" type="button" (click)="goToUnidades()" class="btn btn-primary float-right">Continuar</button>
+        </div>
+
+      </form>
+    </div>
+
+
+  </div>

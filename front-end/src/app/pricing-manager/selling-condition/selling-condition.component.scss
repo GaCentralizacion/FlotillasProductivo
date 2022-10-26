@@ -1,0 +1,27 @@
+@import '../../styles/titles.scss';
+@import "../../styles/mixin.scss";
+@import "../../styles/color.scss";
+
+.title {
+  margin-top: 10px;
+}
+.linea1 {
+  margin-top: -0.4em;
+  border: 1px solid $dark-gray;
+}
+
+.condition {
+  background-color: transparent;
+  background: transparent;
+  border: none;
+}
+
+.datatable-icon-right:before {
+  color: black !important;
+  font-size: 20px !important;
+}
+
+.datatable-icon-down:before {
+  color: black !important;
+  font-size: 20px !important;
+}

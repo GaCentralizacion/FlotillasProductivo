@@ -1,0 +1,81 @@
+<div class="box box-info direct-chat direct-chat-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Chat</h3>
+    </div>
+
+    <div class="box-body">
+        <div *ngIf="messageView && messageView.length > 0">
+            <label class="general-titles messages-text">{{ messageView }}</label>
+        </div>
+        <div *ngIf="!messageView && !messagesRows.length" class="col-md-3 messages"></div>
+        <div #scrollMe class="direct-chat-messages" *ngIf="messagesRows.length > 0"
+            style="overflow: scroll; height: xyz;">
+
+            <div class="direct-chat-msg" [ngClass]="{'right': msgEmit.idUsuarioModificacion == idUsuario}"
+                *ngFor="let msgEmit of messagesRows">
+                <p class="direct-chat-img color-user circle">{{ msgEmit.usuario }}</p>
+                <div class="direct-chat-text" *ngIf="!msgEmit.media">
+                    {{ msgEmit.cuerpoMensaje }}
+                    <i class="fa fa-check check" aria-hidden="true"
+                        *ngIf="msgEmit.idUsuarioModificacion != idUsuario"></i>
+                    <i class="fa fa-check check" aria-hidden="true"
+                        *ngIf="msgEmit.leido && msgEmit.idUsuarioModificacion != idUsuario"></i>
+                </div>
+
+                <div *ngIf="msgEmit.media" class="direct-chat-text">
+                    <div *ngIf="msgEmit.media.tipoMedio === 'jpg' || msgEmit.media.tipoMedio === 'jpeg' || msgEmit.media.tipoMedio === 'png'"
+                        class="attachment-block clearfix" (click)="_downloadFile(msgEmit.media)">
+                        <i class="fas fa-file-image" style="font-size:25px;cursor: pointer;"></i>
+                        {{ msgEmit.media.nombre }}.{{ msgEmit.media.tipoMedio }}
+                    </div>
+                    <div *ngIf="msgEmit.media.tipoMedio === 'pdf'" class="attachment-block clearfix"
+                        (click)="_downloadFile(msgEmit.media)">
+                        <i class="fas fa-file-pdf" style="font-size:25px;cursor: pointer;"></i>
+                        {{ msgEmit.media.nombre }}.{{ msgEmit.media.tipoMedio }}
+                    </div>
+                    <div *ngIf="msgEmit.media.tipoMedio === 'xls' || msgEmit.media.tipoMedio === 'xlsx'"
+                        class="attachment-block clearfix" (click)="_downloadFile(msgEmit.media)">
+                        <i class="fas fa-file-excel" style="font-size:25px;cursor: pointer;"></i>
+                        {{ msgEmit.media.nombre }}.{{ msgEmit.media.tipoMedio }}
+                    </div>
+                    <div *ngIf="msgEmit.media.tipoMedio === 'doc' || msgEmit.media.tipoMedio === 'docx'"
+                        class="attachment-block clearfix" (click)="_downloadFile(msgEmit.media)">
+                        <i class="fas fa-file-word" style="font-size:25px; cursor: pointer;"></i>
+                        {{ msgEmit.media.nombre }}.{{ msgEmit.media.tipoMedio }}
+                    </div>
+                    <div>
+                        {{ msgEmit.cuerpoMensaje }}
+                        <i class="fa fa-check check" aria-hidden="true"
+                            *ngIf="msgEmit.idUsuarioModificacion != idUsuario"></i>
+                        <i class="fa fa-check check" aria-hidden="true"
+                            *ngIf="msgEmit.leido && msgEmit.idUsuarioModificacion != idUsuario"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-footer">
+        <div class="md-form">
+            <div class="custom-file">
+                <a class="btn-floating btn-lg pink lighten-1 mt-0 float-right">
+                    <i class="fas fa-paperclip" aria-hidden="true"></i>
+                </a>
+                <input type="file" class="custom-file-input" id="fileMedia" name="fileMedia" #fileMedia
+                    (change)="handleInputChange($event)" accept=".jpg,.jpeg,.pdf,.doc,.docx,.xls,.xlsx,.png">
+            </div>
+            <div class="file-path-wrapper file-color">
+                <label
+                    class="file-path validate">{{fileNameUpload == undefined?'Elija un archivo':fileNameUpload}}</label>
+            </div>
+        </div>
+        <div class="input-group">
+            <input type="text" name="message" placeholder="Escribir Mensaje ..." class="form-control"
+                [(ngModel)]="message">
+            <span class="input-group-btn">
+                <button type="button" (click)="sendMessage()" [disabled]="message.length === 0 ? true : false"
+                    class="btn btn-info btn-flat">Enviar</button>
+            </span>
+        </div>
+    </div>
+</div>

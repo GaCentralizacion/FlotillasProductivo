@@ -1,0 +1,15 @@
+{
+  "$id": "valida_disponible_cierre.schema.json",
+  "type": "object",
+  "required": [
+    "vin",
+    "empresa"
+  ],
+  "properties": {
+    "idCotizacion": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "id de la Cotizacion"
+    }
+  }
+}

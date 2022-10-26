@@ -1,0 +1,13 @@
+<ul id="" class="horizontal-list" id="stepper">
+  <li *ngFor="let step of steps">
+    <div id="" class="stepper-item">
+      <div id="" class="stepper-icon {{step.class}}">
+        <a  id="a{{step.name}}" (click)="activeClass($event)">
+          <i id="{{step.name}}" class="{{step.icon}} {{step.class}}"></i>
+        </a>
+      </div>
+      <span class="item-title">{{step.name}}</span>
+    </div>
+  </li>
+</ul>
+

@@ -1,0 +1,7 @@
+{
+    "$id": "unidad_medida_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "unidad_medida.schema.json"
+    }
+}

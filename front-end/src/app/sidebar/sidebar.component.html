@@ -1,0 +1,15 @@
+<aside  [ngClass]="{'sidebar-collapse': collapsed}" class="sidebar-mini main-sidebar" id="sidebar">
+  <section class="sidebar">
+    <ul class="sidebar-menu">
+      <li class="header">
+        <span><img class="profile"> {{name}}</span>
+      </li>
+      <li *ngFor="let icon of class" [ngClass]="{'border-left': isLink(icon.router)}">
+        <a [routerLink]="[]" (click)="routerLink(icon.router)">
+          <i class="{{icon.clase.icons}}"></i>
+          <span> {{ icon.clase.title }}</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</aside>

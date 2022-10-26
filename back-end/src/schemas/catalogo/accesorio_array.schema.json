@@ -1,0 +1,7 @@
+{
+    "$id": "accesorio_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "accesorio.schema.json"
+    }
+}

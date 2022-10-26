@@ -1,0 +1,52 @@
+@import "../styles/mixin.scss";
+@import "../styles/color.scss";
+
+span{
+  cursor: pointer;
+}
+
+.main-sidebar {
+  position: fixed;
+}
+
+.border-left {
+  border-left: 1px solid aquamarine;
+}
+
+.sidebar-collapse {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0); 
+    width: 60px !important;
+    z-index: 850;
+  }
+
+  .sidebar-menu >li.header {
+      color: $white;
+  }
+
+  .dashboard {
+    content: url("../../assets/images/tachometer-alt-solid.svg");
+    padding-right: 3px;
+    padding-top: 3px;
+    display: inline-block;
+    height: 21px;
+    margin-bottom: 2%;
+  }
+
+  .profile {
+    content: url("../../assets/images/loginUser.svg");
+    border-radius: 50%; 
+    height: 36px;
+  }
+
+  @include media(xs) {
+    .sidebar-collapse {
+        width: 54% !important;
+    }
+
+    .siderbar-collapse > .dashboard-sm {
+      content: url("../../assets/images/tachometer-alt-solid.svg");
+    }
+}
+
+

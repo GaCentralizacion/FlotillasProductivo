@@ -1,0 +1,26 @@
+{
+  "$id": "cancelacion_tramites_despues_pedido.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "vin",
+      "idSubtramite"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "vin": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador de la unidad"
+      },
+      "idSubtramite": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador del subtramite"
+      }
+  }
+}

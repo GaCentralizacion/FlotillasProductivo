@@ -1,0 +1,44 @@
+{
+  "$id": "cancelacion_de_accesorios_sin_vin.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idGrupoUnidad",
+      "idDetalleUnidad", 
+      "idAccesorio", 
+      "idAccesorioNuevo",
+      "idParte"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "idGrupoUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del grupo unidad"
+      },
+      "idDetalleUnidad": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del detalle de la unidad"
+      },
+      "idAccesorio": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador del accesorio"
+      },
+      "idAccesorioNuevo": {
+        "type": "number",
+        "uniqueItems": true,
+        "description": "Identificador del accesorio nuevo"
+      },
+      "idParte": {
+        "type": "string",
+        "uniqueItems": true,
+        "description": "Identificador del accesorio de la pieza unica"
+      }
+  }
+}

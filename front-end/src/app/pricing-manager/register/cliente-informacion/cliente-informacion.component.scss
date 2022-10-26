@@ -1,0 +1,13 @@
+@import '../../../styles/titles.scss'; 
+@import "../../../styles/mixin.scss";
+@import "../../../styles/color.scss";
+
+.input_underline {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $dark-gray;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: 5px;
+}

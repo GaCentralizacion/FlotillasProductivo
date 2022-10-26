@@ -1,0 +1,7 @@
+{
+  "$id": "verificar_enviado_bpro_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "verificar_enviado_bpro.schema.json"
+  }
+}

@@ -1,0 +1,19 @@
+{
+    "$id": "cfdi.schema.json",
+    "type": "object",
+    "required": [
+        "idCfdi",
+        "nombre"
+    ],
+    "properties": {
+        "idCfdi": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de CFDI"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        }
+    }
+}

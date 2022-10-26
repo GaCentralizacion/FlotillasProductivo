@@ -1,0 +1,139 @@
+<h3 class="general-titles">
+    Catálogo de Accesorios
+  </h3>
+<ngb-tabset [justify]="'end'">
+  <ngb-tab title="Accesorios">
+    <ng-template ngbTabContent>
+      <ng-template #deleteAccesorioNuevoTemplate let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Eliminar Accesorio Nuevo</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form">
+            <row>
+              <div class="form-group col-md-12">
+                <label>¿Realmente desea eliminar el Accesorio <strong>{{nombreAccesorioNuevoEliminar}}</strong>?</label>
+              </div>
+            </row>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary modal-btn" (click)="eliminarAccesorioNuevo()">Sí</button>
+          <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+        </div>
+      </ng-template>
+      <form class="mt-3">
+        <div class="form-row align-items-center">
+          <div class="col-md-3">
+            <small for="inputMarca">Marca</small>
+            <ng-select placeholder="Seleccionar marca" [items]="marcas" bindLabel="idMarca" bindValue="idMarca"
+              (change)=marcasOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputEmpresa">Empresa</small>
+            <ng-select #empresaNgSelect placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+              bindValue="idEmpresa" (change)=empresaOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small for="inputSucursal">Sucursal</small>
+            <ng-select #sucursalNgSelect placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+              bindValue="idSucursal" (change)=sucursalesOnChange($event) notFoundText="Sin registros">
+            </ng-select>
+          </div>
+
+          <div class="col-md-3 d-flex flex-column">
+            <span class="mt-auto mx-auto">
+              <button [disabled]="sucursalSelected == undefined" type="button" class="btn btn-primary mt-4 mr-2"
+                (click)="search($event)">Buscar</button>
+              <button type="button" class="btn btn-outline-dark mt-4" (click)="crearEditarAccesorio()">Nuevo</button>
+            </span>
+          </div>
+        </div>
+      </form>
+
+      <div>
+        <ngx-datatable  [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="rowsFiltered" [columnMode]="'flex'"
+          [limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Id" prop="idAccesorioNuevo">
+            <ng-template ngx-datatable-header-template>
+              <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchIdAccesorio" placeholder="Id"
+                (keyup)="updateFilter()">
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Nombre" prop="nombre">
+            <ng-template ngx-datatable-header-template>
+              <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchNombre" placeholder="Nombre"
+                (keyup)="updateFilter()">
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Modelo y año" prop="modeloAnio">
+            <ng-template ngx-datatable-header-template>
+              <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchModeloAnio" placeholder="Modelo y año"
+                (keyup)="updateFilter()">
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo">
+            <ng-template ngx-datatable-header-template>
+              <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchCosto" placeholder="Costo"
+                (keyup)="updateFilter()">
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value | currency:'MXN':'symbol-narrow'}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Precio" prop="precio">
+            <ng-template ngx-datatable-header-template>
+              <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchPrecio" placeholder="Precio"
+                (keyup)="updateFilter()">
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value | currency:'MXN':'symbol-narrow'}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Existencia" prop="existencia">
+            <ng-template ngx-datatable-header-template>
+              <input class="form-control-sm mt-3" type="text" [(ngModel)]="searchExistencia" placeholder="Existencia"
+                (keyup)="updateFilter()">
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value | number:0}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="¿Nuevo?" prop="esNuevo">
+            <ng-template ngx-datatable-header-template>
+              <p class="small mb-2">¿Es nuevo?</p>
+              <input type="checkbox" [indeterminate]="filtroEsNuevo == null" [ngModel]="filtroEsNuevo == true"
+                (ngModelChange)="setFiltroEsNuevo(filtroEsNuevo)">
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value?'Sí': 'No'}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name=" " prop="esNuevo">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span *ngIf="value == true">
+                <button class="btn btn-warning btn-floating" type="button" (click)="crearEditarAccesorio(row)" [disabled]="pricingManagerService.onlyRead"><i
+                    class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-floating ml-1" type="button"
+                  (click)="openModalDelete(deleteAccesorioNuevoTemplate, row)" [disabled]="pricingManagerService.onlyRead"><i class="fas fa-trash-alt"></i></button>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+        <div class="row">
+          <div class="col-md-3">
+            <small>Los accesorios que se muestran en <span class="row-orange">naranja</span> fueron agregados
+              recientemente y aún no son parte del catálogo de BPro.</small>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Paquetes">
+    <ng-template ngbTabContent>
+      <app-paquete-accesorios></app-paquete-accesorios>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

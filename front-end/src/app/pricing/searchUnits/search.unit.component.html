@@ -1,0 +1,46 @@
+
+  <label>Empresa</label>
+  <input  name="empresa" id="empresa" (input)="changeEmpresa($event.target.value)" [value]="empresa">
+  <label>Sucursal</label>
+  <input name="sucursal" id="sucursal" (input)="changeSucursal($event.target.value)" [value]="sucursal">
+  <button class="btn btn-dark" (click)="searchUnit()">Buscar</button>
+
+
+<input class="form-control-sm mt-3" type="text" (input)="searchValue($event.target.value)" name="vin"
+placeholder="Nombre">
+
+
+<ngx-datatable #table [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+class="bootstrap mt-5"  [columnMode]="'force'"
+[limit]="10" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+[rows]="rows">
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Marca"
+  prop="marca"></ngx-datatable-column>
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="2" name="Tipo Unidad"
+  prop="tipoUnidad"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="2" name="Catalogo"
+  prop="catalogo"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Version"
+  prop="descripcion"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Año"
+  prop="anio"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Color Int"
+  prop="colorInterior"></ngx-datatable-column>
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="4" name="Color Int"
+  prop="idColorInterior"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="5" name="Color Ext"
+  prop="colorExterior"></ngx-datatable-column>
+  <ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="5" name="Color Ext"
+  prop="idColorExterior"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="1" name="Clase"
+  prop="clase"></ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="6" name="Modelo"
+  prop="modelo">
+</ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="6" name="Vin"
+  prop="vin">
+</ngx-datatable-column>
+<ngx-datatable-column headerClass="font-weight-bold" cellClass="small-table" [flexGrow]="6" name="Estatus"
+  prop="estatusUnidad">
+</ngx-datatable-column>
+</ngx-datatable>

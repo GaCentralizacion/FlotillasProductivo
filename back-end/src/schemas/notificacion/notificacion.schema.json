@@ -1,0 +1,47 @@
+{
+    "$id": "notificacion.schema.json",
+    "type": "object",
+    "required": [
+        "idUsuario",
+        "idTipoNotificacion",
+        "link"
+    ],
+    "properties": {
+        "idNotificacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de notificacion"
+        },
+        "idUsuario": {
+            "type": "number",
+            "description": "Identificador de Usuario"
+        },
+        "idGrupoChat": {
+            "type": "string",
+            "description": "Identificador de grupo de chat"
+        },
+        "idTipoNotificacion": {
+            "type": "number",
+            "enum": [
+                -1,
+                2,
+                3,
+                9
+            ],
+            "description": "Identificador de tipo de notificación: -1: Mensaje de chat, 2: Autorización de porcentaje de utilidad, 3: Autorización de crédito, 9: Aprobación de unidades"
+        },
+        "link": {
+            "type": "string",
+            "description": "Link al que se irá en caso de clic"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de Usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        }
+    }
+}

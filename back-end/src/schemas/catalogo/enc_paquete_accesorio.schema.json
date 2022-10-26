@@ -1,0 +1,62 @@
+{
+    "$id": "enc_paquete_accesorio.schema.json",
+    "type": "object",
+    "required": [
+        "nombre",
+        "idMarca",
+        "idEmpresa",
+        "idSucursal",
+        "nombreEmpresa",
+        "nombreSucursal"
+    ],
+    "properties": {
+        "idEncPaqueteAccesorio": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador del paquete de accesorios"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "descripcion": {
+            "type": "string",
+            "description": "Descripcion"
+        },
+        "idMarca": {
+            "type": "string",
+            "description": "Identificador de marca"
+        },
+        "idEmpresa": {
+            "type": "integer",
+            "description": "Identificador de empresa"
+        },
+        "idSucursal": {
+            "type": "integer",
+            "description": "Identificador de sucursal"
+        },
+        "nombreEmpresa": {
+            "type": "string",
+            "description": "Nombre de empresa"
+        },
+        "nombreSucursal": {
+            "type": "string",
+            "description": "Nombre de sucursal"
+        },
+        "idUsuarioModificacion": {
+            "type": "integer",
+            "description": "Identificador de usuario que modifica el registro"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación del registro"
+        },
+        "accesorios": {
+            "type": "array",
+            "items": {
+                "$ref": "det_paquete_accesorio.schema.json"
+            }
+        }
+    }
+}

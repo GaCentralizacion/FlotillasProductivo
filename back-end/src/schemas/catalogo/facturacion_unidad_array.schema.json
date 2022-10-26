@@ -1,0 +1,7 @@
+{
+    "$id": "facturacion_unidad.schema_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "facturacion_unidad.schema.json"
+    }
+}

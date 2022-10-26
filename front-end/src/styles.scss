@@ -1,0 +1,238 @@
+/* You can add global styles to this file, and also import other style files */
+@import "theme";
+@import "../node_modules/ngx-toastr/toastr.css";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@angular/cdk/overlay-prebuilt.css";
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(184, 184, 184, 0.671);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #222d32;
+  border-radius: 2px;
+}
+
+.sidebar-toggle {
+  padding: 13px !important;
+}
+
+.skin-blue .sidebar a {
+  color: #b8c7ce;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.collapse.show {
+  visibility: visible;
+}
+
+.sidebar-toggle {
+  text-decoration: none !important;
+}
+
+.main-header .navbar {
+  margin-left: 0;
+}
+
+.selected-list .c-list .c-token {
+  background: $primary;
+  border-radius: 4px !important;
+}
+.selected-list .c-list .c-token .c-label {
+  color: $white;
+}
+.selected-list .c-list .c-token .c-remove svg {
+  fill: $white;
+}
+.selected-list .c-angle-down svg,
+.selected-list .c-angle-up svg {
+  fill: $gray-800;
+}
+
+.selected-item {
+  background: $gray-200;
+}
+.selected-list .c-angle-down {
+  height: 10px !important;
+  width: 10px !important;
+  top: 40% !important;
+}
+.selected-list .c-angle-up {
+  height: 10px !important;
+  width: 10px !important;
+  top: 40% !important;
+}
+
+.dropdown-list {
+  position: relative !important;
+}
+
+.small-box {
+  border-radius: 0.4em;
+}
+
+.small-box-footer {
+  border-radius: 0 0 0.4em 0.4em;
+}
+
+.modal-dialog {
+  max-width: unset !important;
+  margin: 1.75rem 3rem !important;
+}
+
+.modal-content {
+  min-width: 79vw;
+}
+
+.toast-container .ngx-toastr {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 15px 15px 15px 50px;
+  width: 500px;
+  border-radius: 3px 3px 3px 3px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  background-size: 24px;
+  box-shadow: 0 0 12px #999999;
+  color: #ffffff;
+}
+
+.toast-info,
+.toast-success {
+  background-color: #222d32;
+  color: #fff;
+}
+
+.datatable-body .datatable-body-row .datatable-body-cell {
+  color: unset !important;
+}
+
+.ngx-datatable.bootstrap .small {
+  font-size: 80% !important;
+}
+
+.ngx-datatable.material .small {
+  font-size: 68% !important;
+}
+
+.small {
+  font-size: 80%;
+}
+
+.btn-floating {
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  width: 47px;
+  height: 47px;
+  position: relative;
+  z-index: 1;
+  vertical-align: middle;
+  display: inline-block;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  border-radius: 50% !important;
+  padding: 0;
+  cursor: pointer;
+  border-color: transparent !important;
+}
+
+.datatable-body .datatable-body-row .datatable-body-cell {
+  text-align: left;
+  padding: 0.9rem 0;
+  vertical-align: top;
+  border-top: 0;
+  color: rgba(0, 0, 0, 0.87);
+  transition: width 0.3s ease;
+  font-weight: 400;
+}
+
+.btn-transparent {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.c-white {
+  color: white !important;
+}
+
+.tooltip-bg-gray .tooltip-inner {
+  background-color: #eee;
+  color: black;
+  text-align: left;
+  white-space: pre-line;
+}
+.tooltip-bg-gray .arrow::before {
+  border-color: orange;
+  border-width: 2px;
+}
+
+.small-box-footer > h4 {
+  text-transform: capitalize;
+}
+
+.Capitalize {
+  text-transform: capitalize;
+}
+
+.ngx-datatable input {
+  max-width: -webkit-fill-available !important;
+}
+
+/* Alto y ancho de ng-select */
+.ng-select.ng-select-single .ng-select-container {
+  height: 36px;
+}
+
+.white {
+  color: #fff;
+}
+
+.text-right {
+  text-align: right !important;
+  color: #fff;
+  font-size: 1.9em;
+}
+
+.small-box p > small {
+  display: block;
+  color: #f9f9f9;
+  font-size: 80%;
+  margin-top: 5px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.ngx-datatable.material.single-selection .datatable-body-row.active,
+.ngx-datatable.material.single-selection
+  .datatable-body-row.active
+  .datatable-row-group,
+.ngx-datatable.material.multi-selection .datatable-body-row.active,
+.ngx-datatable.material.multi-selection
+  .datatable-body-row.active
+  .datatable-row-group,
+.ngx-datatable.material.multi-click-selection .datatable-body-row.active,
+.ngx-datatable.material.multi-click-selection
+  .datatable-body-row.active
+  .datatable-row-group {
+  background-color: #304ffe;
+  color: #fff !important;
+}
+
+.img-delete {
+  width: 15px;
+  height: auto;
+  cursor: pointer;
+}
+

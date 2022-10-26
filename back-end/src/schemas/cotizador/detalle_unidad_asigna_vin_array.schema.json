@@ -1,0 +1,7 @@
+{
+    "$id": "detalle_unidad_asigna_vin_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "detalle_unidad_asigna_vin.schema.json"
+    }
+}

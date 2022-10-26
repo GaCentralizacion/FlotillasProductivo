@@ -1,0 +1,7 @@
+{
+  "$id": "costo_catalogo_array.schema.json",
+  "type": "array",
+  "items": {
+      "$ref": "costo_catalogo.schema.json"
+  }
+}

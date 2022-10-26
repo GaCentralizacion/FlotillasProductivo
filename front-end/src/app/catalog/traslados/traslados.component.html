@@ -1,0 +1,87 @@
+<ng-template #deleteTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar Ubicacion Traslados</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>¿Realmente desea eliminar la Ubicacion Traslados <strong>{{nombreEliminar}}</strong>?</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="deleteUbicacionTraslados()">Sí</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+<h3 class="general-titles">
+  Catálogo de Traslados
+</h3>
+<ngb-tabset [justify]="'end'">
+  <ngb-tab title="Agencias y Almacenes">
+    <ng-template ngbTabContent>
+      <form class="mt-3" [formGroup]='forma'>
+        <div class="form-row align-items-center">
+          <div class="col-md-4">
+            <small for="inputAno">Nombre</small>
+            <input formControlName="nombre" name="nombre" [(ngModel)]="nombreLugar" type="text" class="form-control"
+              id="nombre">
+          </div>
+          <div class="col-md-8">
+            <small for="inputAno">Descripción</small>
+            <input formControlName="descripcion" name="descripcion" [(ngModel)]="descripcionLugar" type="text"
+              class="form-control" id="descripcion">
+          </div>
+          <div class="col-md-12">
+            <small for="inputAno">Dirección</small>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="direccion"
+              name="direccion" [(ngModel)]="direccionLugar" type="text"></textarea>
+
+          </div>
+
+          <div class="col-md-3 mt-4">
+            <button type="submit" class="btn btn-primary" (click)="saveUbicacionTraslados()"
+              [disabled]="!forma.valid">Guardar</button>
+            <button type="submit" class="btn btn-warning" (click)="clearUbicacionTraslados()"
+              [disabled]="!forma.valid">Limpiar</button>
+          </div>
+        </div>
+      </form>
+
+      <div>
+        <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5" [rows]="ubicacionTraslado" [columnMode]="'force'" [limit]="5"
+          [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
+          <ngx-datatable-column [width]="10" name="ID" prop="idUbicacionTraslado"></ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" name="Nombre" prop="nombre">
+            <ng-template ngx-datatable-header-template>
+              <input class="width-input" type="text" [(ngModel)]="searchNombre" placeholder="Nombre"
+                (keyup)="updateFilter($event)">
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" name="Descripción" prop="descripcion">
+          </ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" name="Dirección" prop="direccion">
+          </ngx-datatable-column>
+          <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Gestionar"
+            prop="idCotizacion">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+              <a href="" class="edit-buttom" title="Editar" (click)="editUbicacionTraslados($event, row)">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="" class="delete-buttom" title="Eliminar" (click)="openModalDelete($event, deleteTemplate, row)">
+                <i class="fas fa-trash"></i>
+              </a>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Rutas">
+    <ng-template ngbTabContent>
+      <app-crear-editar-rutas-traslado></app-crear-editar-rutas-traslado>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

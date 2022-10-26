@@ -1,0 +1,26 @@
+{
+  "$id": "get_cfdis_listing_by_agency.schema.json",
+  "type": "object",
+  "required": [
+    "CUC_CVEUSOCFDI",
+    "CUC_DESCRIPCION",
+    "CUC_ESTATUS"
+  ],
+  "properties": {
+    "CUC_CVEUSOCFDI": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "Identificador de la CFDI"
+    },
+    "CUC_DESCRIPCION": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "Detalle del CFDI"
+    },
+    "CUC_ESTATUS": {
+      "type": "number",
+      "uniqueItems": true,
+      "description": "Estatus del CFDI"
+    }
+  }
+}

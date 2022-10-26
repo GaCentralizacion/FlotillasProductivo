@@ -1,0 +1,14 @@
+{
+  "$id": "get_pedido_bpro_status.schema.json",
+  "type": "object",
+  "required": [
+    "idCotizacion"
+  ],
+  "properties": {
+    "idCotizacion": {
+      "type": "string",
+      "uniqueItems": true,
+      "description": "Identificador de la cotización"
+    }
+  }
+}

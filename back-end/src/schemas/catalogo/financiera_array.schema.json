@@ -1,0 +1,7 @@
+{
+    "$id": "financiera_array.schema.json",
+    "type": "array",
+    "items": {
+        "$ref": "financiera.schema.json"
+    }
+}

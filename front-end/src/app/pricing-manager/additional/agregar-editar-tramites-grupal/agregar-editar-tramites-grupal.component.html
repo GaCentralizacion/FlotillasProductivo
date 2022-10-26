@@ -1,0 +1,165 @@
+<ng-template #tramiteValida let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Tramite Existente</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label>{{msg}}</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div *ngIf="guardaTramite">
+      <button type="button" class="btn btn-primary mx-1" (click)="guardarTramite()">Guardar</button>
+    </div>
+    <button type="button" class="btn btn-warning mx-1" aria-label="Close" (click)="modal.dismiss('Cross click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<div class="modal-header">
+  <h4 class="modal-title general-titles">Trámites y Gestión / Paquetes POSTERIORES GRUPAL</h4>
+</div>
+<div class="modal-body container-fluid">
+  <ngb-tabset [justify]="'start'" (tabChange)="tabChanged($event)">
+    <ngb-tab title=" Trámites y Gestión" id='tramites'>
+      <ng-template ngbTabContent>
+        <div *ngIf="idGrupoUnidad != undefined">
+          <h3>Asignados</h3>
+          <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+            class="bootstrap" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50" [rowHeight]="'auto'"
+            [rows]="tramitesSinPaqueteGrupoFiltrados" limit="10">
+            <ngx-datatable-column width="80" name="id" prop="id" [flexGrow]="1"></ngx-datatable-column>
+            <ngx-datatable-column name="Trámite" prop="nombreTramite" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchTramite"
+                  placeholder="Búsqueda por Trámite">
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Subtrámite" prop="nombreSubtramite" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchSubtramite"
+                  placeholder="Búsqueda por Subtrámite">
+              </ng-template>
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Proveedor" prop="proveedorConId" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchProveedor"
+                  placeholder="Búsqueda por Proveedor">
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" headerClass="font-weight-bold" name="Costo" prop="costo">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchCosto"
+                  placeholder="Búsqueda por Costo">
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <label class="form-check-label" for="headerCheck">{{value | currency:"MXN"}}</label>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" headerClass="font-weight-bold" name="Precio" prop="precio">
+              <ng-template ngx-datatable-header-template>
+                <input (keyup)="updateFilter()" class="width-input" type="text" [(ngModel)]="searchPrecio"
+                  placeholder="Búsqueda por Precio">
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <label class="form-check-label" for="headerCheck">{{value | currency:"MXN"}}</label>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+          <hr>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <small>Trámite</small>
+            <ng-select #tramiteNgSelect placeholder="Seleccionar Trámite" [items]="tramites" bindLabel="nombre"
+              bindValue="idTramite" (change)=tramiteOnChange($event)>
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <small>Subtrámite</small>
+            <ng-select #subtramiteNgSelect placeholder="Seleccionar Subtrámite" [items]="subtramites" bindLabel="nombre"
+              bindValue="idSubtramite" (change)=subtramiteOnChange($event)>
+            </ng-select>
+          </div>
+        </div>
+        <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+          class="bootstrap col-md-12" [limit]="10" [headerHeight]="50" [columnMode]="'flex'" [footerHeight]="50"
+          [rowHeight]="'auto'" [rows]="proveedores" [selected]="proveedoresSelected" [selectionType]="'single'">
+          <ngx-datatable-column [flexGrow]="1" name="id" prop="idProveedor"></ngx-datatable-column>
+          <ngx-datatable-column [flexGrow]="3" name="Proveedor" prop="nombreCompleto"></ngx-datatable-column>
+          <ngx-datatable-column [flexGrow]="1" name="Costo" prop="costo">
+            <!--ng-template let-value="value" ngx-datatable-cell-template>
+              {{value | currency:'MXN':'symbol-narrow'}}
+            </ng-template-->
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+              <input currencyMask class="form-control-sm mt-1" style="width: 170px;" id="costo_rowIndex" type="text"
+                name="Costo_rowIndex" [options]="{ prefix: '$ ', thousands: ',', precision: 2}"
+                [(ngModel)]="costoEditado" placeholder="Costo"
+                (input)="getCantidad($event.target.value, row, rowIndex)">
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [flexGrow]="1" name="Precio" prop="precio">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+              <input currencyMask class="form-control-sm mt-1" style="width: 170px;" id="precio_rowIndex" type="text"
+                name="Precio_rowIndex" [options]="{ prefix: '$ ', thousands: ',', precision: 2}"
+                [(ngModel)]="precioEditado" placeholder="Precio"
+                (input)="getCantidad($event.target.value, row, rowIndex)">
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Paquetes" id='paquetes'>
+      <ng-template ngbTabContent>
+        <div class="row">
+          <div *ngFor="let paqueteTramites of paquetesTramites; let i=index" class="col-md-3">
+            <div class="small-box bg-aqua-active">
+              <div class="inner">
+                <div class="row">
+                  <div class="col-md-3 white">
+                    <h3>{{paqueteTramites.tramites.length}}</h3>
+                  </div>
+                  <div class="col-md-9 d-flex flex-column">
+                    <p class="text-right">
+                      <span>
+                        <div class="form-check">
+                          <label class="form-check-label mr-4" for="check{{i}}">{{paqueteTramites.descripcion}}</label>
+                          <input [checked]="paqueteTramites.isSelected" (change)="onSelectPaquete(paqueteTramites)"
+                            type="checkbox" class="form-check-input" id="check{{i}}">
+                        </div>
+                      </span>
+                    </p>
+                    <h4 class="text-right mt-auto">
+                      {{paqueteTramites.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="icon" [ngbTooltip]="paqueteTramites.nombresDetalle" placement="bottom"
+                tooltipClass="tooltip-bg-gray">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="small-box-footer">
+                <h4>{{paqueteTramites.nombre}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-md-12 d-flex flex-column">
+      <span class="mt-auto mx-auto">
+        <button type="button" (click)="cancelar()" class="btn btn-warning mx-1">Cancelar</button>
+        <button *ngIf="activeId == 'tramites'" [disabled]="proveedoresSelected.length == 0" type="button"
+          (click)="guardarTramites('A',tramiteValida)" class="btn btn-primary mx-1">Guardar</button>
+        <!--button *ngIf="activeId == 'paquetes'" type="button" (click)="guardarPaquetes('A')"
+          class="btn btn-primary mx-1">Guardar</button-->
+      </span>
+    </div>
+  </div>
+</div>

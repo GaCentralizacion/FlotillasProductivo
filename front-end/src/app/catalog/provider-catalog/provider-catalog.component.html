@@ -1,0 +1,71 @@
+<h3 class="general-titles">
+    Catálogo de Proveedores
+  </h3>
+<form class="mt-3">
+  <div class="form-row align-items-center">
+    <div class="col-auto">
+      <small for="inputMarca">Marca</small>
+      <ng-select placeholder="Seleccionar marca" [items]="marcas" bindLabel="idMarca" bindValue="idMarca"
+        (change)=marcasOnChange($event) notFoundText="Sin registros">
+      </ng-select>
+    </div>
+    <div class="col-auto">
+      <small for="inputEmpresa">Empresa</small>
+      <ng-select placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre" bindValue="idEmpresa"
+        (change)=empresaOnChange($event) notFoundText="Sin registros">
+      </ng-select>
+    </div>
+    <div class="col-auto">
+      <small for="inputSucursal">Sucursal</small>
+      <ng-select placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre" bindValue="idSucursal"
+        (change)=sucursalesOnChange($event) notFoundText="Sin registros">
+      </ng-select>
+    </div>
+    <div class="col-auto">
+      <small>Tipo de Proveedor</small>
+      <ng-select placeholder="Seleccionar tipo adicional" [items]="tiposProveedor" bindLabel="nombre"
+        bindValue="idTipoProveedor" (change)=tipoProveedorOnChange($event) notFoundText="Sin registros">
+      </ng-select>
+    </div>
+    <div class="col-auto mt-4">
+      <button type="submit" class="btn btn-primary" (click)="search($event)">Buscar</button>
+    </div>
+  </div>
+</form>
+
+<div>
+  <ngx-datatable   [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}" class="bootstrap mt-5" [rows]="rowsFiltered" [columnMode]="'force'" [limit]="5" [headerHeight]="50"
+    [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
+    <ngx-datatable-column [width]="30" [sortable]="true" [canAutoResize]="false" [draggable]="false"
+      [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="ID" prop="idProveedor"></ngx-datatable-column>
+    <ngx-datatable-column name="Nombre" prop="nombreCompleto">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchNombre" placeholder="Nombre"
+          (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="RFC" prop="rfc">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchRFC" placeholder="RFC" (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Correo" prop="correo">
+      <ng-template ngx-datatable-header-template>
+        <input class="width-input" type="text" [(ngModel)]="searchCorreo" placeholder="Correo"
+          (keyup)="updateFilter($event)">
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Estado" prop="estado"></ngx-datatable-column>
+    <ngx-datatable-column name="Colonia" prop="colonia"></ngx-datatable-column>
+    <ngx-datatable-column name="Número Exterior" prop="numeroExterior"></ngx-datatable-column>
+    <ngx-datatable-column name="Número Interior" prop="numeroInterior"></ngx-datatable-column>
+    <ngx-datatable-column name="Codigo Postal" prop="codigoPostal"></ngx-datatable-column>
+    <ngx-datatable-column name="Calle" prop="calle"></ngx-datatable-column>
+    <ngx-datatable-column name="Celular" prop="celular"></ngx-datatable-column>
+    <ngx-datatable-column name="Teléfono" prop="telefono"></ngx-datatable-column>
+    <ngx-datatable-column name="Teléfono Alternativo" prop="telefonoAlternativo"></ngx-datatable-column>
+    <ngx-datatable-column name="Tipo" prop="tipoProveedor"></ngx-datatable-column>
+  </ngx-datatable>
+</div>

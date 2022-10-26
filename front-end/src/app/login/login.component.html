@@ -1,0 +1,44 @@
+<div class="text-center main-header-login">
+  <img class="andrade-logo">
+</div>
+
+<div class="background-image">
+  <div class="container pt-5">
+
+    <div class="row justify-content-sm-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="card border-info text-center">
+
+          <div class="card-header">
+            <img class="login-user">
+          </div>
+
+          <div class="card-body">
+            <form class="form-signin" [formGroup]="loginForm" novalidate (ngSubmit)="loginUser()">
+              <div>
+                <input id="email" formControlName="email" type="text" class="form-control mb-2"
+                  placeholder="email" required>
+              </div>
+
+              <div>
+                <input id="password" formControlName="password" type="password" class="form-control mb-2"
+                  placeholder="Contraseña" required>
+              </div>
+
+              <button class="btn btn-lg btn-primary btn-block mb-1" type="submit">
+                Ingresar
+              </button>
+
+              <label class="text-center">
+                Recuperar contraseña
+              </label>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,20 @@
+{
+  "$id": "conteo_global_unidades_interes.schema.json",
+  "type": "object",
+  "required": [
+      "idCotizacion",
+      "idGrupoUnidad"
+  ],
+  "properties": {
+      "idCotizacion": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Identificador de la cotización"
+      },
+      "idGrupoUnidad": {
+          "type": "integer",
+          "uniqueItems": true,
+          "description": "Identificador del grupo de la unidad"
+      }
+  }
+}

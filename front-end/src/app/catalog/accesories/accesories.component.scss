@@ -1,0 +1,22 @@
+@import '../../styles/titles.scss';
+
+/deep/.datatable-body-cell {
+  font-size: 11px !important;
+  text-align: center !important;
+}
+
+/deep/
+  .ngx-datatable.fixed-header
+  .datatable-header
+  .datatable-header-inner
+  .datatable-header-cell {
+  text-align: center !important;
+}
+
+i {
+  color: white;
+}
+
+/deep/ .row-orange {
+  color: #D89C25;
+}

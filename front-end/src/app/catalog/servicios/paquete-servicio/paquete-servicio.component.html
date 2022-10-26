@@ -1,0 +1,103 @@
+<ng-template #deletePaqueteTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Eliminar Paquete</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form">
+      <row>
+        <div class="form-group col-md-12">
+          <label>¿Realmente desea eliminar el Paquete <strong>{{nombrePaqueteEliminar}}</strong>?</label>
+        </div>
+        <div *ngIf="mensajeErrorEliminar != undefined" class="alert alert-warning fade show" role="alert">
+          {{mensajeErrorEliminar}}
+          <button (click)="closeMessageEliminar()" type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </row>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary modal-btn" (click)="eliminarPaquete()">Sí</button>
+    <button type="button" class="btn btn-warning modal-btn" (click)="modal.close('Cancelado')">Cancelar</button>
+  </div>
+</ng-template>
+<form class="mt-3">
+  <div class="form-row align-items-center">
+    <div class="col-md-3">
+      <small for="inputAno">Marca</small>
+      <ng-select [clearable]="false" placeholder="Seleccionar marca" [items]="marcas" bindLabel="idMarca"
+        bindValue="idMarca" (change)=marcasOnChange($event)>
+      </ng-select>
+    </div>
+    <div class="col-md-3">
+      <small for="inputAno">Empresa</small>
+      <ng-select #empresaNgSelect placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+        bindValue="idEmpresa" (change)=empresaOnChange($event)>
+      </ng-select>
+    </div>
+    <div class="col-md-3">
+      <small for="inputAno">Sucursal</small>
+      <ng-select #sucursalNgSelect placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+        bindValue="idSucursal" (change)=sucursalesOnChange($event)>
+      </ng-select>
+    </div>
+  </div>
+  <div class="form-row align-items-center">
+    <div class="col-md-3">
+      <small for="inputCatalogo">Catálogo</small>
+      <ng-select #catalogoNgSelect placeholder="Seleccionar catálogo" [items]="catalogos" bindLabel="linea"
+        bindValue="idUnidadBpro" (change)=catalogoOnChange($event)>
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+          <span>{{ item.linea + ' - ' + item.idUnidadBpro }}</span>
+        </ng-template>
+        <ng-template ng-label-tmp let-item="item">
+          <span>{{ item.linea + ' ' + item.idUnidadBpro }}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+    <div class="col-md-3">
+      <small for="inputSucursal">Año</small>
+      <input type="text" class="form-control" id="anio" [placeholder]="anio" [(ngModel)]="selectedAnio"
+        [ngModelOptions]="{standalone: true}" required>
+    </div>
+    <div class="col-md-3 mt-4">
+      <button type="button" class="btn btn-primary mr-2" (click)="search()">Buscar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="crearEditarPaquete()">Crear Paquete</button>
+    </div>
+  </div>
+</form>
+<hr>
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div *ngFor="let paqueteServicio of paquetesServicio" class="col-md-3">
+      <div class="small-box bg-orange-active">
+        <div class="inner">
+          <div class="row">
+            <div class="col-md-3 white">
+              <h3>{{paqueteServicio.serviciosUnidad.length}}</h3>
+              <p class="mb-0 mt-3"><button type="button"
+                  (click)="openModalDelete(deletePaqueteTemplate, paqueteServicio)" class="btn btn-transparent" [disabled]="pricingManagerService.onlyRead"><i
+                    class="far fa-trash-alt c-white"></i></button>
+              </p>
+              <p><button type="button" (click)="crearEditarPaquete(paqueteServicio)" class="btn btn-transparent" [disabled]="pricingManagerService.onlyRead"><i
+                    class="far fa-edit c-white"></i></button></p>
+            </div>
+            <div class="col-md-9 d-flex flex-column">
+              <p class="text-right"><small>{{paqueteServicio.descripcion}}</small></p>
+              <h4 class="text-right mt-auto">
+                {{paqueteServicio.precioTotal | currency:'MXN':'symbol-narrow'}}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="icon" [ngbTooltip]="paqueteServicio.nombresDetalle" placement="bottom"
+          tooltipClass="tooltip-bg-gray">
+          <i class="fas fa-tools"></i>
+        </div>
+        <div class="small-box-footer">
+          <h4>{{paqueteServicio.nombre}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

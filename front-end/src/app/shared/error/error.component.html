@@ -1,0 +1,4 @@
+<div *ngIf="errorMessage != undefined" class="alert alert-danger">
+  <button (click)="closeErrorMessage()" type="button" class="close"><span aria-hidden="true">&times;</span></button>
+  <p>{{ errorMessage }}</p>
+</div>

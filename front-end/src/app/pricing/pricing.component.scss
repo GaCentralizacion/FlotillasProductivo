@@ -1,0 +1,94 @@
+@import '../styles/titles.scss';
+
+.BLUE {
+  background-color: blue; 
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.GREEN {
+  background-color: green !important;
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.ORANGE {
+  background-color: orange !important;
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.YELLOWGREEN {  
+  background-color: yellowgreen; 
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.ORANGERED {
+  background-color: orangered;
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.PURPLE {
+  background-color: purple !important;
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.BROWN {
+  background-color: saddlebrown !important;
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.BLACK {
+  background-color: black !important;
+  color:white; 
+  border-radius: 5px; 
+  text-align: center;
+}
+
+.mid-header{
+    margin-top: 60px;
+    text-align: right;
+}
+
+a > i {
+    font-size: 2em;
+    color: #92989B;
+}
+
+.datatable-body-cell-label {
+    margin-right: 11px;
+}
+
+.etiqueta {
+    font-size: 1.1em;
+    padding: 3px;
+    background-color: #3c3c3c;
+
+}
+
+.inner-addon {
+    position: relative;
+  }
+  .inner-addon .fa {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+  }
+  .left-addon .fa {
+    left: 0px;
+  }
+  .left-addon input {
+    padding-left: 30px;
+  }
+

@@ -1,0 +1,17 @@
+{
+  "$id": "cliente_filter_result.schema.json",
+  "type": "object",
+  "properties": {
+    "totalRegistros": {
+      "type": "integer",
+      "description": "Número total de registros"
+    },
+    "clientes": {
+      "type": "array",
+      "description": "Arreglo de clientes",
+      "items": {
+        "$ref": "cliente.schema.json"
+      }
+    }
+  }
+}

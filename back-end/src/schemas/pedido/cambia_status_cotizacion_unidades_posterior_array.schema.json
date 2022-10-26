@@ -1,0 +1,7 @@
+{
+  "$id": "cambia_status_cotizacion_unidades_posterior_array.schema.json",
+  "type": "object",
+  "items": {
+      "$ref": "cambia_status_cotizacion_unidades_posterior.schema.json"
+  }
+}

@@ -1,0 +1,95 @@
+<form [formGroup]='forma'>
+  <div class="modal-header">
+    <h4 class="modal-title general-titles">Nuevo Accesorio</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-3">
+        <small>Marca</small>
+        <ng-select #marcaNgSelect [clearable]="false" placeholder="Seleccionar marca" [items]="marcas"
+          bindLabel="idMarca" bindValue="idMarca" [(ngModel)]="accesorioNuevo.idMarca" (change)="marcasOnChange($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+      <div class="col-md-3">
+        <small>Empresa</small>
+        <ng-select #empresaNgSelect placeholder="Seleccionar Empresa" [items]="empresas" bindLabel="nombre"
+          bindValue="idEmpresa" [(ngModel)]="accesorioNuevo.idEmpresa" (change)="empresasOnChange($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+      <div class="col-md-3">
+        <small>Sucursal</small>
+        <ng-select #sucursalNgSelect placeholder="Seleccionar Sucursal" [items]="sucursales" bindLabel="nombre"
+          bindValue="idSucursal" [(ngModel)]="accesorioNuevo.idSucursal" (change)="sucursalesOnChange($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+      <div class="col-md-3">
+        <small>Direcci&oacute;n flotilla</small>
+        <app-direccion-flotilla-select [onlyRead]="true" #flotillaSelect></app-direccion-flotilla-select>
+      </div>
+
+    </div>
+    <div *ngIf="accesorioNuevo != undefined" class="form-row">
+      <div class="col-md-3">
+        <small>Nombre</small>
+        <div class="input-group">
+          <input formControlName="nombre" placeholder="Nombre" [(ngModel)]="accesorioNuevo.nombre"
+            [ngClass]="{'red': (forma.controls['nombre'].errors?.required) && forma.touched}" type="text"
+            class="form-control">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <small>Modelo y/o Año</small>
+        <div class="input-group">
+          <input formControlName="anioModelo" placeholder="Modelo y/o Año" [(ngModel)]="accesorioNuevo.modeloAnio"
+            [ngClass]="{'red': (forma.controls['anioModelo'].errors?.required) && forma.touched}" type="text"
+            class="form-control">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <small>Costo</small>
+        <div class="input-group">
+          <input formControlName="costo" placeholder="Costo" [(ngModel)]="accesorioNuevo.costo"
+            [ngClass]="{'red': (forma.controls['costo'].errors?.required) && forma.touched}" min=0 type="number"
+            class="form-control">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <small>Precio</small>
+        <div class="input-group">
+          <input formControlName="precio" placeholder="Precio" [(ngModel)]="accesorioNuevo.precio"
+            [ngClass]="{'red': (forma.controls['precio'].errors?.required) && forma.touched}" min=0 type="number"
+            class="form-control">
+        </div>
+      </div>
+    </div>
+    <div *ngIf="accesorioNuevo != undefined" class="form-row">
+      <div class="col-md-3">
+        <small>Tipo de Proveedor</small>
+        <ng-select [clearable]="false" placeholder="Seleccionar tipo de proveedor" [items]="tiposProveedor"
+          bindLabel="nombre" bindValue="idTipoProveedor" [(ngModel)]="accesorioNuevo.idTipoProveedor"
+          (change)="tipoProveedorOnChange($event)" [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+      <div class="col-md-6">
+        <small>Proveedor</small>
+        <ng-select placeholder="Seleccionar proveedor" [items]="proveedores" bindLabel="nombreCompleto"
+          bindValue="idProveedor" [(ngModel)]="accesorioNuevo.idProveedor" (change)="proveedorChange($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-select>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <div class="col-md-3 d-flex flex-column">
+      <span class="mt-auto mx-auto">
+        <button type="button" (click)="cancelar()" class="btn btn-warning mx-1">Cancelar</button>
+        <button type="button" [disabled]="!isValidForm()" (click)="guardar()"
+          class="btn btn-primary mx-1">Guardar</button>
+      </span>
+    </div>
+  </div>
+</form>

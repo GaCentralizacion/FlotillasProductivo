@@ -1,0 +1,15 @@
+{
+    "$id": "envia_notificaciones.schema.json",
+    "type": "object",
+    "required": [
+        "idCotizacion"
+    ],
+    "properties": {
+        "idCotizacion": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Identificador de Cotizador",
+            "maxLength": 20
+        }
+    }
+  }

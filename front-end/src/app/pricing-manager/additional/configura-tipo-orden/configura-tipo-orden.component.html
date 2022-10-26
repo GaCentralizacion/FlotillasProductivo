@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h4 class="modal-title general-titles">Modificar Tipo Orden</h4>
+</div>
+<div class="modal-body container-fluid">
+  <div class="modal-body">
+    <form [formGroup]="form1">
+      <div style="margin-bottom: 10px; text-align: start;">
+       <b>Cotización:</b> {{idCotizacion}} / <b>Grupo Unidad:</b> {{numeroGrupoUnidad}} / <b>Número de Unidades:</b> {{cantidad}}
+      </div>
+      <div class="row">
+        <div class="col-md-4"><small>Tipo de Orden</small>
+          <ng-select #tipoOrdenNgSelect formControlName="tipoOrden" placeholder="Seleccionar Tipo de Orden"
+            [items]="tipoOrden" bindLabel="nombre" bindValue="idTipoOrden" [(ngModel)]="idTipoOrden"
+            (change)=tipoOrdenOnChange($event)>
+          </ng-select>
+        </div>
+        <div class="col-md-4">
+          <form *ngIf="!idCfdi" style="margin-left: 0px;margin-top: 15px;background: rgb(230,230,230)">
+            <div class="d-flex flex-row" *ngIf="idTipoOrden">
+              <span> <input name="options" type="radio" [checked]="curadio.suma" style="width: 50px;"
+                  (change)="onProfitSelectionChange('Suma')">
+                Suma al precio de la unidad</span>
+            </div>
+            <div class="d-flex flex-row" *ngIf="idTipoOrden">
+              <span> <input name="options" type="radio" [checked]="curadio.nosuma" style="width: 50px;"
+                  (change)="onProfitSelectionChange('NoSuma')">
+                No suma al precio de la unidad</span>
+            </div>
+          </form>
+          <small *ngIf="idCfdi">CFDI</small>
+          <ng-select *ngIf="idCfdi" #cfdiNgSelect formControlName="cfdi" placeholder="Seleccionar CFDI" [items]="cfdi"
+            bindLabel="nombre" bindValue="idCfdi" [(ngModel)]="idCfdi" (change)=cfdiOnChange($event)>
+          </ng-select>
+        </div>
+        <div class="col-md-4" *ngIf="!idCfdi && idTipoOrden">
+          <form style="margin-left: 0px;margin-top: 15px;background: rgb(230,230,230);padding-bottom: 25px;">
+            <input type="checkbox" name="imprime" [ngModel]="imprime" style="margin-right: 10px;"
+              (change)="changeValue()">
+            <span>Imprime en factura</span>
+          </form>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-md-12 d-flex flex-column">
+      <span class="mt-auto mx-auto">
+        <button type="button" (click)="actualizaTipoOrden()" [disabled]="!activo || edit" class="btn btn-info mx-1">Actualizar</button>
+        <button type="button" (click)="closeModal()"
+          class="btn btn-warning modal-btn">Cerrar</button>
+      </span>
+    </div>
+  </div>
+</div>

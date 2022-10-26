@@ -1,0 +1,367 @@
+<div class="modal-header">
+  <h4 class="modal-title general-titles">Modificar Tipo Orden Adicionales - {{tipoAdicional}}</h4>
+</div>
+<div class="modal-body container-fluid">
+  <div class="modal-body">
+    <div style="text-align: start;">
+      <div class="row">
+        <div class="col-md-6">
+          <b>Cotización:</b> {{idCotizacion}} / <b>Grupo Unidad:</b> {{idGrupoUnidad}} / <b>Unidades:</b> {{cantidad}}
+        </div>
+        <!--div class="col-md-2" style="margin-left: -35px;">
+            <div class="container" style="margin-left: -60px;">
+              <img [src]="imgAuto" width="85px" height="55px">
+              <div class="centered"><b>{{cantidad}}</b></div>
+            </div>
+          </div-->
+      </div>
+      <br>
+      <div class="row" *ngIf="tipoAdicional == 'ACCESORIOS' || tipoAdicional == 'SERVICIOS'">
+        <div class="col-md-6">
+          <div class="border border-light rounded mb-0">
+            <div class="panelEncabezado rounded mb-0">
+              Tipo de orden Facturación independiente
+            </div>
+            <div>
+              <small>Uso CFDI</small>
+              <ng-select placeholder="Seleccionar CFDI" [items]="cfdi" bindLabel="nombre" bindValue="idCfdi"
+                [(ngModel)]="idCfdi" (change)=cfdiOnChangeHeader($event)>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="border border-light rounded mb-0">
+            <div class="panelEncabezado rounded mb-0">
+              Tipo de orden cargo a la factura
+            </div>
+            <div class="panel-body" style="display: inline;">
+              <div style="display: inline;">
+                <div class="d-flex flex-row">
+                  <span> <input name="options" type="radio" [checked]="curadio.suma" style="width: 50px;"
+                      (change)="onProfitSelectionChange('Suma','SUMA')">
+                    Suma al precio de la unidad</span>
+                </div>
+                <div class="d-flex flex-row">
+                  <span> <input name="options" type="radio" [checked]="curadio.nosuma" style="width: 50px;"
+                      (change)="onProfitSelectionChange('NoSuma','NO SUMA')">
+                    No suma al precio de la unidad</span>
+                </div>
+              </div>
+              <div style="display: inline;">
+                <input type="checkbox" name="imprime" [ngModel]="imprime" style="margin-right: 10px;"
+                  (change)="changeValueImprime()">
+                <span>Imprime en factura</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="modalGestoria && tipoAdicional != 'ACCESORIOS_AD'">
+        <!--div class="row">
+          <div class="col-md-12 panelEncabezado">
+            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+            <label for="vehicle1"><b> Filtrar Lista de Adicionales - Configura Facturación</b></label><br>
+          </div>
+        </div-->
+        <div class="row">
+          <div class="col-md-12" style="display: inline-block; border-radius: 5px; border: 1px solid lightblue;">
+            <div class="form-check-inline" style="background-color:darkslategray; color: white; border-radius: 5px;">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" checked="true" name="optradio" (change)="onFiltroSelectionChange(0)">Todos
+              </label>
+            </div>
+            <div class="form-check-inline uno">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio" (change)="onFiltroSelectionChange(1)">Sin Pedido
+              </label>
+            </div>
+            <div class="form-check-inline dos">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio" (change)="onFiltroSelectionChange(2)">Con Pedido
+              </label>
+            </div>
+            <div class="form-check-inline tres">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio" (change)="onFiltroSelectionChange(3)">Unidades Facturadas
+              </label>
+            </div>
+            <div class="form-check-inline cuatro">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio" (change)="onFiltroSelectionChange(4)">Unidades Sin Facturar
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="tipoAdicional === 'ACCESORIOS'">
+    <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="accesoriosRows" [columnMode]="'flex'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+      [columnMode]="'force'" [scrollbarH]="true">
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Nombre" prop="nombre" [width]="40"
+        cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Precio" prop="precio" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Cantidad" prop="cantidad" [width]="60"
+        cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Tipo Orden" [resizeable]="false" [flexGrow]="7" [width]="50">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div style="position: relative;">
+            <ng-select placeholder="Seleccionar Tipo de Orden" [items]="tipoOrden" bindLabel="nombre" appendTo="body"
+              [clearable]="true" bindValue="idTipoOrden" [(ngModel)]="row.tipoOrden" [disabled]="row.flag"
+              (change)="tipoOrdenOnChange($event, row)">
+            </ng-select>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Uso CFDI" prop="" [width]="50" cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'FI'">{{strUsoCFD}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Suma / No Suma" prop="" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'CU'">{{strSuma}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Imprime" prop="" [width]="50" cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'CU'">{{strImprime}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Estatus" prop="" [width]="50" cellClass="small">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div [ngClass]="{'uno': row.idEstatus === 1, 'dos': row.idEstatus === 2
+          , 'tres': row.idEstatus === 3, 'cuatro': row.idEstatus === 4}">
+            <b>
+              {{row.EstatusAccesorio}}
+            </b>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+
+  <div *ngIf="tipoAdicional === 'ACCESORIOS_AD'">
+    <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="accesoriosRows" [columnMode]="'flex'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+      [columnMode]="'force'" [scrollbarH]="true">
+
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Nombre" prop="nombre" [width]="40"
+        cellClass="small">
+      </ngx-datatable-column>
+      
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Precio" prop="precio" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Cantidad" prop="cantidad" [width]="60"
+        cellClass="small">
+      </ngx-datatable-column>
+
+      <!-- <ngx-datatable-column name="Tipo Orden" [resizeable]="false" [flexGrow]="7" [width]="50">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div style="position: relative;">
+            <ng-select placeholder="Seleccionar Tipo de Orden" [items]="tipoOrdenAD" bindLabel="nombre" appendTo="body"
+              [clearable]="true" bindValue="idTipoOrden" [(ngModel)]="row.tipoOrden" [disabled]="row.flag"
+              (change)="tipoOrdenOnChange($event, row)">
+            </ng-select>
+          </div>
+        </ng-template>
+      </ngx-datatable-column> -->
+      
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Tipo orden" prop="tipoOrden" [width]="40"
+      cellClass="small">
+    </ngx-datatable-column>
+
+      <ngx-datatable-column name="Uso CFDI" [resizeable]="false" [flexGrow]="7" [width]="50">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div style="position: relative;">
+            <ng-select placeholder="Seleccionar Tipo de Orden" [items]="cfdi" bindLabel="nombre" appendTo="body"
+              [clearable]="true" bindValue="idCfdi" [(ngModel)]="row.idCfdi" [disabled]="row.flag"
+              (change)="cfdiOnChange($event, row)">
+            </ng-select>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+     
+      <!-- <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Suma / No Suma" prop="" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'CU'">{{strSuma}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Imprime" prop="" [width]="50" cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'CU'">{{strImprime}}</div>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Estatus" prop="" [width]="50" cellClass="small">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div [ngClass]="{'uno': row.idEstatus === 1, 'dos': row.idEstatus === 2
+          , 'tres': row.idEstatus === 3, 'cuatro': row.idEstatus === 4}">
+            <b>
+              {{row.EstatusAccesorio}}
+            </b>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+
+  <div *ngIf="tipoAdicional === 'SERVICIOS'">
+    <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="serviciosRows" [columnMode]="'flex'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+      [rowClass]="rowClassChange" [columnMode]="'force'" [scrollbarH]="true">
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Nombre" prop="nombre" [width]="40"
+        cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Id Servicio Unidad" prop="idServicioUnidad"
+        [width]="60" cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Catalogo" prop="catalogo" [width]="60"
+        cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Precio" prop="precio" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Tipo Orden" [resizeable]="false" [flexGrow]="7" [width]="50">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div style="position: relative;">
+            <ng-select placeholder="Seleccionar Tipo de Orden" [items]="tipoOrden" bindLabel="nombre" appendTo="body"
+              [clearable]="true" bindValue="idTipoOrden" [(ngModel)]="row.tipoOrden"
+              (change)="tipoOrdenOnChange($event, row)">
+            </ng-select>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Uso CFDI" prop="" [width]="50" cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'FI'">{{strUsoCFD}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Suma / No Suma" prop="" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'CU'">{{strSuma}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Imprime" prop="" [width]="50" cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div *ngIf="row.tipoOrden === 'CU'">{{strImprime}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Estatus" prop="" [width]="50" cellClass="small">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div [ngClass]="{'uno': row.idEstatus === 1, 'dos': row.idEstatus === 2
+          , 'tres': row.idEstatus === 3, 'cuatro': row.idEstatus === 4}">
+            <b>
+              {{row.Estatus}}
+            </b>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+
+  <div *ngIf="tipoAdicional === 'TRAMITES'">
+    <ngx-datatable [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+      [rowClass]="getRowClass" class="bootstrap mt-5 mr-2" [rows]="tramitesRows" [columnMode]="'flex'" [limit]="10"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [selectAllRowsOnPage]="false"
+      [rowClass]="rowClassChange" [columnMode]="'force'" [scrollbarH]="true">
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Nombre" prop="nombreTramite" [width]="40"
+        cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Subtramite" prop="nombreSubtramite" [width]="40"
+        cellClass="small">
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Costo" prop="costo" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Precio" prop="precio" [width]="50"
+        cellClass="small">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value | currency:'MXN':'symbol-narrow'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Uso CFDI" [resizeable]="false" [flexGrow]="7" [width]="50">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <div style="position: relative;">
+            <!--ng-select placeholder="Seleccionar Tipo de Orden" [items]="tipoOrden" bindLabel="nombre" appendTo="body"
+              [clearable]="true" bindValue="idTipoOrden" [(ngModel)]="row.tipoOrden"
+              (change)="tipoOrdenOnChange($event, row)">
+            </ng-select-->
+            <ng-select placeholder="Seleccionar CFDI" [items]="cfdi" bindLabel="nombre" bindValue="idCfdi"
+              [clearable]="true" appendTo="body" [(ngModel)]="row.idCfdi" (change)=cfdiOnChange($event,row)>
+            </ng-select>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [resizeable]="false" [flexGrow]="3" name="Estatus" prop="" [width]="50" cellClass="small">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div [ngClass]="{'uno': row.idEstatus === 1, 'dos': row.idEstatus === 2
+          , 'tres': row.idEstatus === 3, 'cuatro': row.idEstatus === 4}">
+            <b>
+              {{row.Estatus}}
+            </b>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-md-12 d-flex flex-column">
+      <span class="mt-auto mx-auto">
+        <button type="button" (click)="closeModal()" class="btn btn-warning modal-btn">Cerrar</button>
+      </span>
+    </div>
+
+  </div>
+</div>

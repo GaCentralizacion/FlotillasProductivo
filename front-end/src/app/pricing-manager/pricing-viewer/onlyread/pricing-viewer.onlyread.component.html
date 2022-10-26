@@ -1,0 +1,284 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i  style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+
+<h2 class="general-titles">Detalle de Utilidad</h2>
+<h1 class="general-titles" *ngIf="cotizacion" style="font-size: 20px">{{ cotizacion.idCotizacion }}</h1>
+
+<div class="col-md-12">
+  <div  class="col-md-12 row">
+    <div class="col-md-6">
+        <small class="title-span licitacion-span">Cliente a facturar</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Cliente</small>
+        <input type="text" class="form-control" disabled name="nombre" [(ngModel)]="cliente.nombreCompleto"
+          placeholder="Cliente">
+    </div>
+    <div class="col-md-6" *ngIf="cotizacion">
+      <small class="title-span licitacion-span">Contacto</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Contacto</small>
+      <input  type="text" class="form-control" disabled name="contacto" [(ngModel)]="contacto"
+      placeholder="Contacto">
+  </div>
+</div>
+<div  class="col-md-12 row">
+  <div class="col-md-6">
+      <small class="title-span licitacion-span">Cliente original</small>
+      <small id="" class="form-text text-muted" style="color:#fff !important">Cliente</small>
+      <input type="text" class="form-control" disabled name="nombre" [(ngModel)]="original"
+        placeholder="Cliente">
+  </div>
+</div>  
+<div  class="col-md-12 row">
+  <div class="col-md-3">
+    <small class="title-span licitacion-span">RFC</small>
+    <small id="" class="form-text text-muted" style="color:#fff !important">RFC</small>
+    <input type="text" class="form-control" disabled name="rfc" [(ngModel)]="cliente.rfc"
+      placeholder="RFC">
+</div>
+<div class="col-md-3">
+  <small class="title-span licitacion-span">Correo</small>
+  <small id="" class="form-text text-muted" style="color:#fff !important">Correo</small>
+  <input type="text" class="form-control" disabled name="correo" [(ngModel)]="cliente.correo"
+    placeholder="Correo">
+</div>
+
+    <div class="col-md-3">
+        <small class="title-span licitacion-span">Celular</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Celular</small>
+        <input type="text" class="form-control" disabled name="celular" [(ngModel)]="cliente.celular"
+          placeholder="Celular">
+    </div>
+    <div class="col-md-3">
+        <small class="title-span licitacion-span">Telefono</small>
+        <small id="" class="form-text text-muted" style="color:#fff !important">Telefono</small>
+        <input type="text" class="form-control" disabled name="telefono" [(ngModel)]="cliente.telefono"
+          placeholder="Telefono">
+    </div>
+</div>
+</div>
+
+<div  class="col-md-12 row"  *ngIf="grupoUnidades">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-3">
+      <div class="icons">
+        <i (click)="exportPDF('email')" class="envelope fa fa-envelope"></i>
+        <i (click)="exportPDF('download')" class="pdf fa fa fa-file-pdf"></i>
+        <i (click)="exportPDF('print')" class="file fa fa fa-print"></i>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="d-flex flex-row title">
+    <div class="mr-auto">
+      <h5>Detalle de cotizaci&oacute;n</h5>
+    </div>
+</div>
+
+<hr class="linea1">
+
+<ngx-datatable
+[messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+#groupTable class="bootstrap mt-5 expandable"
+[headerHeight]="50"
+[rowHeight]="50"
+[limit]="10"
+[rows]="grupoUnidades"
+[selected]="selected"
+[selectionType]="'single'"
+[scrollbarH]="true"
+[selectAllRowsOnPage]="false"
+(select)='onSelect($event)'>
+
+<ngx-datatable-row-detail [rowHeight]="rowHeight" (toggle)="muestraUnidadesGrupo($event)"><!--(toggle)="onDetailToggle($event)"-->
+
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+
+            <div class="d-flex flex-column" style="margin-left: 15px">
+                <table class="ml-auto table table-sm table-detail small">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>#</th>
+                      <th scope="col">Catálogo</th>
+                      <th scope="col">Marca</th>
+                      <th  scope="col">Modelo</th>
+                      <th  scope="col">Color Ext.</th>
+                      <th  scope="col">Color Int.</th>
+                      <th  scope="col">Tramites</th>
+                      <th  scope="col">Cargos Accesorios</th>
+                      <th  scope="col">Cargos Servicios</th>
+                      <th scope="col">Iva</th>
+                      <th  scope="col">Precio unitario</th>
+                      <th *ngIf="verUtilidad" scope="col">Utilidad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let unidades of unidadesGrupo"> <!--row.detalleUnidades-->
+                      <tr>
+                        <td (click)="expandRow(unidades, row)" style="cursor: pointer">
+                          <i class="caret-right fa fa-2x" [ngClass]="{'fa-caret-right': !unidades.expand, 'fa-caret-down': unidades.expand}">
+
+                          </i>
+                        </td>
+                        <td>{{ row.catalogo }}</td>
+                        <td>{{ (row.marca) ? row.marca : cotizacion.idMarca }}</td>
+                        <td>{{ row.modelo }}</td>
+                        <td>{{ row.colorExterior }}</td>
+                        <td>{{ row.colorInterior }}</td>
+                        <td>{{ unidades.cargoTramite | currency: 'MXN' }}</td>
+                        <td>{{ unidades.cargoAccesorio | currency: 'MXN' }}</td>
+                        <td>{{ unidades.cargoServicio | currency: 'MXN' }}</td>
+                        <!--td>{{ cargoTramites(unidades) | currency: 'MXN' }}</td>
+                        <td>{{ cargoAccesorios(unidades) | currency: 'MXN' }}</td>
+                        <td>{{ cargoServicios(unidades) | currency: 'MXN' }}</td-->
+                        <td>{{ unidades.precioTotal - unidades.ivaTotal   | currency: 'MXN' }}</td>
+                        <td>{{ unidades.precioTotal | currency: 'MXN' }}</td>
+                        <td  *ngIf="verUtilidad" [title]="row.utilidadBruta | currency:'MXN'">
+                          <span [ngClass]="{'badge badge-danger': row.porcentajeUtilidad < 0}">{{ ((row.porcentajeUtilidad) ) | currency:" "}}%</span>
+                          </td>
+                      </tr>
+                      <tr style="width: 100%;" *ngIf="unidades.expand">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td colspan="4">
+                              <table class="ml-auto table table-sm table-detail small">
+                                  <thead class="thead-dark">
+                                    <tr>
+                                      <th  scope="col">Adicionales</th>
+                                      <th  scope="col">Nombre</th>
+                                      <th class="precio" scope="col">Precio</th>
+                                      <th  *ngIf="verUtilidad" scope="col">Utilidad</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let accesorio of unidades.accesorios">
+                                        <th  scope="col">Accesorios</th>
+                                        <th  scope="col">{{ accesorio.nombre }}</th>
+                                        <th class="precio" scope="col">{{ (accesorio.precio * accesorio.cantidad) | currency: 'MXN' }}</th>
+                                        <th *ngIf="verUtilidad" class="precio" scope="col"  [title]="(accesorio.precio - accesorio.costo) | currency: 'MXN'">{{ ((accesorio.costo > 0) ? (((accesorio.precio - accesorio.costo)/accesorio.costo) * 100) : '100') | currency: ' ' }} %</th>
+                                    </tr>
+                                    <tr *ngFor="let tramite of unidades.tramites">
+                                        <th  scope="col">Tramites</th>
+                                        <th  scope="col">{{ tramite.nombreTramite }}</th>
+                                        <th class="precio" scope="col">{{ (tramite.precio) | currency: 'MXN' }}</th>
+                                        <th *ngIf="verUtilidad" class="precio" scope="col" [title]="(tramite.precio - tramite.costo) | currency: 'MXN'">{{( (tramite.costo > 0) ? (((tramite.precio - tramite.costo)/tramite.costo) * 100) : '100') | currency: ' ' }} %</th>
+                                    </tr>
+                                    <tr *ngFor="let servicio of unidades.serviciosUnidad">
+                                        <th  scope="col">Servicios</th>
+                                        <th  scope="col">{{ servicio.nombre }}</th>
+                                        <th class="precio" scope="col">{{ (servicio.precio) | currency: 'MXN' }}</th>
+                                        <th *ngIf="verUtilidad" class="precio" scope="col" [title]="(servicio.precio - servicio.costo) | currency: 'MXN'">{{( (servicio.costo > 0) ? (((servicio.precio - servicio.costo)/servicio.costo) * 100) : '100')  | currency: ' ' }} %</th>
+                                    </tr>
+                                    <tr *ngIf="verUtilidad">
+                                        <th  scope="col"><b>Total</b></th>
+                                        <th  scope="col"></th>
+                                        <th  class="precio" scope="col">{{ getUtilidadTotal(unidades) | currency: 'MXN'}}</th>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </td>
+                      </tr>
+                    </ng-container>
+                    </tbody>
+                  </table>
+              </div>
+
+
+        </ng-template>
+
+      </ngx-datatable-row-detail>
+
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+                        [canAutoResize]="false" name="#">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+         [class.datatable-icon-down]="expanded" title="Mostrar Detalle" (click)="toggleExpandRow(row)"></a>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Cantidad" headerClass="font-weight-bold" cellClass="small" [draggable]="false"
+    [resizeable]="false" [width]="100">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{row.cantidad}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="40" headerClass="font-weight-bold" cellClass="small" name="Año" prop="anio">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Color Int"
+    prop="colorInterior"></ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Color Ext"
+    prop="colorExterior"></ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" headerClass="font-weight-bold" cellClass="small" name="Clase" prop="clase">
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="60" headerClass="font-weight-bold" cellClass="small" name="Catalogo" prop="catalogo">
+  </ngx-datatable-column>
+
+
+  <ngx-datatable-column [width]="60" headerClass="font-weight-bold" cellClass="small" name="%Iva"
+  prop="tasaIva">
+  <ng-template let-row="row" ngx-datatable-cell-template>
+    <label class="form-check-label" for="headerCheck">{{row.tasaIva | currency:" " }}%</label>
+  </ng-template>
+</ngx-datatable-column>
+
+<ngx-datatable-column  *ngIf="verUtilidad" [width]="140" headerClass="font-weight-bold" cellClass="small" name="Costo Unitario"
+prop="costo">
+<ng-template let-row="row" ngx-datatable-cell-template>
+  <label class="form-check-label" for="headerCheck">{{row.costo | currency:"MXN"}}</label>
+</ng-template>
+</ngx-datatable-column>
+
+<ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="Precio Unitario"
+prop="precio">
+<ng-template let-row="row" ngx-datatable-cell-template>
+  <label class="form-check-label" for="headerCheck">{{row.precio | currency:"MXN"}}</label>
+</ng-template>
+</ngx-datatable-column>
+
+<ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="Subtotal"
+prop="Subtotal">
+<ng-template let-row="row" ngx-datatable-cell-template>
+  <label class="form-check-label" for="headerCheck">{{row.precioTotalTotal/1.16 | currency:"MXN"}}</label>
+</ng-template>
+</ngx-datatable-column>
+
+<ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="Iva"
+prop="ivaTotal">
+<ng-template let-row="row" ngx-datatable-cell-template>
+  <label class="form-check-label" for="headerCheck">{{row.precioTotalTotal-(row.precioTotalTotal/1.16) | currency:"MXN"}}</label>
+</ng-template>
+</ngx-datatable-column>
+
+  <ngx-datatable-column [width]="140" headerClass="font-weight-bold" cellClass="small" name="Total" prop="status">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <label class="form-check-label" for="headerCheck">{{row.precioTotalTotal | currency:"MXN"}}</label>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column *ngIf="verUtilidad" [width]="140" headerClass="font-weight-bold" cellClass="small" name="Utilidad" prop="status">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <label class="form-check-label" form="headerCheck" [title]="row.utilidadBruta | currency:'MXN'">
+        <span [ngClass]="{'badge badge-danger': row.porcentajeUtilidad < 0}"> {{ ((row.porcentajeUtilidad) ) | currency:" "}}%</span>
+      </label>
+    </ng-template>
+  </ngx-datatable-column>
+
+  </ngx-datatable>
+
+  <div class="d-flex flex-row-reverse">
+    <div>{{ getTotal() | currency}}</div>
+    </div>
+  

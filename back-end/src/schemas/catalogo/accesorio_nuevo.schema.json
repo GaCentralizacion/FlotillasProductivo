@@ -1,0 +1,90 @@
+{
+    "$id": "accesorio_nuevo.schema.json",
+    "type": "object",
+    "required": [
+        "nombre",
+        "idMarca",
+        "idEmpresa",
+        "idSucursal",
+        "idProveedor",
+        "idTipoProveedor",
+        "idDireccionFlotillas",
+        "nombreEmpresa",
+        "nombreSucursal",
+        "nombreProveedor",
+        "costo",
+        "precio"
+    ],
+    "properties": {
+        "idAccesorioNuevo": {
+            "type": "integer",
+            "uniqueItems": true,
+            "description": "Identificador de Accesorio Nuevo"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre"
+        },
+        "idMarca": {
+            "type": "string",
+            "description": "Identificador de Marca"
+        },
+        "idEmpresa": {
+            "type": "number",
+            "description": "Identificador de Empresa"
+        },
+        "idSucursal": {
+            "type": "number",
+            "description": "Identificador de Sucursal"
+        },
+        "idProveedor": {
+            "type": "number",
+            "description": "Identificador de Proveedor"
+        },
+        "idTipoProveedor": {
+            "type": "string",
+            "description": "Identificador de Tipo de Proveedor"
+        },
+        "idDireccionFlotillas": {
+            "type": "string",
+            "description": "Identificador de Dirección de Flotilla"
+        },
+        "nombreEmpresa": {
+            "type": "string",
+            "description": "Nombre de Empresa"
+        },
+        "nombreSucursal": {
+            "type": "string",
+            "description": "Nombre de Sucursal"
+        },
+        "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre de Proveedor"
+        },
+        "idParte": {
+            "type": "string",
+            "description": "Identificador de Parte"
+        },
+        "modeloAnio": {
+            "type": "string",
+            "description": "Modelo y año"
+        },
+        "costo": {
+            "type": "number",
+            "description": "Costo"
+        },
+        "precio": {
+            "type": "number",
+            "description": "Precio"
+        },
+        "idUsuario": {
+            "type": "integer",
+            "description": "Precio"
+        },
+        "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de modificación"
+        }
+    }
+}

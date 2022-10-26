@@ -1,0 +1,82 @@
+{
+  "$id": "proveedor.schema.json",
+  "type": "object",
+  "required": [
+    "idProveedor"
+  ],
+  "properties": {
+    "idProveedor": {
+      "type": "integer",
+      "uniqueItems": true,
+      "description": "Identificador de proveedor"
+    },
+    "rfc": {
+      "type": "string",
+      "description": "RFC"
+    },
+    "nombreCompleto": {
+      "type": "string",
+      "description": "Nombre completo del proveedor"
+    },
+    "telefono": {
+      "type": "string",
+      "description": "Teléfono de contacto"
+    },
+    "extension": {
+      "type": "string",
+      "description": "Extensión"
+    },
+    "telefonoAlternativo": {
+      "type": "string",
+      "description": "Teléfono alternativo"
+    },
+    "celular": {
+      "type": "string",
+      "description": "Celular"
+    },
+    "correo": {
+      "type": "string",
+      "description": "Correo"
+    },
+    "estado": {
+      "type": "string",
+      "description": "Estado"
+    },
+    "ciudad": {
+      "type": "string",
+      "description": "Ciudad"
+    },
+    "municipioAlcaldia": {
+      "type": "string",
+      "description": "Municipio o alcaldía"
+    },
+    "colonia": {
+      "type": "string",
+      "description": "Colonia"
+    },
+    "calle": {
+      "type": "string",
+      "description": "Calle"
+    },
+    "numeroExterior": {
+      "type": "string",
+      "description": "Número exterior"
+    },
+    "numeroInterior": {
+      "type": "string",
+      "description": "Número interior"
+    },
+    "codigoPostal": {
+      "type": "string",
+      "description": "Código postal"
+    },
+    "idTipoProveedor": {
+      "type": "string",
+      "description": "Tipo de proveedor"
+    },
+    "tipoProveedor": {
+      "type": "string",
+      "description": "Nombre de tipo de proveedor"
+    }
+  }
+}

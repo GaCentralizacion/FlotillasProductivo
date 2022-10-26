@@ -1,0 +1,99 @@
+<div class="gif-loading d-flex justify-content-center align-items-center" *ngIf="isLoading">
+  <i  style="color:white" class="fa fa-3x fa-circle-notch fa-spin"></i>
+</div>
+<div class="modal-header">
+    <h2 class="general-titles">Histórico de utilidad</h2>
+  </div>
+<div class="modal-body">
+    <div style="margin-bottom: 5px; text-align: start;">
+        <b>Cotización:{{this.idCotizacion}} </b> 
+        <p>Modelo: ( {{this.version}} ) </p> 
+        <p *ngIf="bProStatus && bProStatus.ucu_idpedidobpro">Pedido Bpro: {{ bProStatus.ucu_idpedidobpro }}</p>        
+           <div style="margin-bottom: 20px; text-align: start;">
+            <br/>
+            <ul>
+                <li>Utilidad cotización: {{this.utilidadCot | currency}}</li>
+                <li>Utilidad posteriores: {{this.utilidadPost | currency}}</li>
+                <li>Utilidad adicionales: {{this.utilidadAd | currency}}</li>
+                <li>Total utilidad: {{this.totalUtilidad | currency}}</li>
+            </ul>
+         </div>
+    </div>    
+    <div style="width: 100%;padding: 5px">
+        <ngx-datatable
+        [messages]="{emptyMessage:'Sin resultados.', selectedMessage: 'Seleccionados'}"
+        *ngIf="idsecuencia"
+        class="bootstrap mt-5 expandable"
+        [headerHeight]="50"
+        [columnMode]="'flex'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="20"
+        [selectAllRowsOnPage]="false"
+        [rows]="idsecuencia"
+        [columnMode]="'force'"
+        [selectionType]="'checkbox'"
+        [scrollbarH]="true"
+        [selected]="selectedRows"
+        [sorts]="[{prop: 'idsecuencia', dir: 'asc'}]"
+        #groupTable>
+            <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" >
+            <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn" >
+            </ng-template>
+            </ngx-datatable-column>
+                <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Estatus"
+                prop="tipoStatus"></ngx-datatable-column>
+                <!--<ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="idCotizacion"
+                prop="idCotizacion"></ngx-datatable-column>-->
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Movimiento"
+                prop="tipoMovimiento"></ngx-datatable-column>
+                <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Tipo de Movimiento"
+                prop="nombreStep"></ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Grupo unidad"
+                prop="idGrupoUnidad"></ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="4" name="Descripción articulo"
+                prop="dsArticulo"></ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="cantidad"
+                prop="cantidad"></ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Precio unitario" type="number" center="center"
+                prop="precioUnitario">
+                    <ng-template let-value="value"  ngx-datatable-cell-template>
+                        {{ value | currency:'MXN':'symbol-narrow' }}
+                    </ng-template>
+                </ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Costo unitario"
+                prop="costoUnitario">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value | currency:'MXN':'symbol-narrow' }}
+                    </ng-template>                
+                </ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Precio"
+                prop="precio">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value | currency:'MXN':'symbol-narrow' }}
+                    </ng-template>                
+                </ngx-datatable-column>
+                 <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Costo"
+                prop="costo">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value | currency:'MXN':'symbol-narrow' }}
+                    </ng-template>                
+                </ngx-datatable-column>
+                <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="2" name="Utilidad unitaria"
+                prop="utilidadUnitaria">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value | currency:'MXN':'symbol-narrow' }}
+                    </ng-template>                
+                </ngx-datatable-column>
+                <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="Tipo orden"
+                prop="tipoOrden"></ngx-datatable-column>
+                <ngx-datatable-column headerClass="font-weight-bold" cellClass="small" [flexGrow]="1" name="idCFDI"
+                prop="idCFDI"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <div class="modal-footer">
+        <div style="float: right;">
+            <button (click)="cancel()" class="btn btn-warning" style="margin: 10px">Cerrar</button>
+        </div>
+    </div>
+</div>
